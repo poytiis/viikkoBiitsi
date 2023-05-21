@@ -1,0 +1,73 @@
+.scores{
+   width: 100%;
+   margin-bottom:15px;
+}
+
+.scores th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: #1E90FF;
+  color: white;
+}
+
+.scores tr:nth-child(even){background-color: #f2f2f2;}
+.scores tr:nth-child(odd){background-color: white;}
+
+.scores td, .scores th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.rank{
+    width: 20%;
+}
+.name{
+    width: 40%;
+}
+.plusminus{
+    width: 20%;
+}
+.points{
+    width: 20%;
+}
+.main-container{
+    background-image: url("jklbeach.jpg");
+    height: 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+.inner-container{
+   
+    width:75%;
+    margin:auto;
+    text-align:center;
+}
+#serie, #week, #year{
+    display: -webkit-inline-box;
+    width:15%;
+    margin-right:6px;
+}
+.button-container{
+    width:80%;
+    display:flex;
+    align-items:center;
+    margin: auto;
+    padding-top:20px;
+    justify-content:center;
+}
+h1{
+    padding-top:20px;
+}
+
+#result{
+    margin-top:40px;
+}
+
+
