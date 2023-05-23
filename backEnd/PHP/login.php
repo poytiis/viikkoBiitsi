@@ -30,8 +30,10 @@ $password_hash = hash("sha256", $password);
 
 if($password_hash == $password_in_db) {
     session_start();
+    $session_id = session_id();
     $_SESSION["username"] = $username;
-    setcookie("ViikkoBiitsiUser", $username);
+    setcookie("ViikkoBiitsiUser", $username, ['samesite' => 'None',  'secure' => true,  'httponly' => true]);
+    setcookie("ViikkoBiitsiSession", $session_id, ['samesite' => 'None',  'secure' => true,  'httponly' => true]);
 } else {
     http_response_code(401);   
 }
