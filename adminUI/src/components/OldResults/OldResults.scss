@@ -1,0 +1,25 @@
+.old-results{
+  &__search-container{
+    // justify-content: space-between;
+    width: 1000px;
+  }
+  &__header{
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 2.0rem;
+    font-weight: bold;
+  }
+  &__input{
+    width: 140px;
+    // over rides material UI style
+    margin-right: 40px !important;
+  }
+
+  &__table-container{
+    margin-top: 2rem;
+  }
+
+  &__button-container{
+    margin-top: 1.8rem;
+  }
+}

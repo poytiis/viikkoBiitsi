@@ -1,0 +1,92 @@
+.table{
+  table-layout: fixed;
+  border-collapse: collapse;
+  height: 100%;
+  width: 100%;
+
+  &__container{
+    overflow-y: auto;
+    width: 1000px;
+    max-height: 40vh;
+  }
+
+  &__first-column, &__1-column{
+    width: 15%;
+  }
+  &__second-column, &__2-column{
+    width: 15%;
+  }
+  &__third-column, &__3-column{
+    width: 20%;
+  }
+  &__forth-column, &__4-column{
+    width: 20%;
+  }
+  &__5-column{
+    width: 30%;
+  }
+
+  &__header{
+    background-color: var(--primary-light);
+    
+    & th {
+      color: white;
+      font-size: 1.4rem;
+      font-weight: 400;
+      text-align: left;
+      padding: 1rem 0;
+
+      &:first-child{
+        border-radius:5px 0 0 0;
+      }
+
+      &:last-child{
+        border-radius:0 5px 0 0 ;
+      }
+    }
+  }
+  &__body{
+
+    & tr {
+      background-color: white;
+      line-height: 2.4rem;
+      border-bottom: 1px solid #efeff9;
+
+     &:hover{
+       cursor: pointer;
+       background-color: rgb(233, 232, 232);
+     }
+    }
+    & td {
+      color: var(--gray-text);
+      font-size: 1.0rem;
+    }
+  }
+
+  &__paginator {
+    background-color: white;
+    height: 2.4rem;
+    justify-content: flex-end;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+    &-error {
+      margin-right: 30%;
+      font-size: 0.9rem;
+    }
+
+    &-icon {
+      height: 30px;
+      width: auto;
+
+      &:last-child{
+        margin-right: 1rem;
+        margin-left: 1rem;
+      }
+
+      &:hover{
+        cursor: pointer;
+      }
+    }
+  }
+}

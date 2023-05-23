@@ -1,0 +1,27 @@
+.button{
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.4rem;
+  width: 140px;
+  height: 45px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &--delete{
+    background-color: #576268;
+  }
+
+  &--disabled {
+    background-color: gray;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+
+ 
+}

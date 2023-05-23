@@ -1,0 +1,33 @@
+.settings{
+
+  &__content{
+    margin-top: 2rem;
+    width: 50%;
+  }
+
+  &__header{
+    font-size: 2.0rem;
+    margin-bottom: 1rem;
+  }
+
+  &__ranking-container{
+    margin-top: 2rem;
+  }
+
+  &__counting-container, &__ranking-container{
+    width: 600px;
+  }
+
+  &__ranking-select-container{
+    margin-top: 2rem;
+  }
+
+  &__select-year{
+    width: 250px;
+    margin-right: 50px;
+  }
+
+  &__header{
+    font-size: 2.0rem;
+  }
+}

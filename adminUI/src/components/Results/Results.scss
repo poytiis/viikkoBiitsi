@@ -1,0 +1,31 @@
+.results{
+  width:100vw;
+  min-width: 800px;
+  border-radius: 10px;
+  min-height: calc(100vh - 65px);
+
+  &__button-container{
+    justify-content: space-between;
+    margin-top: 2rem;
+    width: 1000px;
+  }
+
+  &__update-input-container{
+    align-items: flex-end;
+    // height: 300px;
+  }
+
+  &__update-header{
+    font-size: 2.0rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  &__update-container{
+    width: 500px;
+  }
+
+  &__header{
+    font-size: 2.0rem;
+  }
+}
