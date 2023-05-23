@@ -1,4 +1,6 @@
 <?php
+include 'add_cors_headers.php';
+include 'check_auth.php';
 include 'connect_to_database.php';
 
 class Player {
@@ -30,7 +32,6 @@ class Player {
         $this->ranking_points = 20.1 - 0.9 * ($this->pool - 1) - ($average - 1) + 0.05 * $this->plus_minus_points;
         $this->pool_ranking= $pool_ranking_1;
     }
-
 }
 
 function check_all_pools_exist(mysqli $conn): void {
@@ -98,17 +99,16 @@ function check_all_pools_exist(mysqli $conn): void {
     if(!$pools_valid) {
         exit;
     }
-
 }
 
 function calculate_ranking_points(mysqli $conn): void {
     function fetch_player_fields_str( array $pool_r, int $row_index): string {
-        $field = $pool_r[$row_index]['meta_value'];
+        $field = $pool_r[$row_index]->meta_value;
         return strtolower($field);
     }
 
     function fetch_player_fields_int(array $pool_r, int $row_index): int {
-        return  (int)$pool_r[$row_index]['meta_value'];
+        return  (int)$pool_r[$row_index]->meta_value;
     }
 
     function compare_players_scores(Player $player_1, Player $player_2): int {
@@ -121,16 +121,13 @@ function calculate_ranking_points(mysqli $conn): void {
     while($post_id_row = $post_id_r->fetch_object()) {
         $post_id = (int)$post_id_row->post_id;
         $meta_name_q = "SELECT meta_value FROM wpzl_postmeta WHERE post_id = $post_id ORDER BY meta_id";
-        // $pool_stmt = $conn->prepare("SELECT meta_value FROM wpzl_postmeta WHERE post_id = ? ORDER BY meta_id");
-        // if(!$pool_stmt->bind_param('s', $post_id)) {
-        //     die('invalid binding');
-        // }
-        // $pool_stmt->execute();
-        // $scores_r = $pool_stmt->get_result();
         $scores_r = $conn->query($meta_name_q);
-        $scores = $scores_r->fetch_all(MYSQLI_ASSOC);
-        $serie =  htmlspecialchars($scores[0]['meta_value']);
-
+        $scores = [];
+        while($score_row = $scores_r->fetch_object()) {
+            array_push($scores, $score_row);
+        }
+        $serie =  htmlspecialchars($scores[0]->meta_value);
+       
         $player_1 = new Player(
             fetch_player_fields_str($scores, 2),
             fetch_player_fields_int($scores, 1),
@@ -254,7 +251,7 @@ function update_ranking_lists(mysqli $conn): void {
 
               $log_stmt = $conn->prepare("INSERT INTO lokitiedot VALUES (DEFAULT, ?, ?)");
               $log_stmt->bind_param('ss', $time_stamp, $log_message);
-              if(!$log_stmt->execute()) {
+              if (!$log_stmt->execute()) {
                   die;
               }
 
@@ -274,11 +271,6 @@ function update_ranking_lists(mysqli $conn): void {
         } else {
             $scores_week_1 = $scores[0]['serie_scores'];
             $scores_week_2 = $scores[1]['serie_scores'];
-            $week_2 = $scores[1]['viikko'];
-
-            if($week_2 == 0) {
-                $scores_week_2 = 0;
-            }
 
             $scores_total = $scores_week_1;
             if($scores_count == 2) {
@@ -286,19 +278,19 @@ function update_ranking_lists(mysqli $conn): void {
             } 
 
             if($serie == 'Miehet') {
-                $scores_stmt = $conn->prepare("UPDATE kokonaistulokset_miehet SET viikko_1 = ?, viikko_2 = ?, total = ? WHERE nimi = ?");                
+                $scores_stmt = $conn->prepare("INSERT INTO kokonaistulokset_miehet VALUES(DEFAULT, ?, ?, ?, ?)");
             } else {
-                $scores_stmt = $conn->prepare("UPDATE kokonaistulokset_naiset SET viikko_1 = ?, viikko_2 = ?, total = ? WHERE nimi = ?");                
+                $scores_stmt = $conn->prepare("INSERT INTO kokonaistulokset_naiset VALUES(DEFAULT, ?, ?, ?, ?)");
             }
 
-            $scores_stmt->bind_param('ddds',  $scores_week_1, $scores_week_2, $scores_total, $name);
+            $scores_stmt->bind_param('sddd', $name, $scores_week_1, $scores_week_2, $scores_total);
             if(!$scores_stmt->execute()) {
                 die;
             }
         }
 
-        // $delete_q = "DELETE FROM wpzl_postmeta WHERE post_id in (SELECT post_id FROM wpzl_postmeta WHERE meta_key='_form_id' AND meta_value=5)";
-        // $conn->query($delete_q);
+        $delete_q = "DELETE FROM wpzl_postmeta WHERE post_id in (SELECT post_id FROM wpzl_postmeta WHERE meta_key='_form_id' AND meta_value=5)";
+        $conn->query($delete_q);
 
     }
 

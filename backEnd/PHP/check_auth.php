@@ -1,7 +1,8 @@
 <?php
-include 'connect_to_database.php';
-
-function check_log_in(): bool {
-  return isset($_SESSION) && $_SESSION["loggedin"];  
+session_start();
+$username = $_COOKIE["ViikkoBiitsiUser"];
+if($username == '' || $_SESSION["username"] != $username) {
+    http_response_code(401);
+    die;  
 }
 ?>

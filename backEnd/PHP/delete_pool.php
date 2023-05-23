@@ -1,11 +1,15 @@
 <?php
+include 'add_cors_headers.php';
+include 'check_auth.php';
 include 'connect_to_database.php';
+
 $conn = connect_database();
-header("Access-Control-Allow-Origin: *");
 
 $post_id = $_GET["post_id"];
 if ($post_id == ""  || !$post_id) {
     echo "invalid post_id";
+    http_response_code(400);
+    die;
 }
 
 $delete_stmt = $conn->prepare("DELETE FROM wpzl_postmeta WHERE post_id=?");

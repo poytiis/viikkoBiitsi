@@ -1,6 +1,14 @@
 <?php
+
+// echo isset($_SESSION);
+// echo '<<<< ';
+// echo $_SESSION["loggedin"];
+
+
+include 'add_cors_headers.php';
+include 'check_auth.php';
 include 'connect_to_database.php';
-header("Access-Control-Allow-Origin: *");
+
 $conn = connect_database();
 $conn->begin_transaction();
 
@@ -23,12 +31,12 @@ if(!$score_stmt->execute()) {
     handle_error($conn);
 }
 
-$score_stmt->bind_param('ss', $data->nameValue, $data->nameId);
+$score_stmt->bind_param('ss', $post_data->nameValue, $post_data->nameId);
 if(!$score_stmt->execute()) {
     handle_error($conn);
 }
 
-$score_stmt->bind_param('ss', $data->serievalue, $data->serieId);
+$score_stmt->bind_param('ss', $post_data->serievalue, $post_data->serieId);
 if(!$score_stmt->execute()) {
     handle_error($conn);
 }

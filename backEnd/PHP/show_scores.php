@@ -1,6 +1,6 @@
 <?php
 include 'connect_to_database.php';
-header("Access-Control-Allow-Origin: *");
+include 'add_cors_headers.php';
 $conn = connect_database();
 
 $post_ids_r = $conn->query("SELECT * from wpzl_postmeta WHERE post_id in (SELECT post_id FROM wpzl_postmeta WHERE meta_key ='_field_39')");

@@ -1,5 +1,6 @@
 <?php
 include 'connect_to_database.php';
+include 'add_cors_headers.php';
 
 $json = file_get_contents('php://input');
 $post_data = json_decode($json); 
@@ -20,14 +21,19 @@ $auth_stmt->bind_result($password_in_db);
 $auth_stmt->fetch();
 $auth_stmt->close();
 
+if( $password_in_db == '') {
+    http_response_code(401);
+    die;
+}
+
 $password_hash = hash("sha256", $password);
 
 if($password_hash == $password_in_db) {
     session_start();
-    $_SESSION["loggedin"] = true;
+    $_SESSION["username"] = $username;
+    setcookie("ViikkoBiitsiUser", $username);
 } else {
-    http_response_code(402);
-    
+    http_response_code(401);   
 }
 
 ?>
