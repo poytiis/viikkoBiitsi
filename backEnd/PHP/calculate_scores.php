@@ -34,14 +34,15 @@ class Player {
     }
 }
 
-function check_all_pools_exist(mysqli $conn): void {
+function check_all_pools_exist(mysqli $conn): string {
+    $error_message = '';
     $year = (int)date("Y");
     $latest_week_q= "SELECT viikko FROM viikon_tulokset WHERE vuosi=$year ORDER BY viikko DESC LIMIT 1";
     if($latest_week_r = $conn->query($latest_week_q)) {
         $latest_week = (int)$latest_week_r->fetch_object()->viikko;
         if( $latest_week == (int)date('W')) {
-            echo 'viikon tulokset ovat jo laskettu';
-            exit;
+            $error_message = 'viikon tulokset ovat jo laskettu';
+            return $error_message;
         }
         $latest_week_r->free();
     }
@@ -77,7 +78,7 @@ function check_all_pools_exist(mysqli $conn): void {
 
     foreach($men as $men_pool) {
         if($men_pool != $pool_iter) {
-            echo 'lohko '. $pool_iter. ' puuttuu miehissa';
+            $error_message += 'lohko '. $pool_iter. ' puuttuu miehissa. ';
             $pools_valid = False;
             break;
         }
@@ -88,7 +89,7 @@ function check_all_pools_exist(mysqli $conn): void {
     $pool_iter = 1;
     foreach($women as $women_pool) {
         if($women_pool != $pool_iter) {
-            echo 'lohko '. $pool_iter. ' puuttuu naisista';
+            $error_message +=  'lohko '. $pool_iter. ' puuttuu naisista. ';
             $pools_valid = False;
             break;
         }
@@ -96,9 +97,7 @@ function check_all_pools_exist(mysqli $conn): void {
         $pool_iter += 1;
     }
 
-    if(!$pools_valid) {
-        exit;
-    }
+    return $error_message;
 }
 
 function calculate_ranking_points(mysqli $conn): void {
@@ -303,8 +302,14 @@ $conn->begin_transaction();
 $update_only = $_GET['update_only'];
 
 try {
-  if ($update_only != 'true') {
-    check_all_pools_exist($conn);
+  if ($update_only != 'true') {   
+    $error_message = check_all_pools_exist($conn);
+    if ($error_message != '') {
+        http_response_code(500);
+        echo '{"data": "'. $error_message. '"}';      
+        die;
+    }
+
     calculate_ranking_points($conn);
   }
    

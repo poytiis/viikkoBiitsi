@@ -1,6 +1,19 @@
 import axios from 'axios';
+import { createBrowserHistory } from 'history';
 
-axios.defaults.withCredentials = true
+
+
+axios.defaults.withCredentials = true;
+
+axios.interceptors.response.use(function (response) {
+  return response;
+}, function (error) {
+  if (401 === error.response.status) {
+    localStorage.removeItem("loggedIn");
+    const history = createBrowserHistory();
+    history.push('/');
+  } 
+});
 
 let apiURL = 'https://www.jklbeach.fi/';
 apiURL = 'http://localhost:8081/'
@@ -30,6 +43,11 @@ export const postCountingScoresTimeAjax = (countingTimes) => {
   };
   const url = apiURL + 'counting_scores_times.php';
   return axios.post(url, postBody)
+}
+
+export const logOutAjax = () => {
+  const url = apiURL + 'logout.php';
+  return axios.get(url);
 }
 
 export const getNewScores = () => {

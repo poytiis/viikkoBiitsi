@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Header.scss';
 import userIcon from '../../imgs/user.png';
 import { useHistory } from 'react-router-dom';
+import { logOutAjax } from '../../services/httpClient';
 
 const Header = () => {
 
@@ -17,6 +18,17 @@ const Header = () => {
     console.log(window.location.pathname)
 
   }, [currentTab]);
+
+  const handleLogOutClick = async () => {
+    try {
+      await logOutAjax();
+      localStorage.removeItem("loggedIn");
+      history.push('/')
+    } catch (ex) {
+
+    }
+
+  }
 
 
   return (
@@ -55,7 +67,7 @@ const Header = () => {
       <div className='header__icon-container'>
         <img className='header__icon' src={userIcon} alt="user"/>
         <div className='header__dropdown'>
-          <span className='header__dropdown-text'>Kirjaudu ulos</span>
+          <span className='header__dropdown-text' onClick={handleLogOutClick}>Kirjaudu ulos</span>
         </div>
       </div>
      

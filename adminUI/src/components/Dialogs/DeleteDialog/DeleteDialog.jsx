@@ -5,12 +5,12 @@ import Button from '../../Button/Button';
 
 const DeleteDialog = (props) => {
   const deleteButtonStyles = {
-    backgroundColor: 'var(--gray)'
+    backgroundColor: '#607d8b'
   }
   return (
     <Dialog>
       <div className='delete-dialog flex-column-center'>
-        <h2 className='delete-dialog__header'>Oletko varma että haluat poistaa seuraavat {props.things}?</h2>
+        <h2 className='delete-dialog__header'>Oletko varma että haluat poistaa seuraavan {props.things}?</h2>
         <div className='delete-dialog__main-content'>
           {props.content()}
         </div>

@@ -17,6 +17,7 @@ const LogIn = () => {
   const handleLogInClick = async () => {
     try {
       await logInAjax(usernameControl.value, passwordControl.value);
+      localStorage.setItem("loggedIn", "true");
       history.push('/viikon-tulokset');
     } catch(ex) {
       setErrorMessage('Kirjautuminen epäonnistui');

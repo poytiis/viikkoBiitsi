@@ -155,12 +155,14 @@ const Results = () => {
     setDisableUpdateButton(true);
     calculateNewRankingAjax()
       .then(res => {
+        console.log(res)
         setDisableUpdateButton(false);
         setSelectedPool(-1);
         setPools([]);
         fetchData();
       })
       .catch(err => {
+        console.log(err)
         setDisableUpdateButton(false);
       })
     
@@ -200,7 +202,7 @@ const Results = () => {
           close={deleteDialogControl.closeDialog}
           delete={handleDeletePool} 
           content={createDeletePoolContent} 
-          things='lohkot'
+          things='lohkon'
         />
       }
 

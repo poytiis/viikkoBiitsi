@@ -1,10 +1,13 @@
 import React from 'react';
-import {Route} from 'react-router-dom';
+import {Route, Redirect} from 'react-router-dom';
 
 const PrivateRoute = ({component: Component, path}) => {
-  return (
-    <Route path={path} component={Component}/>
-  );
+  const loggedIn = localStorage.getItem("loggedIn");
+  if (loggedIn === 'true') {
+    return <Route path={path} component={Component}/>;
+  } else {
+    return <Redirect to="/" />;
+  } 
 }
 
 export default PrivateRoute;
