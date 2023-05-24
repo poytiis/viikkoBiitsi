@@ -70,4 +70,16 @@ INSERT INTO wpzl_postmeta VALUES
   (9,1, '_field_46', 'Player 4'),
   (10,1, '_field_61', '-2'),
   (11,1, '_form_id', '5'),
-  (12,1, '_seq_num', '12222');
+  (12,1, '_seq_num', '12222'),
+  (13, 2, '_field_38', 'Miehet'),
+  (14,2, '_field_39', '1'),
+  (15,2, '_field_40', 'Player 5'),
+  (16,2, '_field_58', '1'),
+  (17,2, '_field_42', 'Player 6'),
+  (18,2, '_field_59', '2'),
+  (19,2, '_field_44', 'Player 7'),
+  (20,2, '_field_60', '-1'),
+  (21,2, '_field_46', 'Player 8'),
+  (22,2, '_field_61', '-2'),
+  (23,2, '_form_id', '5'),
+  (24,2, '_seq_num', '12233');

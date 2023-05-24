@@ -3,11 +3,12 @@
   border-collapse: collapse;
   height: 100%;
   width: 100%;
+  padding: 0 50px 0 50px;
 
   &__container{
     overflow-y: auto;
     width: 1000px;
-    max-height: 40vh;
+    max-height: 60vh;
   }
 
   &__first-column, &__1-column{
@@ -27,7 +28,7 @@
   }
 
   &__header{
-    background-color: var(--primary-light);
+    background-color: var(--primary);
     
     & th {
       color: white;
@@ -47,6 +48,13 @@
   }
   &__body{
 
+    &-row {
+      box-sizing: border-box;
+      &--padding {
+        padding-left: 1rem;
+      }
+    }
+
     & tr {
       background-color: white;
       line-height: 2.4rem;
@@ -58,8 +66,10 @@
      }
     }
     & td {
+      width: 33%;
       color: var(--gray-text);
       font-size: 1.0rem;
+      position: relative;
     }
   }
 
@@ -88,5 +98,19 @@
         cursor: pointer;
       }
     }
+  }
+
+  &__edit-icon {
+    position: absolute;
+    height: 18px;
+    width: auto;
+    top: 7px;
+    right: 15%;
+
+  }
+
+  &__page-number {
+    font-size: 1rem;
+    margin-right: 0.5rem;
   }
 }

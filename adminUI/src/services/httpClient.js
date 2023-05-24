@@ -14,6 +14,24 @@ export const logInAjax = (username, password) => {
   return axios.post(url, postBody);
 }
 
+export const fetchCountingScoresTimeAjax = () => {
+  const url = apiURL + 'counting_scores_times.php';
+  return axios.get(url);
+}
+
+export const calculateBegingRankingAjax = () => {
+  const url = apiURL + 'calculate_beging_ranking.php';
+  return axios.get(url);
+}
+
+export const postCountingScoresTimeAjax = (countingTimes) => {
+  const postBody = {
+    countingTimes
+  };
+  const url = apiURL + 'counting_scores_times.php';
+  return axios.post(url, postBody)
+}
+
 export const getNewScores = () => {
   const url = apiURL + 'show_scores.php';
   console.log(url);

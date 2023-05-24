@@ -6,50 +6,39 @@ import Button from '../Button/Button';
 import DeleteDialog from '../Dialogs/DeleteDialog/DeleteDialog';
 import ModifyDialog from '../Dialogs/ModifyDialog/ModifyDialog';
 import useDialog from '../../hooks/useDialog';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import { getNewScores } from '../../services/httpClient';
 import SnackBar from '../SnackBar/SnackBar';
 import { deletePoolAjax, calculateNewRankingAjax } from '../../services/httpClient';
 
 const Results = () => {
-
   const deleteDialogControl = useDialog();
   const modifyDialogControl = useDialog();
 
   const [modifydialogData, setModifydialogData] = useState();
   const [snackBarMessage, setSnackBarMessage] = useState('');
-
   const [tableData, settableData] = useState([]);
-
   const [pools, setPools] = useState([]);
-
   const [selectedPool, setSelectedPool] = useState(-1);
-
   const [disableUpdateButton, setDisableUpdateButton] = useState(false);
 
-  const handlePreviousPaginatorEvent = () => {
+  const handleNextPaginatorClick = () => {
     if(selectedPool !== pools.length - 1) {
       setSelectedPool(selectedPool + 1);
     } 
   }
 
-  const handleNextPaginatorClick = () => {
+  const handlePreviousPaginatorClick = () => {
     if(selectedPool !== 0){
       setSelectedPool(selectedPool - 1);
     }  
   }
 
+
   const players = [];
 
   if (selectedPool !== -1 && pools.length !== 0) {
-
-    console.log(pools[selectedPool])
     const selectedPostId = pools[selectedPool].postId;
-    console.log(selectedPostId)
-
     const data = tableData.filter(row => row.post_id === selectedPostId);
-    console.log(data)
 
     for(let i = 2; i <= 8; i = i + 2) {
 
@@ -72,11 +61,9 @@ const Results = () => {
         }
       };
       players.push(player);
+    }  
+  }
 
-    }
-   
-     console.log(players)
- }
   const comparePools = useCallback((first, second) => {
 
      if (first.serie === 'Miehet' && second.serie === 'Naiset' ) {
@@ -84,7 +71,7 @@ const Results = () => {
       } else if (first.serie === 'Naiset' && second.serie === 'Miehet') {
         return -1;
       } else {
-        return parseInt(first.pool) -parseInt(second.pool);
+        return parseInt(first.pool) - parseInt(second.pool);
       }
 
   }, []);
@@ -97,12 +84,7 @@ const Results = () => {
         const series = res.data.data.filter(row => row.meta_key === '_field_38').map(serie => serie.meta_value);
         const postIds = res.data.data.filter(row => row.meta_key === '_field_38').map(postId => postId.post_id);
 
-        console.log(pools);
-        console.log(series);
-        console.log(postIds);
-
         const poolsCount = pools.length;
-
         const poolsData = [];
 
         for(let i = 0; i < poolsCount; i++) {
@@ -115,11 +97,7 @@ const Results = () => {
           poolsData.push(poolObject);
         }
 
-        console.log(poolsData);
-
         poolsData.sort(comparePools);
-
-        console.log(poolsData);
 
         settableData(res.data.data);
         setPools(poolsData);
@@ -135,15 +113,7 @@ const Results = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  const tableStyles = {
-    marginTop: '2rem'
-  }
-
-  const updateButtonStyles = {
-    width: '190px'
-  };
-  
+ 
   const openModifyDialogData = (data) => {
     setModifydialogData(data);
     modifyDialogControl.openDialog();
@@ -152,12 +122,13 @@ const Results = () => {
   const createDeletePoolContent = () => {
     const contentStyles = {
       fontSize: '1.2rem'
-    }
+    };
+
     if(selectedPool === -1 || pools.length === 0){
       return <h2>Ainuttakaan valintaa ei voitu poistaa</h2>;
     }
-    console.log(selectedPool)
-    const content = 'Lohko ' + (selectedPool + 1).toString() + ' ' + pools[selectedPool].serie;
+
+    const content = 'Lohko ' + pools[selectedPool].pool + ' ' + pools[selectedPool].serie;
     return(
       <p style={contentStyles}>{content}</p>
     );
@@ -197,6 +168,14 @@ const Results = () => {
 
   const tableHeaders = ['', 'Lohko','Sarja' , 'Pisteet', 'Nimi'];
 
+  const tableStyles = {
+    marginTop: '2rem'
+  }
+
+  const updateButtonStyles = {
+    width: '190px'
+  };
+
   return (
     <Layout>
       <div className='results flex-column-center'>
@@ -207,28 +186,15 @@ const Results = () => {
           headers={tableHeaders}
           players={players}
           nextClick={handleNextPaginatorClick}
-          backClick={handlePreviousPaginatorEvent}
+          backClick={handlePreviousPaginatorClick}
 
         />
         <div className='results__button-container flex-row'>
           <Button type='delete' onClick={deleteDialogControl.openDialog}>Poista lohko</Button>
           <Button style={updateButtonStyles} disabled={disableUpdateButton} onClick={handleUpdateNewRanking}>Päivitä tulokset</Button>
         </div>
-
-        {/* <div className='results__update-container flex-column-center'>
-          <span className='results__update-header'>Päivitä tulokset</span>
-
-          <div className='results__update-input-container flex-row'>
-            <Select value='current' style={{height: '52px', width: '170px'}}>
-              <MenuItem value='current'>Nykyinen viikko</MenuItem>
-              <MenuItem value='select'>Valitse viikko</MenuItem>
-            </Select>
-           
-            <Button style={updateButtonStyles} disabled={disableUpdateButton} onClick={handleUpdateNewRanking}>Päivitä</Button>
-          </div>
-        </div> */}
-
       </div>
+
       {  deleteDialogControl.showDialog && 
         <DeleteDialog 
           close={deleteDialogControl.closeDialog}

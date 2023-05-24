@@ -2,10 +2,9 @@ import React from 'react';
 import './Table.scss';
 import nextIcon from '../../imgs/next.png';
 import backIcon from '../../imgs/back.png';
-
+import editIcon from '../../imgs/edit.png';
 
 const Table = (props) => {
-
   const headers = (props.headers || []).map((header, index) => {
     return(  
       <th className={'table__' + (index + 1).toString() +'-column'} key={header}>
@@ -19,14 +18,17 @@ const Table = (props) => {
   if(props.players){
     content = (props.players || []).map(row => {
     points +=parseInt(row.score.value);
+
     return(
       <tr className='table__body-row' key={row.name.value}>
-        <td> 
-        </td>
+        <td></td>   
         <td onClick={() => {props.rowClick(row)}}>{row.rank.value}</td>
         <td onClick={() => {props.rowClick(row)}}>{row.serie.value}</td>
         <td onClick={() => {props.rowClick(row)}}>{row.score.value}</td>
-        <td onClick={() => {props.rowClick(row)}}>{row.name.value}</td>
+        <td onClick={() => {props.rowClick(row)}}>
+          <span>{row.name.value}</span> 
+          <img src={editIcon} alt="edit" className='table__edit-icon'/>
+        </td>     
       </tr>
     );
   });
@@ -34,20 +36,19 @@ const Table = (props) => {
   } else if(props.logs) {
     content = props.logs.map(row => {
       return (
-        <tr className='table__body-row' key={row.merkinta}>
-
-        <td >{row.aikaleima}</td>
-        <td >{row.merkinta}</td>
-
-      </tr>
+        <tr className='table__body-row table__body-row--padding' key={row.merkinta + row.aikaleima}>
+          <td>{}</td>
+          <td>{row.aikaleima}</td>
+          <td>{row.merkinta}</td>
+        </tr>
       );
     })
   }
   
-
   const errorMessage = points !== 0
-   ? <span>Lohkon pisteet laskettu väärin: {points}</span>
-   : null
+    ? <span>Lohkon pisteet laskettu väärin: {points}</span>
+    : null;
+
   return (
     <div className='table__container'>
       <table style={props.style} className='table'>
@@ -65,8 +66,9 @@ const Table = (props) => {
           {errorMessage}
         </div>
         
-       <img onClick={props.nextClick} className='table__paginator-icon' src={backIcon} alt="back arrow"/>
-       <img onClick={props.backClick} className='table__paginator-icon'  src={nextIcon} alt=""next arrow/>
+       <span className='table__page-number'>{props.pageNumber}</span> 
+       <img onClick={props.backClick} className='table__paginator-icon' src={backIcon} alt="back arrow"/>
+       <img onClick={props.nextClick} className='table__paginator-icon' src={nextIcon} alt="next arrow"/>
 
       </div>
     </div>
