@@ -3,16 +3,17 @@ import './Results.scss';
 import Layout from '../Layout/Layout';
 import Table from '../Table/Table';
 import Button from '../Button/Button';
-import DeleteDialog from '../Dialogs/DeleteDialog/DeleteDialog';
 import ModifyDialog from '../Dialogs/ModifyDialog/ModifyDialog';
+import InfoDialog from '../Dialogs/InfoDialog/InfoDialog';
 import useDialog from '../../hooks/useDialog';
-import { getNewScores } from '../../services/httpClient';
+import { getNewScoresFetch } from '../../services/httpClient';
 import SnackBar from '../SnackBar/SnackBar';
-import { deletePoolAjax, calculateNewRankingAjax } from '../../services/httpClient';
+import { deletePoolFetch, calculateNewRankingFetch } from '../../services/httpClient';
 
 const Results = () => {
-  const deleteDialogControl = useDialog();
   const modifyDialogControl = useDialog();
+  const deletePoolControl = useDialog();
+  const calculateScoresControl = useDialog();
 
   const [modifydialogData, setModifydialogData] = useState();
   const [snackBarMessage, setSnackBarMessage] = useState('');
@@ -76,19 +77,41 @@ const Results = () => {
 
   }, []);
 
-  const fetchData = useCallback(() => {
-    getNewScores()
-      .then(res  => {
+  const createCalculateScoresDialogContent = () => {
+    let menPools = 0;
+    let womenPools = 0;
 
-        const pools = res.data.data.filter(row => row.meta_key === '_field_39').map(pool => pool.meta_value);
-        const series = res.data.data.filter(row => row.meta_key === '_field_38').map(serie => serie.meta_value);
-        const postIds = res.data.data.filter(row => row.meta_key === '_field_38').map(postId => postId.post_id);
+    pools.forEach(pool => {
+      if (pool.serie === 'Naiset') {
+        womenPools += 1;
+      } else if (pool.serie === 'Miehet'){
+        menPools += 1;
+      }
+    });
+
+    return (
+      <div>
+        <div className='info-dialog__text'>Miesten lohkoja: {menPools}</div>
+        <div className='info-dialog__text'> Naisten lohkoja: {womenPools}</div>
+      </div>
+    );
+  }
+
+  const fetchData = useCallback(() => {
+    getNewScoresFetch()
+      .then(res  => {
+        console.log(res)
+        return  res.json();    
+      })
+      .then (data => {
+        const pools = data.data.filter(row => row.meta_key === '_field_39').map(pool => pool.meta_value);
+        const series = data.data.filter(row => row.meta_key === '_field_38').map(serie => serie.meta_value);
+        const postIds = data.data.filter(row => row.meta_key === '_field_38').map(postId => postId.post_id);
 
         const poolsCount = pools.length;
         const poolsData = [];
 
         for(let i = 0; i < poolsCount; i++) {
-
           const poolObject = {
             pool: pools[i],
             serie: series[i],
@@ -99,9 +122,10 @@ const Results = () => {
 
         poolsData.sort(comparePools);
 
-        settableData(res.data.data);
+        settableData(data.data);
         setPools(poolsData);
         setSelectedPool(0);   
+
       })
       .catch( err => {
         console.log(err);
@@ -134,7 +158,7 @@ const Results = () => {
     );
   };
 
-  const handleDeletePool = () => {
+  const handleDeletePool = async () => {
     if(selectedPool === -1 || pools.length === 0) {
       return;
     }
@@ -142,30 +166,38 @@ const Results = () => {
     if(postId === null || postId === '') {
       return;
     }
-    console.log(postId)
-    deletePoolAjax(postId)
-      .then(res => {
-        setSelectedPool(-1);
-        deleteDialogControl.closeDialog();
-        fetchData();
-      })
+
+    try {
+      const res = await deletePoolFetch(postId);
+      if(!res.ok) setSnackBarMessage('Lohkon poistaminen epäonnistui')
+      else setSnackBarMessage('Lohko poistettu onnistuneesti')
+      setSelectedPool(-1);
+      deletePoolControl.closeDialog();
+      fetchData();
+    } catch (ex) {
+      setSnackBarMessage('Tapahtui tietoyhteysvirhe');
+      deletePoolControl.closeDialog();
+    }
   }
 
-  const handleUpdateNewRanking = () => {
-    setDisableUpdateButton(true);
-    calculateNewRankingAjax()
-      .then(res => {
-        console.log(res)
-        setDisableUpdateButton(false);
-        setSelectedPool(-1);
-        setPools([]);
-        fetchData();
-      })
-      .catch(err => {
-        console.log(err)
-        setDisableUpdateButton(false);
-      })
+  const handleUpdateNewRanking = async () => {
+    const response = await calculateNewRankingFetch();
+    if(!response) setSnackBarMessage('Tapahtui tietoyhteysvirhe')
     
+    else if (response.ok) {
+      const result = await response.json();
+      setSelectedPool(-1);
+      setPools([]);
+      fetchData();
+      setSnackBarMessage('Viikon tulokset päivitetty onnistuneesti. Uudet pelaajat: ' + result.data)
+    } else {
+      const result = await response.json();
+      const errorMessage = result.data;
+      setSnackBarMessage(errorMessage)
+    }
+
+    setDisableUpdateButton(false);
+    calculateScoresControl.closeDialog(); 
   }
 
   const tableHeaders = ['', 'Lohko','Sarja' , 'Pisteet', 'Nimi'];
@@ -192,25 +224,36 @@ const Results = () => {
 
         />
         <div className='results__button-container flex-row'>
-          <Button type='delete' onClick={deleteDialogControl.openDialog}>Poista lohko</Button>
-          <Button style={updateButtonStyles} disabled={disableUpdateButton} onClick={handleUpdateNewRanking}>Päivitä tulokset</Button>
+          <Button type='delete' onClick={deletePoolControl.openDialog}>Poista lohko</Button>
+          <Button style={updateButtonStyles} disabled={disableUpdateButton} onClick={calculateScoresControl.openDialog}>Päivitä tulokset</Button>
         </div>
       </div>
-
-      {  deleteDialogControl.showDialog && 
-        <DeleteDialog 
-          close={deleteDialogControl.closeDialog}
-          delete={handleDeletePool} 
-          content={createDeletePoolContent} 
-          things='lohkon'
-        />
-      }
 
       { modifyDialogControl.showDialog &&
         <ModifyDialog 
           close={modifyDialogControl.closeDialog}
           content={modifydialogData}
           fetchData ={fetchData}
+        />     
+      }
+
+      { deletePoolControl.showDialog &&
+        <InfoDialog 
+          close={deletePoolControl.closeDialog}
+          content={createDeletePoolContent}
+          header={'Oletko varma että haluat poistaa seuraavan lohkon'}
+          accept={handleDeletePool}
+          acceptButtonText='Poista'
+        />     
+      }
+
+      { calculateScoresControl.showDialog &&
+        <InfoDialog 
+          close={calculateScoresControl.closeDialog}
+          content={createCalculateScoresDialogContent}
+          header={'Tulokset päivitetään seuraavalla määrällä lohkoja'}
+          accept={handleUpdateNewRanking}
+          acceptButtonText='Päivitä'
         />     
       }
 

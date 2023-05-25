@@ -1,86 +1,97 @@
-import axios from 'axios';
 import { createBrowserHistory } from 'history';
-
-
-
-axios.defaults.withCredentials = true;
-
-axios.interceptors.response.use(function (response) {
-  return response;
-}, function (error) {
-  if (401 === error.response.status) {
-    localStorage.removeItem("loggedIn");
-    const history = createBrowserHistory();
-    history.push('/');
-  } 
-});
 
 let apiURL = 'https://www.jklbeach.fi/';
 apiURL = 'http://localhost:8081/'
 
-export const logInAjax = (username, password) => {
+
+export const logInFetch = (username, password) => {
   const postBody = {
     username,
     password
   };
   const url = apiURL + 'login.php';
-  return axios.post(url, postBody);
+  return fetchRequest(url, "POST", postBody);
 }
 
-export const fetchCountingScoresTimeAjax = () => {
+export const fetchCountingScoresTimeFetch = () => {
   const url = apiURL + 'counting_scores_times.php';
-  return axios.get(url);
+  return fetchRequest(url);
 }
 
-export const calculateBegingRankingAjax = () => {
+export const calculateBegingRankingFetch = () => {
   const url = apiURL + 'calculate_beging_ranking.php';
-  return axios.get(url);
+ return fetchRequest(url);
 }
 
-export const postCountingScoresTimeAjax = (countingTimes) => {
+export const postCountingScoresTimeAFetch = (countingTimes) => {
   const postBody = {
     countingTimes
   };
   const url = apiURL + 'counting_scores_times.php';
-  return axios.post(url, postBody)
+  return fetchRequest(url, 'POST', postBody);
 }
 
-export const logOutAjax = () => {
+export const logOutFetch = () => {
   const url = apiURL + 'logout.php';
-  return axios.get(url);
+  return fetchRequest(url);
 }
 
-export const getNewScores = () => {
+export const getNewScoresFetch = () => {
   const url = apiURL + 'show_scores.php';
-  console.log(url);
-  return axios.get(url);
+ return fetchRequest(url);
 }
 
-export const putScores = (data) => {
+export const UpdatePoolFetch = (data) => {
   const url = apiURL + 'update_pool.php';
-  console.log(url);
-  return axios.post(url, data);
+  return fetchRequest(url, 'POST', data);
 }
 
-
-export const downloadRankings = (serie) => {
+export const downloadRankingsFetch = (serie) => {
   const url = serie === 'men'
     ? apiURL + 'download_ranking.php?serie=men'
     : apiURL + 'download_ranking.php?serie=women';
-  return axios.get(url);
+  return fetchRequest(url);
 }
 
-export const deletePoolAjax = (postId) => {
+export const deletePoolFetch = (postId) => {
   const url = apiURL + 'delete_pool.php?post_id=' + postId;
-  return axios.get(url);
+  return fetchRequest(url);
 }
 
-export const calculateNewRankingAjax = () => {
-  const url = apiURL + 'calculate_scores.php';
-  return axios.get(url);
-}
-
-export const fetchLogsAjax = () => {
+export const fetchLogsFetch = () => {
   const url = apiURL + 'show_logs.php';
-  return axios.get(url);
+  return fetchRequest(url);
+}
+
+export const calculateNewRankingFetch = () => {
+  const url = apiURL + 'calculate_scores.php';
+  return fetchRequest(url);
+}
+
+const fetchRequest = async (url, method = 'GET', data = {}) => {
+  let config = {credentials: "include"};
+  if (method !== 'GET') {
+    config = {
+      method,
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    }
+  }
+  try {
+    const response = await fetch(url, config);
+    if (response.status === 401) {
+    localStorage.removeItem("loggedIn");
+    const history = createBrowserHistory();
+    history.go('/');
+  }
+
+  return response;
+  } catch (ex) {
+    return undefined;
+  }
+ 
+ 
 }

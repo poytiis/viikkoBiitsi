@@ -74,12 +74,10 @@ function check_all_pools_exist(mysqli $conn): string {
     asort($women);
 
     $pool_iter = 1;
-    $pools_valid = True;
 
     foreach($men as $men_pool) {
         if($men_pool != $pool_iter) {
-            $error_message += 'lohko '. $pool_iter. ' puuttuu miehissa. ';
-            $pools_valid = False;
+            $error_message = $error_message. 'lohko '. (string)$pool_iter. ' puuttuu miehissa. ';
             break;
         }
 
@@ -89,8 +87,7 @@ function check_all_pools_exist(mysqli $conn): string {
     $pool_iter = 1;
     foreach($women as $women_pool) {
         if($women_pool != $pool_iter) {
-            $error_message +=  'lohko '. $pool_iter. ' puuttuu naisista. ';
-            $pools_valid = False;
+            $error_message = $error_message. 'lohko '. (string)$pool_iter. ' puuttuu naisista. ';
             break;
         }
 
@@ -202,7 +199,8 @@ function calculate_ranking_points(mysqli $conn): void {
     $post_id_r->free();
 }
 
-function update_ranking_lists(mysqli $conn): void {
+function update_ranking_lists(mysqli $conn): string {
+    $new_players = '';
     $scores_delete_men_q = "DELETE FROM kokonaistulokset_miehet";
     $scores_delete_women_q = "DELETE FROM kokonaistulokset_naiset";
     $conn->query($scores_delete_men_q);
@@ -244,16 +242,15 @@ function update_ranking_lists(mysqli $conn): void {
             } 
             
             if ($play_week != 0) {
-              $time_stamp = date("Y-m-d");
-              $log_message = 'Uusi pelaaja: '. $name; 
-              echo $log_message;
+                $time_stamp = date("Y-m-d");
+                $log_message = 'Uusi pelaaja: '. $name. ' '; 
+                $new_players = $new_players. $name. ', ';
 
-              $log_stmt = $conn->prepare("INSERT INTO lokitiedot VALUES (DEFAULT, ?, ?)");
-              $log_stmt->bind_param('ss', $time_stamp, $log_message);
-              if (!$log_stmt->execute()) {
-                  die;
-              }
-
+                $log_stmt = $conn->prepare("INSERT INTO lokitiedot VALUES (DEFAULT, ?, ?)");
+                $log_stmt->bind_param('ss', $time_stamp, $log_message);
+                if (!$log_stmt->execute()) {
+                    die;
+                }
             }
           
             if($serie == 'Miehet') {
@@ -290,10 +287,10 @@ function update_ranking_lists(mysqli $conn): void {
 
         $delete_q = "DELETE FROM wpzl_postmeta WHERE post_id in (SELECT post_id FROM wpzl_postmeta WHERE meta_key='_form_id' AND meta_value=5)";
         $conn->query($delete_q);
-
     }
 
     $name_r->free();
+    return rtrim($new_players, ", ");
 }
 
 $conn = connect_database();
@@ -313,7 +310,8 @@ try {
     calculate_ranking_points($conn);
   }
    
-    update_ranking_lists($conn);
+    $new_players = update_ranking_lists($conn);
+    echo '{"data": "'. $new_players. '"}';   
     $conn->commit();
     $conn->close();
 

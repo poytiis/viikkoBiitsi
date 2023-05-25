@@ -4,7 +4,7 @@ import useInput from '../../hooks/useInput';
 import Button from '../Button/Button';
 import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
-import {logInAjax} from '../../services/httpClient';
+import { logInFetch } from '../../services/httpClient';
 import { useState } from 'react';
 
 const LogIn = () => {
@@ -16,9 +16,13 @@ const LogIn = () => {
 
   const handleLogInClick = async () => {
     try {
-      await logInAjax(usernameControl.value, passwordControl.value);
-      localStorage.setItem("loggedIn", "true");
-      history.push('/viikon-tulokset');
+      const response = await logInFetch(usernameControl.value, passwordControl.value);
+      if(!response.ok) setErrorMessage('Kirjautuminen epäonnistui');
+      else {
+        localStorage.setItem("loggedIn", "true");
+        history.push('/viikon-tulokset');
+      }
+      
     } catch(ex) {
       setErrorMessage('Kirjautuminen epäonnistui');
     }

@@ -18,9 +18,9 @@ const Table = (props) => {
   if(props.players){
     content = (props.players || []).map(row => {
     points +=parseInt(row.score.value);
-
+    const randomNumber = Math.floor(Math.random() * 100000);
     return(
-      <tr className='table__body-row' key={row.name.value}>
+      <tr className='table__body-row' key={row.name.value + randomNumber.toString()}>
         <td></td>   
         <td onClick={() => {props.rowClick(row)}}>{row.rank.value}</td>
         <td onClick={() => {props.rowClick(row)}}>{row.serie.value}</td>
@@ -35,19 +35,22 @@ const Table = (props) => {
 
   } else if(props.logs) {
     content = props.logs.map(row => {
-      return (
-        <tr className='table__body-row table__body-row--padding' key={row.merkinta + row.aikaleima}>
-          <td>{}</td>
-          <td>{row.aikaleima}</td>
-          <td>{row.merkinta}</td>
-        </tr>
-      );
+    const randomNumber = Math.floor(Math.random() * 100000);
+    return (
+      <tr className='table__body-row table__body-row--padding' key={row.merkinta + row.aikaleima + randomNumber.toString()}>
+        <td>{}</td>
+        <td>{row.aikaleima}</td>
+        <td>{row.merkinta}</td>
+      </tr>
+    );
     })
   }
-  
-  const errorMessage = points !== 0
-    ? <span>Lohkon pisteet laskettu väärin: {points}</span>
-    : null;
+  let errorMessage =  null;
+  if (isNaN(points)) {
+    errorMessage = <span>Lohkon pisteet laskettu väärin: Lohkossa virheellisiä pisteitä</span>
+  } else if (points !== 0) {
+    errorMessage = <span>Lohkon pisteet laskettu väärin: {points}</span>
+  }
 
   return (
     <div className='table__container'>

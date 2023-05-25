@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Layout from '../Layout/Layout';
 import './OldResults.scss';
 import TextField from '@material-ui/core/TextField';
 import useInput from '../../hooks/useInput';
 import Button from '../Button/Button';
 import Table from '../Table/Table';
-import  { downloadRankings } from '../../services/httpClient'
+import  { downloadRankingsFetch } from '../../services/httpClient'
+import SnackBar from '../SnackBar/SnackBar';
 
 const OldResults = () => {
+
+  const [snackBarMessage, setSnackBarMessage] = useState('');
 
   const yearControl = useInput('');
   const weekControl = useInput('');
@@ -31,22 +34,23 @@ const OldResults = () => {
     downloadRankinList('men');
     downloadRankinList('women');
   }
-  const downloadRankinList = (serie) => {
+  const downloadRankinList = async (serie) => {
 
     Date.prototype.getWeek = function() {
       var onejan = new Date(this.getFullYear(),0,1);
       return Math.ceil((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
     }
 
-    const today =new Date();
+    const today = new Date();
     var weekNumber = today.getWeek();
     const fileName = 'ranking_' + serie + weekNumber + '.csv';
 
-    downloadRankings(serie)
-      .then(res => {
-        console.log(res)
+    try {
+      const res = await downloadRankingsFetch(serie);
+      if(res.ok) {
+        const text = await res.text();
         var element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(res.data));
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
         element.setAttribute('download', fileName);
 
         element.style.display = 'none';
@@ -54,13 +58,16 @@ const OldResults = () => {
 
         element.click();
         document.body.removeChild(element);
+      } else {
+        setSnackBarMessage('Rankingien lataus epäonnistui')
+      }
 
-      })
-      .catch(err => {
-
-    })
-
+    } catch (ex) {
+      console.log(ex)
+        setSnackBarMessage('Rankingien lataus epäonnistui')
+    }
   }
+
   const tableHeaders = ['', 'Lohko', 'Sarja', 'Pisteet', 'Nimi'];
   return (
     <Layout>
@@ -89,6 +96,10 @@ const OldResults = () => {
         </div>
 
       </div>
+
+      { snackBarMessage !== '' &&
+        <SnackBar close={() => {setSnackBarMessage('')}}>{snackBarMessage}</SnackBar>
+      }
 
     </Layout>
   );

@@ -1,6 +1,7 @@
 <?php
+include 'add_cors_headers.php';
+include 'check_auth.php';
 include 'connect_to_database.php';
-header("Access-Control-Allow-Origin: *");
 
 $conn = connect_database();
 $conn->begin_transaction();
@@ -9,10 +10,10 @@ $year = (int)date('Y');
 $year_check_query = "SELECT sarja_pisteet FROM viikon_tulokset WHERE vuosi = $year";
 $year_check_r = $conn->query($year_check_query);
 if ($year_check_r->fetch_object()) {
-  echo 'VIRHE: Vuoden alkuranking on laskettu jo aikaisemmin';
-  http_response_code(400);
+  http_response_code(500);
+  echo '{"data": "Alkuranginkit laskettu aikaisemmin}"';
   $conn->close();
-  exit;
+  die;
 }
 $name_query = "SELECT nimi FROM `viikon_tulokset` GROUP by nimi";
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Header.scss';
 import userIcon from '../../imgs/user.png';
 import { useHistory } from 'react-router-dom';
-import { logOutAjax } from '../../services/httpClient';
+import { logOutFetch } from '../../services/httpClient';
 
 const Header = () => {
 
@@ -21,7 +21,7 @@ const Header = () => {
 
   const handleLogOutClick = async () => {
     try {
-      await logOutAjax();
+      await logOutFetch();
       localStorage.removeItem("loggedIn");
       history.push('/')
     } catch (ex) {

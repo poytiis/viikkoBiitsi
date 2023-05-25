@@ -1,7 +1,9 @@
 <?php
+include 'add_cors_headers.php';
+include 'check_auth.php';
 include 'connect_to_database.php';
+
 $conn = connect_database();
-header("Access-Control-Allow-Origin: *");
 
 $serie = $_GET["serie"];
 $query= "";

@@ -4,7 +4,7 @@ import Button from '../../Button/Button';
 import './ModifyDialog.scss';
 import useInput from '../../../hooks/useInput';
 import TextField from '@material-ui/core/TextField';
-import { putScores } from '../../../services/httpClient';
+import { UpdatePoolFetch } from '../../../services/httpClient';
 
 const ModifyDialog = (props) => {
 
@@ -19,7 +19,7 @@ const ModifyDialog = (props) => {
     backgroundColor: 'var(--gray)'
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     console.log('muokkaa')
     if(rank.value === rankControl.value && serie.value === serieControl.value &&
        name.value === nameControl.value && score.value === scoreControl.value) {
@@ -38,18 +38,17 @@ const ModifyDialog = (props) => {
     };
     console.log(newData)
 
-    putScores(newData)
-      .then (res => {
-        console.log(res);
+    try {
+      const res = await UpdatePoolFetch(newData);
+      if (res.ok) {
         props.fetchData();
         props.close();
-      })
-      .catch( err => {
-        console.log(err);
-      });
+      } else {
+         props.close();
+      }
+    } catch (ex) {
 
-
-
+    }
   }
   return (
     <Dialog>

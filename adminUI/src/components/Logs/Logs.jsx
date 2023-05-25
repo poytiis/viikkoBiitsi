@@ -2,23 +2,33 @@ import React, {useEffect, useState} from 'react';
 import './Logs.scss';
 import Layout from '../Layout/Layout';
 import Table from '../Table/Table';
-import { fetchLogsAjax } from '../../services/httpClient';
+import { fetchLogsFetch } from '../../services/httpClient';
+import SnackBar from '../SnackBar/SnackBar';
 
 const Logs = () => {
   const logsCountInTablePage = 6;
   const [logs, setLogs] = useState([]);
   const [tablePageCount, setTablePageCount] = useState(0);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
+  const [snackBarMessage, setSnackBarMessage] = useState('');
 
   useEffect(() => {
-    fetchLogsAjax()
-      .then(res => {
-        const logsData = res.data.data;
-        const logsPageCount = Math.ceil(logsData.length / logsCountInTablePage);
-        setTablePageCount(logsPageCount);
-        // console.log(res.data.data)
-        setLogs(logsData.reverse());
-      })
+    const fetchLogs = async () => {
+      try {
+        const res = await fetchLogsFetch();
+        if(!res.ok) setSnackBarMessage('Lokien hakeminen epäonnistui')
+        else {
+          const json = await res.json();
+          const logsData = json.data;
+          const logsPageCount = Math.ceil(logsData.length / logsCountInTablePage);
+          setTablePageCount(logsPageCount);
+          setLogs(logsData.reverse());
+        }
+      } catch(ex) {
+        setSnackBarMessage('Lokien hakeminen epäonnistui')
+      }
+    }
+    fetchLogs();
   }, []);
 
   const handleNextPaginatorClick = () => {
@@ -53,6 +63,10 @@ const Logs = () => {
           pageNumber={pageNumber}
           />
       </div>
+
+      { snackBarMessage !== '' &&
+        <SnackBar close={() => {setSnackBarMessage('')}}>{snackBarMessage}</SnackBar>
+      }
 
     </Layout>
     

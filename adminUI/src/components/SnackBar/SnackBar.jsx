@@ -6,7 +6,7 @@ const SnackBar = (props) => {
   useEffect(() => {
     setTimeout(() => {
       props.close();
-    }, 2000);
+    }, 10000);
   }, [props]);
 
   return (
