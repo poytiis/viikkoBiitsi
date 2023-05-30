@@ -34,7 +34,6 @@ const Results = () => {
     }  
   }
 
-
   const players = [];
 
   if (selectedPool !== -1 && pools.length !== 0) {
@@ -90,7 +89,7 @@ const Results = () => {
     });
 
     return (
-      <div>
+      <div className='flex-column'>
         <div className='info-dialog__text'>Miesten lohkoja: {menPools}</div>
         <div className='info-dialog__text'> Naisten lohkoja: {womenPools}</div>
       </div>
@@ -145,7 +144,7 @@ const Results = () => {
 
   const createDeletePoolContent = () => {
     const contentStyles = {
-      fontSize: '1.2rem'
+      fontSize: '1.3rem'
     };
 
     if(selectedPool === -1 || pools.length === 0){
@@ -181,6 +180,7 @@ const Results = () => {
   }
 
   const handleUpdateNewRanking = async () => {
+    calculateScoresControl.setDisableAcceptButton(true);
     const response = await calculateNewRankingFetch();
     if(!response) setSnackBarMessage('Tapahtui tietoyhteysvirhe')
     
@@ -197,6 +197,7 @@ const Results = () => {
     }
 
     setDisableUpdateButton(false);
+    calculateScoresControl.setDisableAcceptButton(false);
     calculateScoresControl.closeDialog(); 
   }
 
@@ -210,6 +211,8 @@ const Results = () => {
     width: '190px'
   };
 
+  const tablePageNumber = (selectedPool + 1).toString() + '/' + pools.length.toString();
+
   return (
     <Layout>
       <div className='results flex-column-center'>
@@ -221,6 +224,7 @@ const Results = () => {
           players={players}
           nextClick={handleNextPaginatorClick}
           backClick={handlePreviousPaginatorClick}
+          pageNumber={tablePageNumber}
 
         />
         <div className='results__button-container flex-row'>
@@ -254,6 +258,7 @@ const Results = () => {
           header={'Tulokset päivitetään seuraavalla määrällä lohkoja'}
           accept={handleUpdateNewRanking}
           acceptButtonText='Päivitä'
+          disableAcceptButton={calculateScoresControl.disableAcceptButton}
         />     
       }
 

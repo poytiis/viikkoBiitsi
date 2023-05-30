@@ -8,7 +8,7 @@
 
   &__button-container{
     margin-bottom: 2rem;
-    width: 300px;
+    width: 320px;
     justify-content: space-between;
   }
 
@@ -17,6 +17,7 @@
   }
 
   &__text {
-    font-size: 1rem;
+    font-size: 1.3rem;
+    margin-bottom: 0.4rem;
   }
 }

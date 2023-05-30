@@ -41,6 +41,11 @@ export const getNewScoresFetch = () => {
  return fetchRequest(url);
 }
 
+export const searchOldScoresFetch = (player, year, week, serie) => {
+  const url = apiURL + 'search_old_scores.php?week=' + week.toString() + '&year=' + year.toString() + '&player=' + player + '&serie=' + serie;
+  return fetchRequest(url);
+}
+
 export const UpdatePoolFetch = (data) => {
   const url = apiURL + 'update_pool.php';
   return fetchRequest(url, 'POST', data);

@@ -17,34 +17,49 @@ const Table = (props) => {
   let content = null;
   if(props.players){
     content = (props.players || []).map(row => {
-    points +=parseInt(row.score.value);
-    const randomNumber = Math.floor(Math.random() * 100000);
-    return(
-      <tr className='table__body-row' key={row.name.value + randomNumber.toString()}>
-        <td></td>   
-        <td onClick={() => {props.rowClick(row)}}>{row.rank.value}</td>
-        <td onClick={() => {props.rowClick(row)}}>{row.serie.value}</td>
-        <td onClick={() => {props.rowClick(row)}}>{row.score.value}</td>
-        <td onClick={() => {props.rowClick(row)}}>
-          <span>{row.name.value}</span> 
-          <img src={editIcon} alt="edit" className='table__edit-icon'/>
-        </td>     
-      </tr>
-    );
-  });
+      points +=parseInt(row.score.value);
+      const randomNumber = Math.floor(Math.random() * 100000);
+      return(
+        <tr className='table__body-row' key={row.name.value + randomNumber.toString()}>
+          <td></td>   
+          <td onClick={() => {props.rowClick(row)}}>{row.rank.value}</td>
+          <td onClick={() => {props.rowClick(row)}}>{row.serie.value}</td>
+          <td onClick={() => {props.rowClick(row)}}>{row.score.value}</td>
+          <td onClick={() => {props.rowClick(row)}}>
+            <span>{row.name.value}</span> 
+            <img src={editIcon} alt="edit" className='table__edit-icon'/>
+          </td>     
+        </tr>
+      );
+    });
 
   } else if(props.logs) {
     content = props.logs.map(row => {
-    const randomNumber = Math.floor(Math.random() * 100000);
-    return (
-      <tr className='table__body-row table__body-row--padding' key={row.merkinta + row.aikaleima + randomNumber.toString()}>
-        <td>{}</td>
-        <td>{row.aikaleima}</td>
-        <td>{row.merkinta}</td>
-      </tr>
-    );
+      const randomNumber = Math.floor(Math.random() * 100000);
+      return (
+        <tr className='table__body-row table__body-row--padding' key={row.merkinta + row.aikaleima + randomNumber.toString()}>
+          <td>{}</td>
+          <td>{row.aikaleima}</td>
+          <td>{row.merkinta}</td>
+        </tr>
+      );
+    })
+  } else if (props.oldLogs) {
+    content = props.oldLogs.map(row => {
+      const randomNumber = Math.floor(Math.random() * 100000);
+      return (
+        <tr className='table__body-row table__body-row--padding' key={row[0] + randomNumber.toString()}>
+          <td>{row[6]}</td>
+          {/* <td>{}</td> */}
+          <td>{row[2]}</td>
+          <td>{row[3]}</td>
+          <td>{row[4]}</td>
+          <td>{row[0]}</td>
+        </tr>
+      );
     })
   }
+
   let errorMessage =  null;
   if (isNaN(points)) {
     errorMessage = <span>Lohkon pisteet laskettu väärin: Lohkossa virheellisiä pisteitä</span>

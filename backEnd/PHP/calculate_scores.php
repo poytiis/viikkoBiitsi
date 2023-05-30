@@ -1,6 +1,6 @@
 <?php
 include 'add_cors_headers.php';
-include 'check_auth.php';
+// include 'check_auth.php';
 include 'connect_to_database.php';
 
 class Player {
@@ -111,6 +111,8 @@ function calculate_ranking_points(mysqli $conn): void {
         return ($player_1->plus_minus_points > $player_2->plus_minus_points) ? -1 : 1;
     }
 
+    $scores_week = null;
+
     $post_id_q="SELECT post_id FROM wpzl_postmeta WHERE meta_key='_form_id' AND meta_value=5";
     $post_id_r = $conn->query($post_id_q);
 
@@ -173,8 +175,32 @@ function calculate_ranking_points(mysqli $conn): void {
         $week = (int)date('W');
         $year = (int)date("Y");
 
+        $latest_week = $week;
+        $week_query = "SELECT viikko FROM viikon_tulokset WHERE vuosi=$year ORDER BY viikko DESC LIMIT 1";
+        $latest_week_object = $conn->query($week_query)->fetch_object();
+        if ($latest_week_object) {
+          $latest_week = $latest_week_object->viikko;
+        }
+        if ($latest_week != 0) {
+          $week = $latest_week + 1;
+        } else {
+          $day = date('w');
+          if ($day == 0 || $day == 1) {
+            $week = $week - 1;
+          } else if ($day == 2 ) {
+            $hour = (int)date('H');
+            if ($hour < 15) {
+              $week = $week - 1;
+            }
+          }
+        }
+
+        if($scores_week == null) {
+            $scores_week = $week;
+        }
+
         foreach($player_list as $player) {
-            if($player->name == '') {
+            if($player->name == '' || $player->name == '-') {
                 continue;
             }
 
@@ -184,7 +210,7 @@ function calculate_ranking_points(mysqli $conn): void {
                 die('invalid insert query');
             }
 
-            $insert_scores_stmt_bind = $insert_scores_stmt->bind_param('ssiiiidi', $player->name, $serie, $week, $player->pool, $player->pool_ranking, $player->plus_minus_points, $player->ranking_points, $year);
+            $insert_scores_stmt_bind = $insert_scores_stmt->bind_param('ssiiiidi', $player->name, $serie, $scores_week, $player->pool, $player->pool_ranking, $player->plus_minus_points, $player->ranking_points, $year);
             if(!$insert_scores_stmt_bind) {
                 die('invalid binding');    
             }
@@ -255,7 +281,7 @@ function update_ranking_lists(mysqli $conn): string {
           
             if($serie == 'Miehet') {
                 $scores_stmt = $conn->prepare("INSERT INTO kokonaistulokset_miehet VALUES(DEFAULT, ?, ?, ?, ?)");
-            } else {
+            } else if ($serie == 'Naiset') {
                 $scores_stmt = $conn->prepare("INSERT INTO kokonaistulokset_naiset VALUES(DEFAULT, ?, ?, ?, ?)");
             }
 
@@ -275,7 +301,7 @@ function update_ranking_lists(mysqli $conn): string {
 
             if($serie == 'Miehet') {
                 $scores_stmt = $conn->prepare("INSERT INTO kokonaistulokset_miehet VALUES(DEFAULT, ?, ?, ?, ?)");
-            } else {
+            } else if ($serie == 'Naiset') {
                 $scores_stmt = $conn->prepare("INSERT INTO kokonaistulokset_naiset VALUES(DEFAULT, ?, ?, ?, ?)");
             }
 
@@ -283,11 +309,11 @@ function update_ranking_lists(mysqli $conn): string {
             if(!$scores_stmt->execute()) {
                 die;
             }
-        }
-
-        $delete_q = "DELETE FROM wpzl_postmeta WHERE post_id in (SELECT post_id FROM wpzl_postmeta WHERE meta_key='_form_id' AND meta_value=5)";
-        $conn->query($delete_q);
+        }  
     }
+
+    $delete_q = "DELETE FROM wpzl_postmeta WHERE post_id in (SELECT post_id FROM wpzl_postmeta WHERE meta_key='_form_id' AND meta_value=5)";
+    $conn->query($delete_q);
 
     $name_r->free();
     return rtrim($new_players, ", ");
