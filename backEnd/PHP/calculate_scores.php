@@ -1,6 +1,6 @@
 <?php
 include 'add_cors_headers.php';
-// include 'check_auth.php';
+include 'check_auth.php';
 include 'connect_to_database.php';
 
 class Player {
@@ -30,7 +30,8 @@ class Player {
         }
 
         $this->ranking_points = 20.1 - 0.9 * ($this->pool - 1) - ($average - 1) + 0.05 * $this->plus_minus_points;
-        $this->pool_ranking= $pool_ranking_1;
+        $this->pool_ranking = $pool_ranking_1;
+
     }
 }
 
@@ -153,7 +154,8 @@ function calculate_ranking_points(mysqli $conn): void {
         $player_list = array($player_1, $player_2, $player_3, $player_4);
         usort($player_list, 'compare_players_scores');
 
-        for ($player_list_i = 0; $player_list_i <= 3; $player_list_i++) {
+        $player_list_i = 0;
+        while ($player_list_i <= 3) {
             $same_ponts = 0;
             foreach($player_list as $player) {
                 if($player->plus_minus_points == $player_list[$player_list_i]->plus_minus_points) {
@@ -163,12 +165,15 @@ function calculate_ranking_points(mysqli $conn): void {
 
             $same_ponts -=1;
             if($same_ponts != 0) {
+                $shared_ranking = $player_list_i + 1;
                 for($same_points_i = 0; $same_points_i <= $same_ponts; $same_points_i++) {
-                    $player_list[$player_list_i]->calculate_shared_ranking_points($player_list_i + 1, $player_list_i + 1 + $same_ponts);
+                    $player_list[$player_list_i]->calculate_shared_ranking_points($shared_ranking, $shared_ranking + $same_ponts);
+                    $player_list_i++;
                 }
 
             } else {
                 $player_list[$player_list_i]->calculate_ranking_points($player_list_i + 1);
+                $player_list_i++;
             }     
         }
 
