@@ -263,6 +263,10 @@ function update_ranking_lists(mysqli $conn): string {
         $play_times = count($scores);
         $scores_stmt = null;
 
+        if ($play_times == 0) {
+            continue;
+        }
+
         if($play_times == 1) {
             $play_week = $scores[0]['week'];
             $scores_week_1 = $scores[0]['serie_scores'];
@@ -308,6 +312,8 @@ function update_ranking_lists(mysqli $conn): string {
                 $scores_stmt = $conn->prepare("INSERT INTO kokonaistulokset_miehet VALUES(DEFAULT, ?, ?, ?, ?)");
             } else if ($serie == 'Naiset') {
                 $scores_stmt = $conn->prepare("INSERT INTO kokonaistulokset_naiset VALUES(DEFAULT, ?, ?, ?, ?)");
+            } else {
+                echo 'Invalid Serie!';
             }
 
             $scores_stmt->bind_param('sddd', $name, $scores_week_1, $scores_week_2, $scores_total);
