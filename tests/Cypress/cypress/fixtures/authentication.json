@@ -1,0 +1,16 @@
+{
+  "validUser": {
+    "username": "viikkobiitsi",
+    "password": "v"
+  },
+  "invalidUsers": [
+    {
+      "username": "viikkobiitsi",
+      "password": "Wrong"
+    },
+    {
+      "username": "*",
+      "password": "*"
+    }
+  ]
+}
