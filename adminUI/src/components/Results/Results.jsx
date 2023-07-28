@@ -67,7 +67,6 @@ const Results = () => {
       };
       players.push(player);
     }
-    // console.log(players)
   }
 
   const comparePools = useCallback((first, second) => {
@@ -83,21 +82,21 @@ const Results = () => {
   }, []);
 
   const createCalculateScoresDialogContent = () => {
-    let menPools = 0;
-    let womenPools = 0;
+    let menPools = new Set();
+    let womenPools = new Set();
 
-    pools.forEach(pool => {
-      if (pool.serie === 'Naiset') {
-        womenPools += 1;
-      } else if (pool.serie === 'Miehet'){
-        menPools += 1;
+    tableControl.rows.forEach(row => {
+      if (row[1].value === 'Naiset') {
+        womenPools.add(row[0].value);
+      } else if (row[1].value === 'Miehet'){
+        menPools.add(row[0].value);
       }
     });
 
     return (
       <div className='flex-column'>
-        <div className='info-dialog__text'>Miesten lohkoja: {menPools}</div>
-        <div className='info-dialog__text'> Naisten lohkoja: {womenPools}</div>
+        <div className='info-dialog__text'>Miesten lohkoja: {menPools.size}</div>
+        <div className='info-dialog__text'> Naisten lohkoja: {womenPools.size}</div>
       </div>
     );
   }
@@ -144,12 +143,14 @@ const Results = () => {
 
             serie = {
               value: rawData[i].meta_value,
-              id: rawData[i].meta_id
+              id: rawData[i].meta_id,
+              postId: rawData[i +1].post_id
             };
 
             pool = {
               value: rawData[i + 1].meta_value,
-              id: rawData[i +1].meta_id
+              id: rawData[i +1].meta_id,
+              postId: rawData[i +1].post_id
             };
 
           } else if (i % 12 === 10) {
@@ -160,12 +161,14 @@ const Results = () => {
           } else {
             const name  = {
               value: rawData[i].meta_value,
-              id: rawData[i].meta_id
+              id: rawData[i].meta_id,
+              postId: rawData[i +1].post_id
             }
 
             const score = {
               value: rawData[i + 1].meta_value,
-              id: rawData[i + 1].meta_id
+              id: rawData[i + 1].meta_id,
+              postId: rawData[i +1].post_id
             }
 
             const row = [pool, serie, score, name]
@@ -173,6 +176,8 @@ const Results = () => {
             newTableRows.push(row);
           }        
         }
+
+        console.log(newTableRows)
 
         const compare = (first, second) => {
 
@@ -192,8 +197,6 @@ const Results = () => {
         tableControl.setHeaders(['Lohko','Sarja' , 'Pisteet', 'Nimi', ''])
         tableControl.initializeRows(newTableRows);
 
-        console.log(newTableRows)
-
       })
       .catch( err => {
         console.log(err);
@@ -212,7 +215,32 @@ const Results = () => {
     modifyDialogControl.openDialog();
   }
 
-  const createDeltePool = () => {
+  const setModifyDialogData = (data) => {
+    console.log(data)
+    const dialogData = {
+      name: {
+        value: data[3].value,
+        id: data[3].id
+      },
+      score: {
+        value: data[2].value,
+        id: data[2].id
+      },
+      serie: {
+        value: data[1].value,
+        id: data[1].id
+      },
+      rank: {
+        value: data[0].value,
+        id: data[0].id
+      }
+
+    }
+    setModifydialogData(dialogData);
+    modifyDialogControl.openDialog();
+  }
+
+  const createDeletePoolContent = () => {
     const contentStyles = {
       fontSize: '1.3rem'
     };
@@ -221,32 +249,18 @@ const Results = () => {
       return <h2>Ainuttakaan valintaa ei voitu poistaa</h2>;
     }
 
-    const content = 'Lohko ' + tableControl.rows[selectedPool][0] + ' ' + tableControl.rows[selectedPool][1];
+    const content = 'Lohko ' + tableControl.visibleRows[0][0].value + ' ' + tableControl.visibleRows[0][1].value;
     return(
       <p style={contentStyles}>{content}</p>
     );
   }
 
-  const createDeletePoolContent = () => {
-    const contentStyles = {
-      fontSize: '1.3rem'
-    };
-
-    if(selectedPool === -1 || pools.length === 0){
-      return <h2>Ainuttakaan valintaa ei voitu poistaa</h2>;
-    }
-
-    const content = 'Lohko ' + pools[selectedPool].pool + ' ' + pools[selectedPool].serie;
-    return(
-      <p style={contentStyles}>{content}</p>
-    );
-  };
 
   const handleDeletePool = async () => {
-    if(selectedPool === -1 || pools.length === 0) {
+    if(tableControl.visibleRows.length === 0) {
       return;
     }
-    const postId = pools[selectedPool].postId;
+    const postId = tableControl.visibleRows[0][0].postId;
     if(postId === null || postId === '') {
       return;
     }
@@ -319,6 +333,7 @@ const Results = () => {
 
         <TableWithPaginator
           control={tableControl}
+          rowClick={setModifyDialogData}
         />
 
       </div>

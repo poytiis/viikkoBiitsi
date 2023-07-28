@@ -15,7 +15,7 @@ const TableWithPaginator = (props) => {
   const headers = props.control.headers.map(header => {
     let random =  Math.floor(Math.random() * 1000000);
     return (
-      <div key={header + random.toString()} className='' style={headerStyles}>{header}</div>
+      <div key={header + random.toString()} className='' style={headerStyles} >{header}</div>
     );
 
   });
@@ -25,19 +25,19 @@ const TableWithPaginator = (props) => {
     const columns = row.map(column => {
       random =  Math.floor(Math.random() * 1000000);
       return(
-        <div key={column + random.toString()} style={headerStyles}>{column.value}</div>
+        <div key={column + random.toString()} style={headerStyles} onClick={() => {props.rowClick(row)}}>{column.value}</div>
       );
      
     })
     if(headerCount > 2) {
       columns.push(
-        <div style={headerStyles} key={'edit' + random.toString()} className='table__row-edit-icon-container'> 
+        <div style={headerStyles} key={'edit' + random.toString()} className='table__row-edit-icon-container' onClick={() => {props.rowClick(row)}}> 
           <img src={editIcon} alt="edit" className='table__row-edit-icon' />
         </div>
       )
     }
     return (
-      <div className='flex-row table__content-row' key={row + random.toString()}>
+      <div className='flex-row table__content-row' key={row + random.toString()} >
         {columns}
       </div>
     );
