@@ -41,8 +41,8 @@ export const getNewScoresFetch = () => {
  return fetchRequest(url);
 }
 
-export const searchOldScoresFetch = (player, year, week, serie) => {
-  const url = apiURL + 'search_old_scores.php?week=' + week.toString() + '&year=' + year.toString() + '&player=' + player + '&serie=' + serie;
+export const searchOldScoresFetch = (player, year, week, serie, pool) => {
+  const url = apiURL + 'search_old_scores.php?week=' + week.toString() + '&year=' + year.toString() + '&player=' + player + '&serie=' + serie + '&pool=' + pool;
   return fetchRequest(url);
 }
 
@@ -90,7 +90,11 @@ const fetchRequest = async (url, method = 'GET', data = {}) => {
     if (response.status === 401) {
     localStorage.removeItem("loggedIn");
     const history = createBrowserHistory();
-    history.go('/');
+    const path = window.location.pathname;
+    if (path !== '/') {
+      history.go('/');
+    }
+    
   }
 
   return response;

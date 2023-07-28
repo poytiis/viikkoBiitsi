@@ -9,6 +9,8 @@ import useDialog from '../../hooks/useDialog';
 import { getNewScoresFetch } from '../../services/httpClient';
 import SnackBar from '../SnackBar/SnackBar';
 import { deletePoolFetch, calculateNewRankingFetch } from '../../services/httpClient';
+import TableWithPaginator from '../TableWithPaginator/TableWithPaginator';
+import useTable from '../../hooks/useTable';
 
 const Results = () => {
   const modifyDialogControl = useDialog();
@@ -21,6 +23,9 @@ const Results = () => {
   const [pools, setPools] = useState([]);
   const [selectedPool, setSelectedPool] = useState(-1);
   const [disableUpdateButton, setDisableUpdateButton] = useState(false);
+
+  const tableControl = useTable({rowsPerPage: 4});
+
 
   const handleNextPaginatorClick = () => {
     if(selectedPool !== pools.length - 1) {
@@ -61,18 +66,19 @@ const Results = () => {
         }
       };
       players.push(player);
-    }  
+    }
+    // console.log(players)
   }
 
   const comparePools = useCallback((first, second) => {
 
-     if (first.serie === 'Miehet' && second.serie === 'Naiset' ) {
-        return 1;
-      } else if (first.serie === 'Naiset' && second.serie === 'Miehet') {
-        return -1;
-      } else {
-        return parseInt(first.pool) - parseInt(second.pool);
-      }
+    if (first.serie === 'Miehet' && second.serie === 'Naiset' ) {
+      return 1;
+     } else if (first.serie === 'Naiset' && second.serie === 'Miehet') {
+      return -1;
+     } else {
+      return parseInt(first.pool) - parseInt(second.pool);
+    }
 
   }, []);
 
@@ -123,7 +129,70 @@ const Results = () => {
 
         settableData(data.data);
         setPools(poolsData);
-        setSelectedPool(0);   
+        setSelectedPool(0);
+
+        const newTableRows = [];
+        const rawData = data.data;
+        console.log(rawData)
+
+        let pool = null;
+        let serie = null;
+
+        for(let i = 0; i < rawData.length; i = i + 2) {
+
+          if (i % 12 === 0)   {         
+
+            serie = {
+              value: rawData[i].meta_value,
+              id: rawData[i].meta_id
+            };
+
+            pool = {
+              value: rawData[i + 1].meta_value,
+              id: rawData[i +1].meta_id
+            };
+
+          } else if (i % 12 === 10) {
+           
+
+            continue;
+
+          } else {
+            const name  = {
+              value: rawData[i].meta_value,
+              id: rawData[i].meta_id
+            }
+
+            const score = {
+              value: rawData[i + 1].meta_value,
+              id: rawData[i + 1].meta_id
+            }
+
+            const row = [pool, serie, score, name]
+
+            newTableRows.push(row);
+          }        
+        }
+
+        const compare = (first, second) => {
+
+          if (first[1].value === 'Miehet' && second[1].value === 'Naiset' ) {
+            return 1;
+          } else if (first[1].value === 'Naiset' && second[1].value === 'Miehet') {
+            return -1;
+          } else {
+            return parseInt(first[0].value) - parseInt(second[0].value);
+          }
+
+
+     
+        }
+        newTableRows.sort(compare)
+
+        tableControl.setHeaders(['Lohko','Sarja' , 'Pisteet', 'Nimi', ''])
+        tableControl.initializeRows(newTableRows);
+
+        console.log(newTableRows)
 
       })
       .catch( err => {
@@ -138,8 +207,24 @@ const Results = () => {
   }, [fetchData]);
  
   const openModifyDialogData = (data) => {
+    console.log(data)
     setModifydialogData(data);
     modifyDialogControl.openDialog();
+  }
+
+  const createDeltePool = () => {
+    const contentStyles = {
+      fontSize: '1.3rem'
+    };
+
+    if(tableControl.selectedPool === -1 || tableControl.rows.length === 0){
+      return <h2>Ainuttakaan valintaa ei voitu poistaa</h2>;
+    }
+
+    const content = 'Lohko ' + tableControl.rows[selectedPool][0] + ' ' + tableControl.rows[selectedPool][1];
+    return(
+      <p style={contentStyles}>{content}</p>
+    );
   }
 
   const createDeletePoolContent = () => {
@@ -231,6 +316,11 @@ const Results = () => {
           <Button type='delete' onClick={deletePoolControl.openDialog}>Poista lohko</Button>
           <Button style={updateButtonStyles} disabled={disableUpdateButton} onClick={calculateScoresControl.openDialog}>Päivitä tulokset</Button>
         </div>
+
+        <TableWithPaginator
+          control={tableControl}
+        />
+
       </div>
 
       { modifyDialogControl.showDialog &&

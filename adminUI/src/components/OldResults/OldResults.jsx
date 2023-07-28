@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Layout from '../Layout/Layout';
 import './OldResults.scss';
 import TextField from '@material-ui/core/TextField';
@@ -8,6 +8,7 @@ import Table from '../Table/Table';
 import  { downloadRankingsFetch, searchOldScoresFetch } from '../../services/httpClient'
 import SnackBar from '../SnackBar/SnackBar';
 import useTable from '../../hooks/useTable';
+import TableWithPaginator from '../TableWithPaginator/TableWithPaginator';
 
 const OldResults = () => {
 
@@ -17,8 +18,15 @@ const OldResults = () => {
   const weekControl = useInput('');
   const nameControl = useInput('');
   const serieControl = useInput('');
+  const poolontrol = useInput('');
 
-  const tableControl = useTable();
+  const tableControl = useTable({rowsPerPage: 10});
+
+  useEffect(() => {
+    tableControl.setHeaders(['Lokiaika', 'Merkintä'])
+    tableControl.setRows([['2023-07-18', 'Uusi pelaaja: Emma'], ['2023-07-18', 'Uusi pelaaja: Emma'], ['2023-07-18', 'Uusi pelaaja: Emma']]);
+  }, [])
+
   const [tabledata, setTableData] =useState([])
 
   const rowsCountInTablePage = 6;
@@ -26,7 +34,7 @@ const OldResults = () => {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
   const handleSearchButtonClick = async () => {
-    const response = await searchOldScoresFetch(nameControl.value, yearControl.value, weekControl.value, serieControl.value);
+    const response = await searchOldScoresFetch(nameControl.value, yearControl.value, weekControl.value, serieControl.value, poolontrol.value);
     const json = await response.json()
     const logsPageCount = Math.ceil(json.data.length / rowsCountInTablePage);
     setTablePageCount(logsPageCount);
@@ -104,7 +112,7 @@ const OldResults = () => {
   if(currentPageIndex * rowsCountInTablePage + rowsCountInTablePage <= tabledata.length) {
     slicedrows = tabledata.slice(currentPageIndex * rowsCountInTablePage, currentPageIndex * rowsCountInTablePage + rowsCountInTablePage)
   } else {
-    slicedrows = tabledata.slice(currentPageIndex * rowsCountInTablePage, tabledata.length -1)
+    slicedrows = tabledata.slice(currentPageIndex * rowsCountInTablePage, tabledata.length)
   }
   return (
     <Layout>
@@ -113,9 +121,10 @@ const OldResults = () => {
           <span className='old-results__header'>Etsi vanhoja tuloksia</span>
           <div className='old-results__search-container'>
             <TextField className='old-results__input' label='Pelaaja' {...nameControl}/>
-            <TextField className='old-results__input' label='vuosi' {...yearControl}/>
+            <TextField className='old-results__input' label='Vuosi' {...yearControl}/>
             <TextField className='old-results__input' label='Viikko' {...weekControl}/>
             <TextField className='old-results__input' label='Sarja' {...serieControl}/>
+            <TextField className='old-results__input' label='Lohko' {...poolontrol}/>
 
             <Button style={searchButtonStyles} onClick={handleSearchButtonClick}>Etsi</Button>
 
@@ -123,11 +132,14 @@ const OldResults = () => {
           <div className='old-results__table-container'>
             <Table 
               headers={tableHeaders}
-              control={tableControl}
               oldLogs={slicedrows}
               nextClick={handleNextPaginatorClick}
               backClick={handlePreviousPaginatorClick}
               pageNumber={pageNumber}
+            />
+
+            <TableWithPaginator
+              control={tableControl}
             />
             <Button type='delete' style={deleteButtonStyles}>Poista valitut</Button>
 

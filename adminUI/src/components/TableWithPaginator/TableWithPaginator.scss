@@ -1,0 +1,82 @@
+.table{
+    width: 1000px;
+
+    &__content-header{
+        background-color: var(--primary);
+        
+        &-content {
+          color: white;
+          font-size: 1.4rem;
+          font-weight: 400;
+          text-align: left;
+          padding: 1rem 0;
+          padding-left: 10px;
+    
+          &:first-child{
+            border-radius:5px 0 0 0;
+          }
+    
+          &:last-child{
+            border-radius:0 5px 0 0 ;
+          }
+        }
+    }
+
+    &__content-row {
+        background-color: white;
+        line-height: 2.4rem;
+        border-bottom: 1px solid #efeff9;
+        padding-left: 10px;
+        font-size: 1.0rem;
+
+        &:hover{
+            cursor: pointer;
+            background-color: rgb(233, 232, 232);
+        }
+    }
+
+
+    &__paginator {
+      background-color: white;
+      height: 2.4rem;
+      justify-content: flex-end;
+      border-bottom-right-radius: 5px;
+      border-bottom-left-radius: 5px;
+  
+      &-error {
+        margin-right: 30%;
+        font-size: 0.9rem;
+      }
+  
+      &-icon {
+        height: 30px;
+        width: auto;
+  
+        &:last-child{
+          margin-right: 1rem;
+          margin-left: 1rem;
+        }
+  
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+  
+    &__row-edit-icon {
+      height: 18px;
+
+    &-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+  
+    }
+  
+    &__page-number {
+      font-size: 1rem;
+      margin-right: 0.5rem;
+    }
+  }
+  

@@ -43,10 +43,10 @@ const LogIn = () => {
       <div className='log-in__content flex-column-center'>
         <span className='log-in__header'>Kirjaudu sisään</span>
 
-        <TextField style={inputStyle} label='Käyttäjänimi' {...usernameControl}  color="secondary"/>
-        <TextField style={inputStyle} label='Salasana' type="password" {...passwordControl}  color="secondary"/>
+        <TextField style={inputStyle} label='Käyttäjänimi' {...usernameControl}  color="secondary" id='log-in__username'/>
+        <TextField style={inputStyle} label='Salasana' type="password" {...passwordControl}  color="secondary" id='log-in__password'/>
 
-        <Button style={buttonStyles} onClick={handleLogInClick}>Kirjaudu</Button>
+        <Button style={buttonStyles} onClick={handleLogInClick} className='log-in__button'>Kirjaudu</Button>
         <div className='log-in__error-message'>{errorMessage}</div>
       </div>
 

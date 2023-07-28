@@ -2,7 +2,7 @@ describe('Authentication: ', () => {
 
   beforeEach(function () {
     cy.task('db:seed')
-    cy.visit('http://localhost:3000/')
+    cy.visit('/')
   })
 
   it('valid login', () => {
@@ -32,5 +32,11 @@ describe('Authentication: ', () => {
         cy.get('#log-in__password').clear()       
       });
     })
+  })
+
+  it('redirect to login', () => {
+    cy.visit('/viikon-tulokset')
+    cy.get('.results').should('not.exist')
+    cy.get('.log-in__button').should('exist')
   })
 })

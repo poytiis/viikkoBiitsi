@@ -9,6 +9,7 @@ $week = (int)$_GET['week'];
 $serie = $_GET['serie'];
 $year = (int) $_GET['year'];
 $player = $_GET['player'];
+$pool = (int)$_GET['pool'];
 
 $query = "SELECT nimi, viikko, lohko, sijoitus, pelatut_pisteet, sarja_pisteet, vuosi FROM viikon_tulokset  WHERE ";
 $is_first_param = true;
@@ -19,7 +20,7 @@ if ($week) {
   if ($is_first_param) {
     $is_first_param = false;
   } else {
-     $query = $query. " AND ";
+    $query = $query. " AND ";
   }
   $query = $query. ' viikko = ? ';
   $bind_params = $bind_params. 'i';
@@ -27,7 +28,7 @@ if ($week) {
 }
 if ($serie) {
   if ($is_first_param) {
-     $is_first_param = false;
+    $is_first_param = false;
    
   } else {
     $query = $query. " AND ";
@@ -38,7 +39,7 @@ if ($serie) {
 }
 if ($year) {
   if ($is_first_param) {
-     $is_first_param = false;
+    $is_first_param = false;
    
   } else {
     $query = $query. " AND ";
@@ -52,11 +53,22 @@ if ($player) {
     $is_first_param = false;
    
   } else {
-     $query = $query. " AND ";
+    $query = $query. " AND ";
   }
   $query = $query. 'nimi = ?';
   $bind_params = $bind_params. 's';
   array_push($bind_items, $player);
+}
+if ($pool) {
+  if ($is_first_param) {
+    $is_first_param = false;
+   
+  } else {
+    $query = $query. " AND ";
+  }
+  $query = $query. 'lohko = ?';
+  $bind_params = $bind_params. 'i';
+  array_push($bind_items, $pool);
 }
 
 $search_stmt = $conn->prepare($query);
