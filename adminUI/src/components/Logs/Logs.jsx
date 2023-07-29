@@ -1,16 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import './Logs.scss';
 import Layout from '../Layout/Layout';
-import Table from '../Table/Table';
 import { fetchLogsFetch } from '../../services/httpClient';
 import SnackBar from '../SnackBar/SnackBar';
+import TableWithPaginator from '../TableWithPaginator/TableWithPaginator';
+import useTable from '../../hooks/useTable';
 
 const Logs = () => {
-  const logsCountInTablePage = 6;
-  const [logs, setLogs] = useState([]);
-  const [tablePageCount, setTablePageCount] = useState(0);
-  const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [snackBarMessage, setSnackBarMessage] = useState('');
+  const tableControl = useTable({rowsPerPage: 6});
 
   useEffect(() => {
     const fetchLogs = async () => {
@@ -20,9 +18,14 @@ const Logs = () => {
         else {
           const json = await res.json();
           const logsData = json.data;
-          const logsPageCount = Math.ceil(logsData.length / logsCountInTablePage);
-          setTablePageCount(logsPageCount);
-          setLogs(logsData.reverse());
+          const logsDataTable = logsData.map(row => {
+            const timeStamp = {value: row.aikaleima}
+            const log = {value: row.merkinta}
+            return [timeStamp, log]
+          });
+
+          tableControl.setHeaders(['Lokiaika', 'Merkintä'])
+          tableControl.initializeRows(logsDataTable.reverse())
         }
       } catch(ex) {
         setSnackBarMessage('Lokien hakeminen epäonnistui')
@@ -31,37 +34,16 @@ const Logs = () => {
     fetchLogs();
   }, []);
 
-  const handleNextPaginatorClick = () => {
-    if(currentPageIndex + 1 < tablePageCount) {
-      setCurrentPageIndex(currentPageIndex + 1);
-    }
-  };
 
-  const handlePreviousPaginatorClick = () => {
-    if (currentPageIndex !== 0) {
-      setCurrentPageIndex(currentPageIndex - 1);
-    }
-  }
-
-  const tableHeaders = ['','Lokiaika', 'Merkintä'];
-  let slicedLogs = [];
-  if(currentPageIndex * logsCountInTablePage + logsCountInTablePage <= logs.length) {
-    slicedLogs = logs.slice(currentPageIndex * logsCountInTablePage, currentPageIndex * logsCountInTablePage + logsCountInTablePage)
-  } else {
-    slicedLogs = logs.slice(currentPageIndex * logsCountInTablePage, logs.length -1)
-  }
-  const pageNumber = (currentPageIndex + 1).toString() + '/' + tablePageCount.toString();
   return (
     <Layout>
       <div className='logs flex-column-center'>
         <h2 className='logs__header'>Järjestelmän lokimerkinnät</h2>
-        <Table 
-          headers={tableHeaders} 
-          logs={slicedLogs}
-          nextClick={handleNextPaginatorClick}
-          backClick={handlePreviousPaginatorClick}
-          pageNumber={pageNumber}
-          />
+
+        <TableWithPaginator
+          control={tableControl}
+          rowClick={() => {}}
+        />
       </div>
 
       { snackBarMessage !== '' &&

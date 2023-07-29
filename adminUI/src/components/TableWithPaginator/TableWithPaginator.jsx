@@ -43,15 +43,6 @@ const TableWithPaginator = (props) => {
     );
   });
 
-  let points = 0;
-
-  let errorMessage =  null;
-  if (isNaN(points)) {
-    errorMessage = <span>Lohkon pisteet laskettu väärin: Lohkossa virheellisiä pisteitä</span>
-  } else if (points !== 0) {
-    errorMessage = <span>Lohkon pisteet laskettu väärin: {points}</span>
-  }
-
   const currentPageNumber = (props.control.currentPageIndex + 1).toString();
   const pageNumber = currentPageNumber + '/' + props.control.totalPages.toString();
 
@@ -73,12 +64,22 @@ const TableWithPaginator = (props) => {
 
       <div className='table__paginator flex-row-center'>
         <div className='table__paginator-error'>
-          {errorMessage}
+          {props.control.errorMessage}
         </div>
         
-       <span className='table__page-number'>{pageNumber}</span> 
-       <img onClick={() => props.control.handlePaginatorClick('back')} className='table__paginator-icon' src={backIcon} alt="back arrow"/>
-       <img onClick={() => props.control.handlePaginatorClick('next')} className='table__paginator-icon' src={nextIcon} alt="next arrow"/>
+        <span className='table__page-number'>{pageNumber}</span> 
+        <img 
+          onClick={() => props.control.handlePaginatorClick('back')} 
+          className='table__paginator-icon table__paginator-icon--back' 
+          src={backIcon} 
+          alt="back arrow"
+        />
+        <img 
+          onClick={() => props.control.handlePaginatorClick('next')} 
+          className='table__paginator-icon table__paginator-icon--next' 
+          src={nextIcon} 
+          alt="next arrow"
+        />
 
       </div>
 

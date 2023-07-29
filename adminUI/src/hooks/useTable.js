@@ -5,7 +5,7 @@ const useTable = (props) => {
   const [rows, setRows] = useState([]);
   const [visibleRows, setVisibleRows] = useState([]);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const [rowsPerPage, setRowsPerpage] = useState(props.rowsPerPage);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const totalPages = Math.ceil(rows.length / props.rowsPerPage);
 
@@ -27,25 +27,41 @@ const useTable = (props) => {
 
   const initializeRows = (rows) => {
     setRows(rows);
-    setVisibleRows(rows.slice(currentPageIndex * props.rowsPerPage, currentPageIndex * props.rowsPerPage + props.rowsPerPage))
+    setNewRows(rows)
   }
 
   useEffect(() => {
-    setVisibleRows(rows.slice(currentPageIndex * props.rowsPerPage, currentPageIndex * props.rowsPerPage + props.rowsPerPage))
+    setNewRows()
   }, [currentPageIndex]);
 
-  
+  const setNewRows = (newRows = rows) => {
+    const newVisibleRows = newRows.slice(currentPageIndex * props.rowsPerPage, currentPageIndex * props.rowsPerPage + props.rowsPerPage)
+    setVisibleRows(newVisibleRows)
+    if (props.type === 'scores') {
+      const totalScores = newVisibleRows.reduce((accumulator, currentValue) => accumulator + parseInt(currentValue[2].value), 0);
+      if (isNaN(totalScores)) {
+        setErrorMessage('Lohkossa virheellisiä pisteitä!');
+      }
+      else if (totalScores !== 0) {
+        setErrorMessage('Lohkon pisteet laskettu väärin: ' + totalScores.toString());
+      }
+      else if (errorMessage !== '')  {
+        setErrorMessage('')
+      }
+    }  
+  }
 
   return {
-      headers, 
-      rows, 
-      setHeaders, 
-      setRows,
-      visibleRows,
-      handlePaginatorClick,
-      currentPageIndex,
-      totalPages,
-      initializeRows
+    headers, 
+    rows, 
+    setHeaders, 
+    setRows,
+    visibleRows,
+    handlePaginatorClick,
+    currentPageIndex,
+    totalPages,
+    initializeRows,
+    errorMessage
   }
 }
 
