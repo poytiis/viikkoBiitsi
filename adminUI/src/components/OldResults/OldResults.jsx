@@ -4,15 +4,19 @@ import './OldResults.scss';
 import TextField from '@material-ui/core/TextField';
 import useInput from '../../hooks/useInput';
 import Button from '../Button/Button';
-import Table from '../Table/Table';
 import  { downloadRankingsFetch, searchOldScoresFetch } from '../../services/httpClient'
 import SnackBar from '../SnackBar/SnackBar';
 import useTable from '../../hooks/useTable';
 import TableWithPaginator from '../TableWithPaginator/TableWithPaginator';
+import ModifyDialog from '../Dialogs/ModifyDialog/ModifyDialog';
+import useDialog from '../../hooks/useDialog';
 
 const OldResults = () => {
 
   const [snackBarMessage, setSnackBarMessage] = useState('');
+  const modifyDialogControl = useDialog();
+
+  const [modifydialogData, setModifydialogData] = useState();
 
   const yearControl = useInput('');
   const weekControl = useInput('');
@@ -20,38 +24,66 @@ const OldResults = () => {
   const serieControl = useInput('');
   const poolontrol = useInput('');
 
-  const tableControl = useTable({rowsPerPage: 10});
+  const tableControl = useTable({rowsPerPage: 6, type: 'oldScores'});
 
   useEffect(() => {
-    tableControl.setHeaders(['Lokiaika', 'Merkintä'])
-    tableControl.setRows([['2023-07-18', 'Uusi pelaaja: Emma'], ['2023-07-18', 'Uusi pelaaja: Emma'], ['2023-07-18', 'Uusi pelaaja: Emma']]);
+    tableControl.setHeaders(['Nimi', 'Viikko', 'Lohko',  'Sijoitus', 'Pisteet', '+-Pisteet','Vuosi', 'Sarja'  ])
   }, [])
-
-  const [tabledata, setTableData] =useState([])
-
-  const rowsCountInTablePage = 6;
-  const [tablePageCount, setTablePageCount] = useState(0);
-  const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
   const handleSearchButtonClick = async () => {
     const response = await searchOldScoresFetch(nameControl.value, yearControl.value, weekControl.value, serieControl.value, poolontrol.value);
     const json = await response.json()
-    const logsPageCount = Math.ceil(json.data.length / rowsCountInTablePage);
-    setTablePageCount(logsPageCount);
     console.log(json.data)
-    setTableData(json.data)
+
+    const tableData = json.data.map(row => {
+      const id = row.pop()
+      const columns = row.map(column => { return {value: column, id}})
+      return columns;
+    })
+
+    console.log(tableData)
+    tableControl.initializeRows(tableData);
   }
 
-  const handleNextPaginatorClick = () => {
-    if(currentPageIndex + 1 < tablePageCount) {
-      setCurrentPageIndex(currentPageIndex + 1);
-    }
-  };
+  const openModifyDialogData = (data) => {
+    console.log(data)
+    const dialogData = {
+      name: {
+        value: data[0].value,
+        id: data[0].id
+      },
+      score: {
+        value: data[4].value,
+        id: data[4].id
+      },
+      serie: {
+        value: data[7].value,
+        id: data[7].id
+      },
+      rank: {
+        value: data[2].value,
+        id: data[2].id
+      },
+      year: {
+        value: data[6].value,
+        id: data[6].id
+      },
+      week: {
+        value: data[1].value,
+        id: data[1].id
+      },
+      plusMinusPoints: {
+        value: data[5].value,
+        id: data[5].id
+      },
+      ranking: {
+        value: data[3].value,
+        id: data[3].id
+      }
 
-  const handlePreviousPaginatorClick = () => {
-    if (currentPageIndex !== 0) {
-      setCurrentPageIndex(currentPageIndex - 1);
     }
+    setModifydialogData(dialogData);
+    modifyDialogControl.openDialog();
   }
 
   const searchButtonStyles = {
@@ -105,15 +137,6 @@ const OldResults = () => {
     }
   }
 
-  const tableHeaders = ['Vuosi', 'Lohko', 'Sijoitus', 'Pisteet', 'Nimi'];
-  const pageNumber = (currentPageIndex + 1).toString() + '/' + tablePageCount.toString();
-
-  let slicedrows = [];
-  if(currentPageIndex * rowsCountInTablePage + rowsCountInTablePage <= tabledata.length) {
-    slicedrows = tabledata.slice(currentPageIndex * rowsCountInTablePage, currentPageIndex * rowsCountInTablePage + rowsCountInTablePage)
-  } else {
-    slicedrows = tabledata.slice(currentPageIndex * rowsCountInTablePage, tabledata.length)
-  }
   return (
     <Layout>
       <div className='old-results'>
@@ -130,18 +153,10 @@ const OldResults = () => {
 
           </div>
           <div className='old-results__table-container'>
-            <Table 
-              headers={tableHeaders}
-              oldLogs={slicedrows}
-              nextClick={handleNextPaginatorClick}
-              backClick={handlePreviousPaginatorClick}
-              pageNumber={pageNumber}
-            />
-
             <TableWithPaginator
               control={tableControl}
+              rowClick={openModifyDialogData}
             />
-            <Button type='delete' style={deleteButtonStyles}>Poista valitut</Button>
 
           </div>
           <div className='old-results__button-container'>
@@ -155,6 +170,15 @@ const OldResults = () => {
 
       { snackBarMessage !== '' &&
         <SnackBar close={() => {setSnackBarMessage('')}}>{snackBarMessage}</SnackBar>
+      }
+
+      { modifyDialogControl.showDialog &&
+        <ModifyDialog 
+          close={modifyDialogControl.closeDialog}
+          content={modifydialogData}
+          fetchData={() => {}}
+          type='oldScores'
+        />     
       }
 
     </Layout>

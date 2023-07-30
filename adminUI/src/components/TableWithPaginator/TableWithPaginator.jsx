@@ -31,7 +31,7 @@ const TableWithPaginator = (props) => {
     })
     if(headerCount > 2) {
       columns.push(
-        <div style={headerStyles} key={'edit' + random.toString()} className='table__row-edit-icon-container' onClick={() => {props.rowClick(row)}}> 
+        <div  key={'edit' + random.toString()} className='table__row-edit-icon-container' onClick={() => {props.rowClick(row)}}> 
           <img src={editIcon} alt="edit" className='table__row-edit-icon' />
         </div>
       )
@@ -45,9 +45,12 @@ const TableWithPaginator = (props) => {
 
   const currentPageNumber = (props.control.currentPageIndex + 1).toString();
   const pageNumber = currentPageNumber + '/' + props.control.totalPages.toString();
+  const tableClassName = props.control.type
+    ? 'table table--' +  props.control.type
+    : 'table';
 
   return (
-    <div className='table'>
+    <div className={tableClassName}>
       <div className='table__content'> 
       <div className='table__content-header'>
         <div className='table__content-header-content flex-row'> 

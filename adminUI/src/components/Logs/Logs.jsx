@@ -8,7 +8,7 @@ import useTable from '../../hooks/useTable';
 
 const Logs = () => {
   const [snackBarMessage, setSnackBarMessage] = useState('');
-  const tableControl = useTable({rowsPerPage: 6});
+  const tableControl = useTable({rowsPerPage: 6, type: 'logs'});
 
   useEffect(() => {
     const fetchLogs = async () => {

@@ -1,10 +1,4 @@
 <?php
-
-// echo isset($_SESSION);
-// echo '<<<< ';
-// echo $_SESSION["loggedin"];
-
-
 include 'add_cors_headers.php';
 include 'check_auth.php';
 include 'connect_to_database.php';

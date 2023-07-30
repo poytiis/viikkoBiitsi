@@ -105,7 +105,7 @@ it('paginator click', () => {
     expect(screen.queryByText(testLogRows[i][1].value)).toBeNull() 
   }
 
-  fireEvent.click(screen.getAllByRole('img')[1])
+  fireEvent.click(screen.getByAltText('next arrow'))
 
 
   for(let i = 4; i < 8; i++) {
@@ -118,7 +118,7 @@ it('paginator click', () => {
     expect(screen.queryByText(testLogRows[i][1].value)).toBeNull() 
   }
 
-  fireEvent.click(screen.getAllByRole('img')[0])
+  fireEvent.click(screen.getByAltText('back arrow'))
 
   for(let i = 0; i < 4; i++) {
     expect(screen.getByText(testLogRows[i][0].value)).toBeInTheDocument()
@@ -145,11 +145,11 @@ it('show error message', () => {
   const errorMessage1 = 'Lohkon pisteet laskettu väärin: -18';
   expect(screen.getByText(errorMessage1)).toBeInTheDocument()
 
-  fireEvent.click(screen.getAllByRole('img')[5])
+  fireEvent.click(screen.getByAltText('next arrow'))
   const errorMessage2 = 'Lohkossa virheellisiä pisteitä!'
   expect(screen.getByText(errorMessage2)).toBeInTheDocument()
 
-  fireEvent.click(screen.getAllByRole('img')[5])
+  fireEvent.click(screen.getByAltText('next arrow'))
 
   expect(screen.queryByText(errorMessage1)).toBeNull()
   expect(screen.queryByText(errorMessage2)).toBeNull() 

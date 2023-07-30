@@ -61,7 +61,8 @@ const useTable = (props) => {
     currentPageIndex,
     totalPages,
     initializeRows,
-    errorMessage
+    errorMessage,
+    type: props.type
   }
 }
 

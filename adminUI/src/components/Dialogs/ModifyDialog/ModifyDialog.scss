@@ -15,5 +15,8 @@
 
   &__main-content{
     margin: 2rem 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 0 10px;
   }
 }

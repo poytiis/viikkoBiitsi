@@ -125,7 +125,7 @@ const Results = () => {
   }, [fetchData]);
  
 
-  const setModifyDialogData = (data) => {
+  const openModifyDialogData = (data) => {
     console.log(data)
     const dialogData = {
       name: {
@@ -219,7 +219,7 @@ const Results = () => {
 
         <TableWithPaginator
           control={tableControl}
-          rowClick={setModifyDialogData}
+          rowClick={openModifyDialogData}
         />
 
         <div className='results__button-container flex-row'>
@@ -232,7 +232,7 @@ const Results = () => {
         <ModifyDialog 
           close={modifyDialogControl.closeDialog}
           content={modifydialogData}
-          fetchData ={fetchData}
+          fetchData={fetchData}
         />     
       }
 

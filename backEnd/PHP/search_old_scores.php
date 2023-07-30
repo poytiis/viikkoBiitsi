@@ -11,7 +11,7 @@ $year = (int) $_GET['year'];
 $player = $_GET['player'];
 $pool = (int)$_GET['pool'];
 
-$query = "SELECT nimi, viikko, lohko, sijoitus, pelatut_pisteet, sarja_pisteet, vuosi FROM viikon_tulokset  WHERE ";
+$query = "SELECT nimi, viikko, lohko, sijoitus, pelatut_pisteet, sarja_pisteet, vuosi, sarja, id  FROM viikon_tulokset  WHERE ";
 $is_first_param = true;
 $bind_params = "";
 $bind_items = [];
@@ -74,7 +74,7 @@ if ($pool) {
 $search_stmt = $conn->prepare($query);
 $search_stmt->bind_param($bind_params, ...$bind_items);
 $search_stmt->execute();
-$search_stmt->bind_result($name, $week, $pool, $ranking, $played_scores, $serie_scores, $year_db);
+$search_stmt->bind_result($name, $week, $pool, $ranking, $played_scores, $serie_scores, $year_db, $serie, $id);
 
 echo '{"data": [';
 
@@ -88,7 +88,9 @@ while($search_stmt->fetch()) {
   $data_rows = $data_rows. (string)$ranking . ',';
   $data_rows = $data_rows. (string)$played_scores . ',';
   $data_rows = $data_rows. (string)$serie_scores . ',';
-  $data_rows = $data_rows. (string)$year_db;
+  $data_rows = $data_rows. (string)$year_db . ',';
+  $data_rows = $data_rows. '"'. $serie. '",';
+  $data_rows = $data_rows. (string)$id;
   $data_rows = $data_rows. '],';
 }
 

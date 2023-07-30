@@ -73,6 +73,11 @@ export const calculateNewRankingFetch = () => {
   return fetchRequest(url);
 }
 
+export const updateOldScoresFetch = (data) => {
+  const url = apiURL + 'update_old_scores.php';
+  return fetchRequest(url, 'POST', data);
+}
+
 const fetchRequest = async (url, method = 'GET', data = {}) => {
   let config = {credentials: "include"};
   if (method !== 'GET') {

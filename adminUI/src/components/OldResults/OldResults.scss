@@ -1,7 +1,6 @@
 .old-results{
   &__search-container{
-    // justify-content: space-between;
-    width: 1000px;
+    width: 1250px;
   }
   &__header{
     margin-top: 2rem;
@@ -10,7 +9,7 @@
     font-weight: bold;
   }
   &__input{
-    width: 131px;
+    width: 182px;
     // over rides material UI style
     margin-right: 40px !important;
   }
