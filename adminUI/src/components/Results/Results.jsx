@@ -37,8 +37,8 @@ const Results = () => {
 
     return (
       <div className='flex-column'>
-        <div className='info-dialog__text'>Miesten lohkoja: {menPools.size}</div>
-        <div className='info-dialog__text'> Naisten lohkoja: {womenPools.size}</div>
+        <div className='info-dialog__text info-dialog__text--men-pools'>Miesten lohkoja: {menPools.size}</div>
+        <div className='info-dialog__text info-dialog__text--women-pools'>Naisten lohkoja: {womenPools.size}</div>
       </div>
     );
   }
@@ -223,8 +223,21 @@ const Results = () => {
         />
 
         <div className='results__button-container flex-row'>
-          <Button type='delete' onClick={deletePoolControl.openDialog}>Poista lohko</Button>
-          <Button style={updateButtonStyles} disabled={disableUpdateButton} onClick={calculateScoresControl.openDialog}>Päivitä tulokset</Button>
+          <Button 
+            type='delete' 
+            onClick={deletePoolControl.openDialog}
+            className='results__delete-button'
+          >
+            Poista lohko
+          </Button>
+          <Button 
+            style={updateButtonStyles} 
+            disabled={disableUpdateButton} 
+            onClick={calculateScoresControl.openDialog}
+            className='results__update-scores-button'
+          >
+            Päivitä tulokset
+          </Button>
         </div>
       </div>
 

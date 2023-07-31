@@ -143,13 +143,19 @@ const OldResults = () => {
         <div className='old-results__content flex-column-center'>
           <span className='old-results__header'>Etsi vanhoja tuloksia</span>
           <div className='old-results__search-container'>
-            <TextField className='old-results__input' label='Pelaaja' {...nameControl}/>
-            <TextField className='old-results__input' label='Vuosi' {...yearControl}/>
-            <TextField className='old-results__input' label='Viikko' {...weekControl}/>
-            <TextField className='old-results__input' label='Sarja' {...serieControl}/>
-            <TextField className='old-results__input' label='Lohko' {...poolontrol}/>
+            <TextField className='old-results__input' label='Pelaaja' {...nameControl} id='old-results__player-input'/>
+            <TextField className='old-results__input' label='Vuosi' {...yearControl} id='old-results__year-input'/>
+            <TextField className='old-results__input' label='Viikko' {...weekControl} id='old-results__week-input'/>
+            <TextField className='old-results__input' label='Sarja' {...serieControl} id='old-results__serie-input'/>
+            <TextField className='old-results__input' label='Lohko' {...poolontrol} id='old-results__pool-input'/>
 
-            <Button style={searchButtonStyles} onClick={handleSearchButtonClick}>Etsi</Button>
+            <Button 
+              style={searchButtonStyles} 
+              onClick={handleSearchButtonClick}
+              className='old-results__search-button'
+            >
+              Etsi
+            </Button>
 
           </div>
           <div className='old-results__table-container'>
@@ -176,7 +182,7 @@ const OldResults = () => {
         <ModifyDialog 
           close={modifyDialogControl.closeDialog}
           content={modifydialogData}
-          fetchData={() => {}}
+          fetchData={handleSearchButtonClick}
           type='oldScores'
         />     
       }

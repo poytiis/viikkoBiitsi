@@ -15,8 +15,20 @@ const DeleteDialog = (props) => {
           {props.content()}
         </div>
         <div className='info-dialog__button-container flex-row'>
-          <Button onClick={props.close} style={deleteButtonStyles}>Peruuta</Button>
-          <Button onClick={props.accept} disabled={props.disableAcceptButton}>{props.acceptButtonText}</Button>
+          <Button 
+            onClick={props.close} 
+            style={deleteButtonStyles}
+            className='info-dialog__close-button'
+          >
+            Peruuta
+          </Button>
+          <Button 
+            onClick={props.accept} 
+            disabled={props.disableAcceptButton}
+            className='info-dialog__accept-button'
+          >
+            {props.acceptButtonText}
+          </Button>
 
         </div>
       </div>

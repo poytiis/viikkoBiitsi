@@ -1,4 +1,3 @@
-import {useState} from 'react';
 import './TableWithPaginator.scss';
 import nextIcon from '../../imgs/next.png';
 import backIcon from '../../imgs/back.png';
@@ -25,7 +24,14 @@ const TableWithPaginator = (props) => {
     const columns = row.map(column => {
       random =  Math.floor(Math.random() * 1000000);
       return(
-        <div key={column + random.toString()} style={headerStyles} onClick={() => {props.rowClick(row)}}>{column.value}</div>
+        <div 
+          key={column + random.toString()} 
+          style={headerStyles} 
+          onClick={() => {props.rowClick(row)}}
+          className={'table__row-column--' + column.value.toString().replace(/\s/g, '')}
+        >
+          {column.value}
+        </div>
       );
      
     })
