@@ -1,4 +1,5 @@
 .modify-dialog{
+  position: relative;
 
   &__header{
     font-size: 1.4rem;
@@ -18,5 +19,18 @@
     max-height: 60vh;
     overflow-y: auto;
     padding: 0 10px;
+  }
+
+  &__delete-score-button {
+    position: absolute;
+    top: 35px;
+    right: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #771818;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 }

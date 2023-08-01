@@ -36,25 +36,36 @@ const Header = () => {
       <div className='header__main-content-container flex-row'>
         <div className='header__tab-container flex-row-center'> 
 
-          <div className={'header__tab header__tab--scores flex-row-center ' + (currentTab === '/viikon-tulokset' ? ' header__tab--active': '' )}
+          <div 
+            className={'header__tab header__tab--scores flex-row-center ' + (currentTab === '/viikon-tulokset' ? ' header__tab--active': '' )}
             onClick={() => {history.push('/viikon-tulokset')}}
           >
             <span>Viikon tulokset</span>
           </div>
 
-          <div className={'header__tab  header__tab--old-scores flex-row-center ' + (currentTab === '/vanhat-tulokset' ? ' header__tab--active': '' )}
+          <div 
+            className={'header__tab header__tab--scores flex-row-center ' + (currentTab === '/ranking-listat' ? ' header__tab--active': '' )}
+            onClick={() => {history.push('/ranking-listat')}}
+          >
+            <span>Ranking-listat</span>
+          </div>
+
+          <div 
+            className={'header__tab  header__tab--old-scores flex-row-center ' + (currentTab === '/vanhat-tulokset' ? ' header__tab--active': '' )}
             onClick={() => {history.push('/vanhat-tulokset')}}
           >
             <span>Vanhat tulokset</span>
           </div>
 
-          <div className={'header__tab  header__tab--logs flex-row-center ' + (currentTab === '/logit' ? ' header__tab--active': '' )}
+          <div 
+            className={'header__tab  header__tab--logs flex-row-center ' + (currentTab === '/logit' ? ' header__tab--active': '' )}
             onClick={() => {history.push('/logit')}}
           >
             <span>Logit</span>
           </div>
 
-          <div className={'header__tab header__tab--settings flex-row-center ' + (currentTab === '/asetukset' ? ' header__tab--active': '' )}
+          <div 
+            className={'header__tab header__tab--settings flex-row-center ' + (currentTab === '/asetukset' ? ' header__tab--active': '' )}
             onClick={() => {history.push('/asetukset')}}
           >
 

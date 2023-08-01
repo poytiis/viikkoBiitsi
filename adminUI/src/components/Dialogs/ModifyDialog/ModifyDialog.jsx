@@ -4,7 +4,7 @@ import Button from '../../Button/Button';
 import './ModifyDialog.scss';
 import useInput from '../../../hooks/useInput';
 import TextField from '@material-ui/core/TextField';
-import { UpdatePoolFetch, updateOldScoresFetch } from '../../../services/httpClient';
+import { UpdatePoolFetch, updateOldScoresFetch, deleteOldScoresFetch } from '../../../services/httpClient';
 
 const ModifyDialog = (props) => {
 
@@ -22,6 +22,21 @@ const ModifyDialog = (props) => {
   const deleteButtonStyles = {
     backgroundColor: 'var(--gray)'
   };
+
+  const handleDeleteScore = async () => {
+    const id = {
+      id: serie.id
+    }
+
+    const res = await deleteOldScoresFetch(id);
+
+    if (res.ok) {
+      props.fetchData();
+      props.close();
+    } else {
+       props.close();
+    }
+  }
 
   const handleUpdate = async () => {
     console.log('muokkaa')
@@ -78,6 +93,9 @@ const ModifyDialog = (props) => {
     <Dialog type={props.type}>
       <div className='modify-dialog flex-column-center'>
         <h2 className='modify-dialog__header'>Muokkaa tietoja</h2>
+        {props.type === 'oldScores' && (
+          <span className='modify-dialog__delete-score-button' onClick={handleDeleteScore}>Poista</span>
+        )}
 
         <div className='modify-dialog__main-content'>
 

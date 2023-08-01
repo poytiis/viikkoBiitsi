@@ -4,7 +4,7 @@ import './OldResults.scss';
 import TextField from '@material-ui/core/TextField';
 import useInput from '../../hooks/useInput';
 import Button from '../Button/Button';
-import  { downloadRankingsFetch, searchOldScoresFetch } from '../../services/httpClient'
+import  { updateRankingFetch, searchOldScoresFetch } from '../../services/httpClient'
 import SnackBar from '../SnackBar/SnackBar';
 import useTable from '../../hooks/useTable';
 import TableWithPaginator from '../TableWithPaginator/TableWithPaginator';
@@ -43,6 +43,15 @@ const OldResults = () => {
 
     console.log(tableData)
     tableControl.initializeRows(tableData);
+  }
+
+  const handleUpdateRankingClick = async () =>  {
+    const res = await updateRankingFetch();
+    if(res.ok) {
+      setSnackBarMessage('Ranking päivitetty onnistuneesti');
+    } else {
+      setSnackBarMessage('Rankinging päivittäminen epäonnistui');
+    }
   }
 
   const openModifyDialogData = (data) => {
@@ -89,59 +98,17 @@ const OldResults = () => {
   const searchButtonStyles = {
     transform: 'translateY(5px)'
   }
-  const uploadButtonStyles = {
-    width: '190px',
-  }
+
   const updateButtonStyles = {
-    width: '190px',
-    marginRight: '30px'
+    width: '190px'
   }
-  const deleteButtonStyles = {
-    marginTop: '0.6rem'
-  }
-  const handleDownloadrankingLists = () => {
-    downloadRankinList('men');
-    downloadRankinList('women');
-  }
-  const downloadRankinList = async (serie) => {
 
-    Date.prototype.getWeek = function() {
-      var onejan = new Date(this.getFullYear(),0,1);
-      return Math.ceil((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
-    }
-
-    const today = new Date();
-    var weekNumber = today.getWeek();
-    const fileName = 'ranking_' + serie + weekNumber + '.csv';
-
-    try {
-      const res = await downloadRankingsFetch(serie);
-      if(res.ok) {
-        const text = await res.text();
-        var element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-        element.setAttribute('download', fileName);
-
-        element.style.display = 'none';
-        document.body.appendChild(element);
-
-        element.click();
-        document.body.removeChild(element);
-      } else {
-        setSnackBarMessage('Rankingien lataus epäonnistui')
-      }
-
-    } catch (ex) {
-      console.log(ex)
-        setSnackBarMessage('Rankingien lataus epäonnistui')
-    }
-  }
 
   return (
     <Layout>
       <div className='old-results'>
         <div className='old-results__content flex-column-center'>
-          <span className='old-results__header'>Etsi vanhoja tuloksia</span>
+          <span className='old-results__header'>Etsi ja muokkaa vanhoja tuloksia</span>
           <div className='old-results__search-container'>
             <TextField className='old-results__input' label='Pelaaja' {...nameControl} id='old-results__player-input'/>
             <TextField className='old-results__input' label='Vuosi' {...yearControl} id='old-results__year-input'/>
@@ -165,9 +132,8 @@ const OldResults = () => {
             />
 
           </div>
-          <div className='old-results__button-container'>
-            <Button style={updateButtonStyles}>Päivitä ranking</Button>
-            <Button style={uploadButtonStyles} onClick={handleDownloadrankingLists}>Lataa Exceliin</Button>
+          <div className='old-results__button-container flex-row'>
+            <Button style={updateButtonStyles} onClick={handleUpdateRankingClick}>Päivitä ranking</Button>
           </div>
 
         </div>

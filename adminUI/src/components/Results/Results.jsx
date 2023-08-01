@@ -7,7 +7,7 @@ import InfoDialog from '../Dialogs/InfoDialog/InfoDialog';
 import useDialog from '../../hooks/useDialog';
 import { getNewScoresFetch } from '../../services/httpClient';
 import SnackBar from '../SnackBar/SnackBar';
-import { deletePoolFetch, calculateNewRankingFetch } from '../../services/httpClient';
+import { deletePoolFetch, calculateNewRankingFetch, takeBackupFormDataFetch } from '../../services/httpClient';
 import TableWithPaginator from '../TableWithPaginator/TableWithPaginator';
 import useTable from '../../hooks/useTable';
 
@@ -121,6 +121,10 @@ const Results = () => {
   }, []);
 
   useEffect(() => {
+    const takeBackupFormData = async () => {
+      await takeBackupFormDataFetch();
+    };
+    takeBackupFormData();
     fetchData();
   }, [fetchData]);
  

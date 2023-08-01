@@ -1,8 +1,6 @@
 import { createBrowserHistory } from 'history';
 
-let apiURL = 'https://www.jklbeach.fi/';
-apiURL = 'http://localhost:8081/'
-
+const apiURL = process.env.REACT_APP_API_URL;
 
 export const logInFetch = (username, password) => {
   const postBody = {
@@ -73,10 +71,26 @@ export const calculateNewRankingFetch = () => {
   return fetchRequest(url);
 }
 
+export const updateRankingFetch = () => {
+  const url = apiURL + 'calculate_scores.php?update_only=true';
+  return fetchRequest(url);
+}
+
+export const takeBackupFormDataFetch = () => {
+  const url = apiURL + 'take_backup_form_data.php';
+  return fetchRequest(url);
+}
+
 export const updateOldScoresFetch = (data) => {
   const url = apiURL + 'update_old_scores.php';
   return fetchRequest(url, 'POST', data);
 }
+
+export const deleteOldScoresFetch = (data) => {
+  const url = apiURL + 'delete_old_scores.php';
+  return fetchRequest(url, 'POST', data);
+}
+
 
 const fetchRequest = async (url, method = 'GET', data = {}) => {
   let config = {credentials: "include"};
