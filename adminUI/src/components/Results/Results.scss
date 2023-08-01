@@ -4,10 +4,15 @@
   border-radius: 10px;
   min-height: calc(100vh - 65px);
 
+
   &__button-container{
     justify-content: space-between;
     margin-top: 2rem;
     width: 1000px;
+
+    @media screen and (max-width: 900px) {
+      width: 90vw;
+    }
   }
 
   &__update-input-container{

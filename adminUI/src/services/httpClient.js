@@ -81,6 +81,11 @@ export const takeBackupFormDataFetch = () => {
   return fetchRequest(url);
 }
 
+export const downloadBackupFormDataFetch = () => {
+  const url = apiURL + 'download_form_data_backup.php';
+  return fetchRequest(url);
+}
+
 export const updateOldScoresFetch = (data) => {
   const url = apiURL + 'update_old_scores.php';
   return fetchRequest(url, 'POST', data);

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import './Settings.scss';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -11,6 +10,7 @@ import {
   calculateBegingRankingFetch 
 } from '../../services/httpClient';
 import SnackBar from '../SnackBar/SnackBar';
+import WhiteContainer from '../WhiteContainer/WhiteContainer';
 
 
 const Settings = () => {
@@ -64,32 +64,28 @@ const Settings = () => {
 
   return (
     <Layout>
-      <div className='settings flex-column-center'>
-        <div className='settings__content flex-column-center'>
-          <h2 className='settings__header'>Järjestelmän asetukset</h2>
+      <WhiteContainer header='Järjestelmän asetukset'>
+        <>
+          <div className='white-container__counting-container  flex-colomn'>
+            <div className='white-container__small-header'>Pisteiden laskentaperiaate:</div>
 
-          <div className='settings__settings__container'>
-            <div className='settings__counting-container  flex-colomn'>
-              <div className='settings__small-header'>Pisteiden laskentaperiaate:</div>
+            <RadioGroup aria-label="counting-scores" name="counting-scores" value={selectedCountingScores} onChange={handleRadioButtonChange}>
+              <FormControlLabel value="1" control={<Radio />} label="Viimeisimmän kerran pisteet" />
+              <FormControlLabel value="2" control={<Radio />} label="kahden viimekertaisimman kertojen pisteet" />
+            </RadioGroup>
 
-                <RadioGroup aria-label="counting-scores" name="counting-scores" value={selectedCountingScores} onChange={handleRadioButtonChange}>
-                  <FormControlLabel value="1" control={<Radio />} label="Viimeisimmän kerran pisteet" />
-                  <FormControlLabel value="2" control={<Radio />} label="kahden viimekertaisimman kertojen pisteet" />
-                </RadioGroup>
+          </div>
 
-              </div>
+          <div className='white-container__ranking-container'>
+            <div className='white-container__small-header'>Laske alkuranking-pisteet</div>
+            <div className='white-container__beging-ranking-info'>Järjestelmä laskee alkuranking-pisteet edellisen kesän pisteiden perusteella.</div>
 
-              <div className='settings__ranking-container'>
-                <div className='settings__small-header'>Laske alkuranking-pisteet</div>
-                <div className='settings__beging-ranking-info'>Järjestelmä laskee alkuranking-pisteet edellisen kesän pisteiden perusteella.</div>
-
-                <div className='settings__ranking-select-container'>
-                  <Button onClick={handleButtonClick}>Laske</Button>
-                </div>                  
-              </div>
-            </div>         
-          </div>       
-      </div>
+            <div className='white-container__ranking-select-container'>
+              <Button onClick={handleButtonClick}>Laske</Button>
+            </div>                  
+          </div>     
+        </>
+      </WhiteContainer>
 
       { snackBarMessage !== '' &&
         <SnackBar close={() => {setSnackBarMessage('')}}>{snackBarMessage}</SnackBar>
@@ -100,3 +96,5 @@ const Settings = () => {
 }
 
 export default Settings;
+
+

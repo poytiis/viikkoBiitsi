@@ -4,17 +4,19 @@ import './OldResults.scss';
 import TextField from '@material-ui/core/TextField';
 import useInput from '../../hooks/useInput';
 import Button from '../Button/Button';
-import  { updateRankingFetch, searchOldScoresFetch } from '../../services/httpClient'
+import  { updateRankingFetch, searchOldScoresFetch, deleteOldScoresFetch } from '../../services/httpClient'
 import SnackBar from '../SnackBar/SnackBar';
 import useTable from '../../hooks/useTable';
 import TableWithPaginator from '../TableWithPaginator/TableWithPaginator';
 import ModifyDialog from '../Dialogs/ModifyDialog/ModifyDialog';
 import useDialog from '../../hooks/useDialog';
+import InfoDialog from '../Dialogs/InfoDialog/InfoDialog';
 
 const OldResults = () => {
 
   const [snackBarMessage, setSnackBarMessage] = useState('');
   const modifyDialogControl = useDialog();
+  const deletePoolControl = useDialog();
 
   const [modifydialogData, setModifydialogData] = useState();
 
@@ -95,6 +97,34 @@ const OldResults = () => {
     modifyDialogControl.openDialog();
   }
 
+  const handleDeleteScore = () => {
+    deletePoolControl.openDialog();
+  }
+
+  const deleteScoreDialogContent = () => {
+    return (
+      <div className='flex-column'>
+      </div>
+    );
+  }
+
+  const handleDeleteScoreClick = async () => {
+    const id = {
+      id: modifydialogData.name.id
+    }
+
+    const res = await deleteOldScoresFetch(id);
+
+    if (res.ok) {
+      handleSearchButtonClick();
+      setSnackBarMessage('Tuloksen poistaminen onnistui')
+    } else {
+      setSnackBarMessage('Tuloksen poistaminen epäonnistui')
+    }
+    deletePoolControl.closeDialog();
+    modifyDialogControl.closeDialog();
+  }
+
   const searchButtonStyles = {
     transform: 'translateY(5px)'
   }
@@ -150,8 +180,20 @@ const OldResults = () => {
           content={modifydialogData}
           fetchData={handleSearchButtonClick}
           type='oldScores'
+          delete={handleDeleteScore}
         />     
       }
+
+      { deletePoolControl.showDialog &&
+        <InfoDialog 
+          close={deletePoolControl.closeDialog}
+          content={deleteScoreDialogContent}
+          header={'Oletko varma että haluat poistaa tuloksen?'}
+          accept={handleDeleteScoreClick}
+          acceptButtonText='Poista'
+        />     
+      }
+
 
     </Layout>
   );

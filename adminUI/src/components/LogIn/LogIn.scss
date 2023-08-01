@@ -8,17 +8,23 @@
     background-color: white;
     width: 40vw;
     max-width: 500px;
-    border-radius: 10px;
+    border-radius: 8px;
     height: 360px;
     margin: 25vh auto 0 auto;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+
+    @media screen and (max-width: 900px) {
+      width: 60vw;
+      margin: 15vh auto 0 auto;
+    }
   }
 
   &__header{
-    font-size: 2.4rem;
+    font-size: 2.1rem;
     margin-top: 1.6rem;
     margin-bottom: 1.6rem;
-    color: var(--onyx);
+    color: #0d0520;
+    font-weight: 500;
 
     &:hover{
       cursor: default;

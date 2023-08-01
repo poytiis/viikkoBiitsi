@@ -35,6 +35,18 @@ CREATE TABLE viikon_tulokset(
   vuosi int
 );
 
+CREATE TABLE viikon_tulokset_varmuuskopio(
+  id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  nimi varchar(255) NOT NULL,
+  sarja varchar(255),
+  viikko int,
+  lohko int,
+  sijoitus int,
+  pelatut_pisteet int,
+  sarja_pisteet float,
+  vuosi int
+);
+
 CREATE TABLE kokonaistulokset_miehet(
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nimi varchar(255),

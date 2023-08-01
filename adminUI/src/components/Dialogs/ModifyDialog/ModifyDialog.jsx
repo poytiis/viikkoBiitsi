@@ -4,7 +4,7 @@ import Button from '../../Button/Button';
 import './ModifyDialog.scss';
 import useInput from '../../../hooks/useInput';
 import TextField from '@material-ui/core/TextField';
-import { UpdatePoolFetch, updateOldScoresFetch, deleteOldScoresFetch } from '../../../services/httpClient';
+import { UpdatePoolFetch, updateOldScoresFetch } from '../../../services/httpClient';
 
 const ModifyDialog = (props) => {
 
@@ -23,25 +23,12 @@ const ModifyDialog = (props) => {
     backgroundColor: 'var(--gray)'
   };
 
-  const handleDeleteScore = async () => {
-    const id = {
-      id: serie.id
-    }
-
-    const res = await deleteOldScoresFetch(id);
-
-    if (res.ok) {
-      props.fetchData();
-      props.close();
-    } else {
-       props.close();
-    }
-  }
-
   const handleUpdate = async () => {
-    console.log('muokkaa')
     if(rank.value === poolControl.value && serie.value === serieControl.value &&
-       name.value === nameControl.value && score.value === scoreControl.value) {
+       name.value === nameControl.value && score.value === scoreControl.value &&
+       plusMinusPoints?.value === plusMinusPointsControl.value && 
+       year?.value === yearControl.value && week?.value === weekControl.value &&
+       ranking?.value === rankingControl.value) {
          return;
     }
 
@@ -69,7 +56,6 @@ const ModifyDialog = (props) => {
         name: nameControl.value
       }
     }
-    console.log(newData)
 
     try {
       let res = null;
@@ -83,7 +69,7 @@ const ModifyDialog = (props) => {
         props.fetchData();
         props.close();
       } else {
-         props.close();
+        props.close();
       }
     } catch (ex) {
 
@@ -94,7 +80,7 @@ const ModifyDialog = (props) => {
       <div className='modify-dialog flex-column-center'>
         <h2 className='modify-dialog__header'>Muokkaa tietoja</h2>
         {props.type === 'oldScores' && (
-          <span className='modify-dialog__delete-score-button' onClick={handleDeleteScore}>Poista</span>
+          <span className='modify-dialog__delete-score-button' onClick={() => {props.delete()}}>Poista</span>
         )}
 
         <div className='modify-dialog__main-content'>

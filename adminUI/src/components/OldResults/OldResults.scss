@@ -1,6 +1,10 @@
 .old-results{
   &__search-container{
     width: 1250px;
+
+    @media screen and (max-width: 900px) {
+      width: 95vw;
+    }
   }
   &__header{
     margin-top: 3rem;
@@ -12,6 +16,11 @@
     width: 182px;
     // over rides material UI style
     margin-right: 40px !important;
+
+    @media screen and (max-width: 900px) {
+      width: 115px;
+      margin-bottom: 30px !important;
+    }
   }
 
   &__table-container{

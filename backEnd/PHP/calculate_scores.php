@@ -3,6 +3,8 @@ include 'add_cors_headers.php';
 include 'check_auth.php';
 include 'connect_to_database.php';
 
+// mysqli_report(MYSQLI_REPORT_ERROR);
+
 class Player {
     public $name;
     public $pool;
@@ -33,6 +35,23 @@ class Player {
         $this->pool_ranking = $pool_ranking_1;
 
     }
+}
+
+function take_backup(mysqli $conn) {
+    $delete_query = "DELETE FROM viikon_tulokset_varmuuskopio;";
+
+    $conn->query($delete_query);
+
+    $query = "SELECT * FROM viikon_tulokset";
+    $score_rows_r = $conn->query($query);
+    $score_rows = $score_rows_r->fetch_all();
+    $insert_query = "INSERT INTO viikon_tulokset_varmuuskopio VALUES ";
+    foreach($score_rows as $score_row) {
+        $insert_query =  $insert_query . "($score_row[0], '$score_row[1]', '$score_row[2]', $score_row[3], $score_row[4], $score_row[5], $score_row[6], $score_row[7], $score_row[8]),";
+
+    }
+    $insert_query = rtrim($insert_query, ",");
+    $conn->query($insert_query);
 }
 
 function check_all_pools_exist(mysqli $conn): string {
@@ -344,6 +363,7 @@ try {
         die;
     }
 
+    take_backup($conn);
     calculate_ranking_points($conn);
   }
    
