@@ -20,11 +20,11 @@ const OldResults = () => {
 
   const [modifydialogData, setModifydialogData] = useState();
 
-  const yearControl = useInput('');
-  const weekControl = useInput('');
-  const nameControl = useInput('');
-  const serieControl = useInput('');
-  const poolontrol = useInput('');
+  const yearControl = useInput({initValue: '', validattion: 'integer'});
+  const weekControl = useInput({initValue: '', validattion: 'integer'});
+  const nameControl = useInput({initValue: ''});
+  const serieControl = useInput({initValue: ''});
+  const poolControl = useInput({initValue: '', validattion: 'integer'});
 
   const tableControl = useTable({rowsPerPage: 6, type: 'oldScores'});
 
@@ -33,7 +33,10 @@ const OldResults = () => {
   }, [])
 
   const handleSearchButtonClick = async () => {
-    const response = await searchOldScoresFetch(nameControl.value, yearControl.value, weekControl.value, serieControl.value, poolontrol.value);
+    if (yearControl.error || weekControl.error || nameControl.error || serieControl.error || poolControl.error) {
+      return;
+    }
+    const response = await searchOldScoresFetch(nameControl.value, yearControl.value, weekControl.value, serieControl.value, poolControl.value);
     const json = await response.json()
     console.log(json.data)
 
@@ -42,8 +45,7 @@ const OldResults = () => {
       const columns = row.map(column => { return {value: column, id}})
       return columns;
     })
-
-    console.log(tableData)
+    
     tableControl.initializeRows(tableData);
   }
 
@@ -125,15 +127,6 @@ const OldResults = () => {
     modifyDialogControl.closeDialog();
   }
 
-  const searchButtonStyles = {
-    transform: 'translateY(5px)'
-  }
-
-  const updateButtonStyles = {
-    width: '190px'
-  }
-
-
   return (
     <Layout>
       <div className='old-results'>
@@ -144,10 +137,9 @@ const OldResults = () => {
             <TextField className='old-results__input' label='Vuosi' {...yearControl} id='old-results__year-input'/>
             <TextField className='old-results__input' label='Viikko' {...weekControl} id='old-results__week-input'/>
             <TextField className='old-results__input' label='Sarja' {...serieControl} id='old-results__serie-input'/>
-            <TextField className='old-results__input' label='Lohko' {...poolontrol} id='old-results__pool-input'/>
+            <TextField className='old-results__input' label='Lohko' {...poolControl} id='old-results__pool-input'/>
 
             <Button 
-              style={searchButtonStyles} 
               onClick={handleSearchButtonClick}
               className='old-results__search-button'
             >
@@ -163,7 +155,7 @@ const OldResults = () => {
 
           </div>
           <div className='old-results__button-container flex-row'>
-            <Button style={updateButtonStyles} onClick={handleUpdateRankingClick}>Päivitä ranking</Button>
+            <Button className='old-results__update-button' onClick={handleUpdateRankingClick}>Päivitä ranking</Button>
           </div>
 
         </div>
@@ -193,7 +185,6 @@ const OldResults = () => {
           acceptButtonText='Poista'
         />     
       }
-
 
     </Layout>
   );

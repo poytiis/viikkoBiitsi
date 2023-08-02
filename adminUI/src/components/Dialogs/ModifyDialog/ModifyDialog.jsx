@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Dialog from '../Dialog/Dialog';
 import Button from '../../Button/Button';
 import './ModifyDialog.scss';
@@ -10,26 +10,33 @@ const ModifyDialog = (props) => {
 
   const { rank, serie, name, score, year, week, plusMinusPoints, ranking } = props.content;
 
-  const poolControl = useInput(rank.value);
-  const serieControl = useInput(serie.value);
-  const nameControl = useInput(name.value);
-  const scoreControl = useInput(score.value);
-  const plusMinusPointsControl = useInput(plusMinusPoints?.value);
-  const yearControl = useInput(year?.value );
-  const weekControl = useInput(week?.value);
-  const rankingControl = useInput(ranking?.value);
+  const poolControl = useInput({initValue: rank.value, validattion: 'integer'});
+  const serieControl = useInput({initValue: serie.value, validattion: 'required'});
+  const nameControl = useInput({initValue: name.value, validattion: 'required'});
+  const scoreControl = useInput({initValue: score.value, validattion: 'integer'});
+  const plusMinusPointsControl = useInput({initValue: plusMinusPoints?.value, validattion: 'required'});
+  const yearControl = useInput({initValue: year?.value, validattion: 'integer'});
+  const weekControl = useInput({initValue: week?.value, validattion: 'integer'});
+  const rankingControl = useInput({initValue: ranking?.value, validattion: 'integer'});
 
-  const deleteButtonStyles = {
-    backgroundColor: 'var(--gray)'
-  };
+  const handleEnterKeyUpDelete = (e) => {
+    if (e.key == 'Enter' ) props.delete();
+  }
 
   const handleUpdate = async () => {
     if(rank.value === poolControl.value && serie.value === serieControl.value &&
        name.value === nameControl.value && score.value === scoreControl.value &&
        plusMinusPoints?.value === plusMinusPointsControl.value && 
        year?.value === yearControl.value && week?.value === weekControl.value &&
-       ranking?.value === rankingControl.value) {
-         return;
+       ranking?.value === rankingControl.value) 
+    {
+        props.close();
+    }
+
+    if (poolControl.error || serieControl.error || nameControl.error || scoreControl.error ||
+        plusMinusPointsControl.error || yearControl.error || weekControl.error || rankingControl.error) 
+    {
+      return;
     }
 
     let newData = {
@@ -80,23 +87,30 @@ const ModifyDialog = (props) => {
       <div className='modify-dialog flex-column-center'>
         <h2 className='modify-dialog__header'>Muokkaa tietoja</h2>
         {props.type === 'oldScores' && (
-          <span className='modify-dialog__delete-score-button' onClick={() => {props.delete()}}>Poista</span>
+          <span 
+            className='modify-dialog__delete-score-button' 
+            onClick={() => {props.delete()}}
+            tabIndex={0}
+            onKeyUp={(e) => {handleEnterKeyUpDelete(e)}}
+          >
+            Poista
+          </span>
         )}
 
         <div className='modify-dialog__main-content'>
 
           <div className='flex-column'>
-          <TextField {...poolControl} label="Lohko" style={{width: '300px',margin: '0.6rem 0'}} id='modify-dialog__pool-input' />
-          <TextField {...serieControl} label="Sarja" style={{width: '300px',margin: '0.6rem 0'}} id='modify-dialog__serie-input'/>
-          <TextField {...nameControl} label="Nimi" style={{width: '300px',margin: '0.6rem 0'}} id='modify-dialog__name-input'/>
-          <TextField {...scoreControl} label="Pisteet" style={{width: '300px',margin: '0.6rem 0'}} id='modify-dialog__score-input'/>
+          <TextField {...poolControl} label="Lohko" className='modify-dialog__input' id='modify-dialog__pool-input' />
+          <TextField {...serieControl} label="Sarja" className='modify-dialog__input' id='modify-dialog__serie-input'/>
+          <TextField {...nameControl} label="Nimi" className='modify-dialog__input' id='modify-dialog__name-input'/>
+          <TextField {...scoreControl} label="Pisteet" className='modify-dialog__input' id='modify-dialog__score-input'/>
 
           {props.type === 'oldScores' && (
            <>         
-              <TextField {...plusMinusPointsControl} label="+-Pistet" style={{width: '300px',margin: '0.6rem 0'}} id='modify-dialog__plus-minus-input'/>
-              <TextField {...rankingControl} label="Sijoitus" style={{width: '300px',margin: '0.6rem 0'}} id='modify-dialog__ranking-input'/>
-              <TextField {...yearControl} label="Vuosi" style={{width: '300px',margin: '0.6rem 0'}} id='modify-dialog__year-input'/>
-              <TextField {...weekControl} label="Viikko" style={{width: '300px',margin: '0.6rem 0'}} id='modify-dialog__week-input'/>
+              <TextField {...plusMinusPointsControl} label="+-Pistet" className='modify-dialog__input' id='modify-dialog__plus-minus-input'/>
+              <TextField {...rankingControl} label="Sijoitus" className='modify-dialog__input' id='modify-dialog__ranking-input'/>
+              <TextField {...yearControl} label="Vuosi" className='modify-dialog__input' id='modify-dialog__year-input'/>
+              <TextField {...weekControl} label="Viikko" className='modify-dialog__input' id='modify-dialog__week-input'/>
             </>        
           )}
           
@@ -107,7 +121,6 @@ const ModifyDialog = (props) => {
         <div className='modify-dialog__button-container flex-row'>
           <Button 
             onClick={props.close} 
-            style={deleteButtonStyles}
             className='modify-dialog__close-button'
           >
             Peruuta

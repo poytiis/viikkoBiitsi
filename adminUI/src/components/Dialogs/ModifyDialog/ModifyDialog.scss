@@ -32,5 +32,14 @@
     &:hover {
       cursor: pointer;
     }
+  } 
+
+  &__input {
+    width: 300px;
+    margin: 0.6rem 0 !important;
+  }
+
+  &__close-button {
+    background-color: var(--gray);
   }
 }

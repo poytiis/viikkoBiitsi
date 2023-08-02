@@ -5,6 +5,14 @@ import editIcon from '../../imgs/edit.png';
 
 const TableWithPaginator = (props) => {
 
+  const handleEnterKeyUpPaginator = (e, direction) => {
+    if (e.key == 'Enter' ) props.control.handlePaginatorClick(direction);
+  }
+
+  const handleEnterKeyUpTableRow = (e, row) => {
+    if (e.key == 'Enter' ) props.rowClick(row);
+  }
+
   const headerCount = props.control.headers.length;
   const headerWidth = 95 / headerCount;
   const headerStyles = {
@@ -43,7 +51,12 @@ const TableWithPaginator = (props) => {
       )
     }
     return (
-      <div className='flex-row table__content-row' key={row + random.toString()} >
+      <div 
+        className='flex-row table__content-row' 
+        key={row + random.toString()}
+        tabIndex={0}
+        onKeyUp={(e) => {handleEnterKeyUpTableRow(e, row)}}
+      >
         {columns}
       </div>
     );
@@ -82,12 +95,17 @@ const TableWithPaginator = (props) => {
           className='table__paginator-icon table__paginator-icon--back' 
           src={backIcon} 
           alt="back arrow"
+          tabIndex={0}
+          onKeyUp={(e) => {handleEnterKeyUpPaginator(e, 'back')}}
         />
         <img 
           onClick={() => props.control.handlePaginatorClick('next')} 
           className='table__paginator-icon table__paginator-icon--next' 
           src={nextIcon} 
           alt="next arrow"
+          tabIndex={0}
+          onKeyUp={(e) => {handleEnterKeyUpPaginator(e, 'next')}}
+
         />
 
       </div>

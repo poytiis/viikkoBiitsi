@@ -27,9 +27,15 @@ const Header = () => {
     } catch (ex) {
 
     }
-
   }
 
+  const handleEnterKeyUp = (e, url) => {
+    if( e.key == 'Enter' ) history.push(url);
+  }
+
+  const handleEnterKeyUpUserIcon = (e) => {
+    if( e.key == 'Enter' ) handleLogOutClick();
+  }
 
   return (
     <div className='header flex-row-center'>
@@ -39,6 +45,8 @@ const Header = () => {
           <div 
             className={'header__tab header__tab--scores flex-row-center ' + (currentTab === '/viikon-tulokset' ? ' header__tab--active': '' )}
             onClick={() => {history.push('/viikon-tulokset')}}
+            tabIndex={0}
+            onKeyUp={(e) => {handleEnterKeyUp(e, '/viikon-tulokset')}}
           >
             <span>Viikon tulokset</span>
           </div>
@@ -46,6 +54,8 @@ const Header = () => {
           <div 
             className={'header__tab header__tab--scores flex-row-center ' + (currentTab === '/ranking-listat' ? ' header__tab--active': '' )}
             onClick={() => {history.push('/ranking-listat')}}
+            tabIndex={0}
+            onKeyUp={(e) => {handleEnterKeyUp(e, '/ranking-listat')}}
           >
             <span>Ranking-listat</span>
           </div>
@@ -53,6 +63,8 @@ const Header = () => {
           <div 
             className={'header__tab  header__tab--old-scores flex-row-center ' + (currentTab === '/vanhat-tulokset' ? ' header__tab--active': '' )}
             onClick={() => {history.push('/vanhat-tulokset')}}
+            tabIndex={0}
+            onKeyUp={(e) => {handleEnterKeyUp(e, '/vanhat-tulokset')}}
           >
             <span>Vanhat tulokset</span>
           </div>
@@ -60,6 +72,8 @@ const Header = () => {
           <div 
             className={'header__tab  header__tab--logs flex-row-center ' + (currentTab === '/logit' ? ' header__tab--active': '' )}
             onClick={() => {history.push('/logit')}}
+            tabIndex={0}
+            onKeyUp={(e) => {handleEnterKeyUp(e, '/logit')}}
           >
             <span>Logit</span>
           </div>
@@ -67,6 +81,8 @@ const Header = () => {
           <div 
             className={'header__tab header__tab--settings flex-row-center ' + (currentTab === '/asetukset' ? ' header__tab--active': '' )}
             onClick={() => {history.push('/asetukset')}}
+            tabIndex={0}
+            onKeyUp={(e) => {handleEnterKeyUp(e, '/asetukset')}}
           >
 
             <span>Asetukset</span>
@@ -76,7 +92,13 @@ const Header = () => {
       </div>
       
       <div className='header__icon-container'>
-        <img className='header__icon' src={userIcon} alt="user"/>
+        <img 
+          className='header__icon' 
+          src={userIcon} 
+          alt="user"
+          tabIndex={0}
+          onKeyUp={(e) => {handleEnterKeyUpUserIcon(e)}}
+        />
         <div className='header__dropdown'>
           <span className='header__dropdown-text' onClick={handleLogOutClick}>Kirjaudu ulos</span>
         </div>

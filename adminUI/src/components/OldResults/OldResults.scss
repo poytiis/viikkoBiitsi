@@ -32,4 +32,12 @@
     width: 1250px;
     justify-content: flex-end;
   }
+
+  &__search-button {
+    transform: translateY(5px);
+  }
+
+  &__update-button {
+    width: 190px;
+  }
 }

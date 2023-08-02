@@ -21,7 +21,7 @@
 
   &__header{
     font-size: 2.1rem;
-    margin-top: 1.6rem;
+    margin-top: 1.6rem; 
     margin-bottom: 1.6rem;
     color: #0d0520;
     font-weight: 500;
@@ -34,5 +34,16 @@
   &__error-message {
     font-size: 1.1rem;
     font-weight: 600;
+  }
+
+  &__button {
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+    width: 300px;
+  }
+
+  &__input {
+    margin-bottom: 0.9rem !important;
+    width: 300px;
   }
 }

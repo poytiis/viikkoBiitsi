@@ -211,11 +211,6 @@ const Results = () => {
     calculateScoresControl.closeDialog(); 
   }
 
-  const updateButtonStyles = {
-    width: '190px'
-  };
-
-
   return (
     <Layout>
       <div className='results flex-column-center'>
@@ -235,7 +230,6 @@ const Results = () => {
             Poista lohko
           </Button>
           <Button 
-            style={updateButtonStyles} 
             disabled={disableUpdateButton} 
             onClick={calculateScoresControl.openDialog}
             className='results__update-scores-button'

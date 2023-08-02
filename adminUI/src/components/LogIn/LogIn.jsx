@@ -9,12 +9,15 @@ import { useState } from 'react';
 
 const LogIn = () => {
 
-  const usernameControl = useInput('');
-  const passwordControl = useInput('');
+  const usernameControl = useInput({initValue: '', validattion: 'required'});
+  const passwordControl = useInput({initValue: '', validattion: 'required'});
   const history = useHistory();
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogInClick = async () => {
+    if (usernameControl.error || passwordControl.error) {
+      return;
+    }
     try {
       const response = await logInFetch(usernameControl.value, passwordControl.value);
       if(!response.ok) setErrorMessage('Kirjautuminen epäonnistui');
@@ -28,25 +31,36 @@ const LogIn = () => {
     }
   }
 
-  const buttonStyles = {
-    marginBottom: '1.5rem',
-    marginTop: '1.5rem',
-    width:'300px'
+  const handleEnterKeyUpLogIn = (e) => {
+    if (e.key == 'Enter' ) handleLogInClick();
   }
 
-  const inputStyle = {
-    marginBottom: '0.9rem',
-    width: '300px'
-  }
   return (
     <div className='log-in'>
       <div className='log-in__content flex-column-center'>
         <span className='log-in__header'>Kirjaudu sisään</span>
 
-        <TextField style={inputStyle} label='Käyttäjänimi' {...usernameControl}  color="secondary" id='log-in__username'/>
-        <TextField style={inputStyle} label='Salasana' type="password" {...passwordControl}  color="secondary" id='log-in__password'/>
+        <TextField
+          className='log-in__input'
+          label='Käyttäjänimi'
+          {...usernameControl}
+          color="secondary"
+          id='log-in__username'
+        />
 
-        <Button style={buttonStyles} onClick={handleLogInClick} className='log-in__button'>Kirjaudu</Button>
+        <TextField 
+          className='log-in__input'
+          label='Salasana'
+          type="password"
+          {...passwordControl}
+          color="secondary"
+          id='log-in__password'
+          onKeyUp={handleEnterKeyUpLogIn}
+        />
+
+        <Button  onClick={handleLogInClick} className='log-in__button'>
+          Kirjaudu
+        </Button>
         <div className='log-in__error-message'>{errorMessage}</div>
       </div>
 
