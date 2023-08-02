@@ -20,7 +20,7 @@ const ModifyDialog = (props) => {
   const rankingControl = useInput({initValue: ranking?.value, validattion: 'integer'});
 
   const handleEnterKeyUpDelete = (e) => {
-    if (e.key == 'Enter' ) props.delete();
+    if (e.key === 'Enter' ) props.delete();
   }
 
   const handleUpdate = async () => {

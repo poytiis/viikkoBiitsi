@@ -6,11 +6,11 @@ import editIcon from '../../imgs/edit.png';
 const TableWithPaginator = (props) => {
 
   const handleEnterKeyUpPaginator = (e, direction) => {
-    if (e.key == 'Enter' ) props.control.handlePaginatorClick(direction);
+    if (e.key === 'Enter' ) props.control.handlePaginatorClick(direction);
   }
 
   const handleEnterKeyUpTableRow = (e, row) => {
-    if (e.key == 'Enter' ) props.rowClick(row);
+    if (e.key === 'Enter' ) props.rowClick(row);
   }
 
   const headerCount = props.control.headers.length;

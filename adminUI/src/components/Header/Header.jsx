@@ -15,7 +15,6 @@ const Header = () => {
       return;
     }
     setCurrentTab(window.location.pathname);
-    console.log(window.location.pathname)
 
   }, [currentTab]);
 
@@ -30,11 +29,11 @@ const Header = () => {
   }
 
   const handleEnterKeyUp = (e, url) => {
-    if( e.key == 'Enter' ) history.push(url);
+    if( e.key === 'Enter' ) history.push(url);
   }
 
   const handleEnterKeyUpUserIcon = (e) => {
-    if( e.key == 'Enter' ) handleLogOutClick();
+    if( e.key === 'Enter' ) handleLogOutClick();
   }
 
   return (

@@ -1,5 +1,6 @@
 <?php
 include 'connect_to_database.php';
+include 'check_auth.php';
 include 'add_cors_headers.php';
 $conn = connect_database();
 

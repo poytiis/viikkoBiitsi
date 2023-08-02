@@ -32,7 +32,7 @@ const LogIn = () => {
   }
 
   const handleEnterKeyUpLogIn = (e) => {
-    if (e.key == 'Enter' ) handleLogInClick();
+    if (e.key === 'Enter' ) handleLogInClick();
   }
 
   return (

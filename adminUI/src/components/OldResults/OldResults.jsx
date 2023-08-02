@@ -37,8 +37,7 @@ const OldResults = () => {
       return;
     }
     const response = await searchOldScoresFetch(nameControl.value, yearControl.value, weekControl.value, serieControl.value, poolControl.value);
-    const json = await response.json()
-    console.log(json.data)
+    const json = await response.json();
 
     const tableData = json.data.map(row => {
       const id = row.pop()
@@ -59,7 +58,6 @@ const OldResults = () => {
   }
 
   const openModifyDialogData = (data) => {
-    console.log(data)
     const dialogData = {
       name: {
         value: data[0].value,

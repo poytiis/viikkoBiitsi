@@ -46,14 +46,12 @@ const Results = () => {
   const fetchData = useCallback(() => {
     getNewScoresFetch()
       .then(res  => {
-        console.log(res)
         return  res.json();    
       })
       .then (data => {
 
         const newTableRows = [];
         const rawData = data.data;
-        console.log(rawData)
 
         let pool = null;
         let serie = null;
@@ -111,7 +109,6 @@ const Results = () => {
 
         tableControl.setHeaders(['Lohko','Sarja', 'Pisteet', 'Nimi', ''])
         tableControl.initializeRows(newTableRows);
-        console.log(newTableRows)
       })
       .catch( err => {
         console.log(err);
@@ -130,7 +127,6 @@ const Results = () => {
  
 
   const openModifyDialogData = (data) => {
-    console.log(data)
     const dialogData = {
       name: {
         value: data[3].value,

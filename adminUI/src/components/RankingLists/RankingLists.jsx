@@ -56,7 +56,6 @@ const RankingList = () => {
       }
 
     } catch (ex) {
-      console.log(ex)
         setSnackBarMessage('Rankingien lataus epäonnistui')
     }
   }
