@@ -1,0 +1,25 @@
+version: '3.7'
+
+services: 
+  database:
+    image: mariadb:10.3
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: database
+      PMA_USER: root
+      PMA_PASSWORD: root
+  server:
+    build: 
+      context: .
+      dockerfile: server.Dockerfile
+    ports:
+      - 8081:80
+    volumes:
+      - ./PHP:/var/www/html/

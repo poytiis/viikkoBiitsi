@@ -1,0 +1,43 @@
+.old-results{
+  &__search-container{
+    width: 1250px;
+
+    @media screen and (max-width: 900px) {
+      width: 95vw;
+    }
+  }
+  &__header{
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    font-size: 2.0rem;
+    font-weight: bold;
+  }
+  &__input{
+    width: 182px;
+    // over rides material UI style
+    margin-right: 40px !important;
+
+    @media screen and (max-width: 900px) {
+      width: 115px;
+      margin-bottom: 30px !important;
+    }
+  }
+
+  &__table-container{
+    margin-top: 2rem;
+  }
+
+  &__button-container{
+    margin-top: 1.8rem;
+    width: 1250px;
+    justify-content: flex-end;
+  }
+
+  &__search-button {
+    transform: translateY(5px);
+  }
+
+  &__update-button {
+    width: 190px;
+  }
+}

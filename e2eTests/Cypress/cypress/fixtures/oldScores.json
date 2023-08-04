@@ -1,0 +1,92 @@
+{
+    "searchParams": [
+        {
+            "player": null,
+            "year": 2023,
+            "week": 32,
+            "serie": "Naiset",
+            "pool": null,
+            "results": [
+                {
+                    "player": "Player 2",
+                    "year": 2023,
+                    "week": 32,
+                    "serie": "Naiset",
+                    "pool": 1
+                }
+            ]
+        },
+        {
+            "player": "Player 1",
+            "year": null,
+            "week": null,
+            "serie": null,
+            "pool": null,
+            "results": [
+                {
+                    "player": "Player 1",
+                    "year": 2022,
+                    "week": 31,
+                    "serie": "Naiset",
+                    "pool": 1
+                },
+                {
+                    "player": "Player 1",
+                    "year": 2022,
+                    "week": 32,
+                    "serie": "Naiset",
+                    "pool": 1
+                },
+                {
+                    "player": "Player 1",
+                    "year": 2022,
+                    "week": 33,
+                    "serie": "Naiset",
+                    "pool": 1
+                },
+                {
+                    "player": "Player 1",
+                    "year": 2022,
+                    "week": 34,
+                    "serie": "Naiset",
+                    "pool": 1
+                },
+                {
+                    "player": "Player 1",
+                    "year": 2022,
+                    "week": 35,
+                    "serie": "Naiset",
+                    "pool": 1
+                },
+                {
+                    "player": "Player 1",
+                    "year": 2023,
+                    "week": 31,
+                    "serie": "Naiset",
+                    "pool": 1
+                }
+            ]
+        }
+    ],
+    "modifyParams": [
+        {
+            "searchParams": {
+                "player": "Player 1",
+                "year": 2023,
+                "week": 32,
+                "serie": "Naiset",
+                "pool": 1
+            },
+            "modifyParams": {
+                "player": "Player XXXX",
+                "year": 2020,
+                "week": 10,
+                "serie": "Miehet",
+                "pool": 10,
+                "score": 100,
+                "plusMinusScore": -100,
+                "ranking": 2
+            }
+        }
+    ]
+}

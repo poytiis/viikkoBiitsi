@@ -1,0 +1,58 @@
+{
+    "scores": [
+        {
+            "player": "Player 1",
+            "score": 1,
+            "serie": "Naiset",
+            "pool": 1
+        },
+        {
+            "player": "Player 2",
+            "score": 2,
+            "serie": "Naiset",
+            "pool": 1
+        },
+        {
+            "player": "Player 3",
+            "score": -1,
+            "serie": "Naiset",
+            "pool": 1
+        },
+        {
+            "player": "Player 4",
+            "score": -2,
+            "serie": "Naiset",
+            "pool": 1
+        },
+        {
+            "player": "Player 5",
+            "score": 1,
+            "serie": "Miehet",
+            "pool": 1
+        },
+        {
+            "player": "Player 6",
+            "score": 2,
+            "serie": "Miehet",
+            "pool": 1
+        },
+        {
+            "player": "Player 7",
+            "score": -1,
+            "serie": "Miehet",
+            "pool": 1
+        },
+        {
+            "player": "Player 8",
+            "score": -2,
+            "serie": "Miehet",
+            "pool": 1
+        }
+    ],
+    "updatePlayer": {
+        "player": "Player Update",
+        "score": 100,
+        "serie": "Naiset",
+        "pool": 3
+    }
+}

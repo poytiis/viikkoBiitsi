@@ -1,0 +1,111 @@
+.table{
+    width: 1000px;
+
+    @media screen and (max-width: 900px) {
+      width: 90vw;
+    }
+
+    &__content-header{
+        background-color: var(--primary);
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        
+        &-content {
+          color: white;
+          font-size: 1.4rem;
+          font-weight: 400;
+          text-align: left;
+          padding: 1rem 0;
+          padding-left: 10px;
+
+          @media screen and (max-width: 900px) {
+            font-size: 1.2rem;
+          }
+        }
+    }
+
+    &__content-row {
+        background-color: white;
+        line-height: 2.4rem;
+        border-bottom: 1px solid #efeff9;
+        padding-left: 10px;
+        font-size: 1.0rem;
+        position: relative;
+
+        &:hover{
+          cursor: pointer;
+          background-color: rgb(233, 232, 232);
+        }
+    }
+
+    &__row-edit-icon-container {
+      position: absolute;
+      right: 14px;
+      top: 10px
+    }
+
+    &--scores &__content-row, &--scores &__content-header-content{
+      padding-left: 70px;
+
+    }
+
+    &--logs &__content-row, &--logs &__content-header-content{
+      padding-left: 70px;
+
+    }
+
+    &--oldScores {
+      width: 1250px;
+
+      @media screen and (max-width: 900px) {
+        width: 95vw;
+      }
+    }
+
+
+    &__paginator {
+      background-color: white;
+      height: 2.4rem;
+      justify-content: flex-end;
+      border-bottom-right-radius: 5px;
+      border-bottom-left-radius: 5px;
+  
+      &-error {
+        margin-right: 30%;
+        font-size: 0.9rem;
+        color: #dd271a;
+        font-weight: 600;
+      }
+  
+      &-icon {
+        height: 30px;
+        width: auto;
+  
+        &:last-child{
+          margin-right: 1rem;
+          margin-left: 1rem;
+        }
+  
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+  
+    &__row-edit-icon {
+      height: 18px;
+
+    &-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+  
+    }
+  
+    &__page-number {
+      font-size: 1rem;
+      margin-right: 0.5rem;
+    }
+  }
+  

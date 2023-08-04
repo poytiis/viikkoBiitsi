@@ -1,0 +1,27 @@
+.info-dialog{
+
+  &__header{
+    font-size: 1.4rem;
+    margin-top: 2rem;
+    margin-bottom: 0.4rem;
+  }
+
+  &__button-container{
+    margin-bottom: 2rem;
+    width: 320px;
+    justify-content: space-between;
+  }
+
+  &__main-content{
+    margin: 2rem 0;
+  }
+
+  &__text {
+    font-size: 1.3rem;
+    margin-bottom: 0.4rem;
+  }
+
+  &__close-button {
+    background-color: #607d8b;
+  }
+}
