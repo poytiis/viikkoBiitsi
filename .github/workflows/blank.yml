@@ -25,6 +25,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
+      - name: Run tests
+        working-directory: ./e2eTests/backEndTests
+        run: |
+          npm install
+          npm test
 
 
 
