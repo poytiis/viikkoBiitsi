@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build the image
-        run: docker build -f backEnd/server.Dockerfile .
+        run: docker build -f backEnd/server.Dockerfile --tag poytiis/viikkobiitsi-backend .
         # run: docker build ./backEnd --file server.Dockerfile --tag poytiis/viikkobiitsi-backend
 
       - name: Push the image
