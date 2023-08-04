@@ -87,4 +87,4 @@ CREATE TABLE viikko_biitsi_hallinta(
 
 INSERT INTO viikko_biitsi_hallinta VALUES 
   (DEFAULT, 'laskettavat_kerrat_pisteisiin', '2'),
-  (DEFAULT, 'viikkobiitsi', '075A421A01FE4984B4ADE4A89AFEC861F9A435F54B5BCED6D0A0E5A8792E521C');
+  (DEFAULT, 'viikkobiitsi', '4c94485e0c21ae6c41ce1dfe7b6bfaceea5ab68e40a2476f50208e526f506080');

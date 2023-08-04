@@ -21,4 +21,4 @@ services:
     ports:
       - 8081:80
     volumes:
-      - ./PHP:/var/www/html/
+      - ./backEnd/PHP:/var/www/html/
