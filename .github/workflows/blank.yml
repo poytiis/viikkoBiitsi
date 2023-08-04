@@ -4,15 +4,42 @@ on:
     branches: [ "actions-test" ]
   workflow_dispatch:
 jobs:
-  build:
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: Build the image
+  #       run: docker build --tag poytiis/viikkobiitsi-backend ./backEnd
+
+  #     - name: Push the image
+  #       run: |
+  #         docker login -u poytiis -p ${{secrets.DOCKER_HUB_TOKEN}}
+  #         docker push poytiis/viikkobiitsi-backend
+
+  test:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+      services:
+        mariadb:
+          image: mariadb:10.3
+          env:
+            MYSQL_ROOT_PASSWORD: root
+          ports:
+            - 3306:3306
+        back-end:
+          image: poytiis/viikkobiitsi-backend
+          ports:
+            - 8081:80
+      steps:
+        - uses: actions/checkout@v3
 
-      - name: Build the image
-        run: docker build --tag poytiis/viikkobiitsi-backend ./backEnd
+        - name: Install Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: 18.x
 
-      - name: Push the image
-        run: |
-          docker login -u poytiis -p ${{secrets.DOCKER_HUB_TOKEN}}
-          docker push poytiis/viikkobiitsi-backend
+        - name: Setup and run tests
+          working-directory: ./e2eTests/backEndTests
+          run: |
+           npm install
+           npm test
