@@ -38,7 +38,10 @@ describe('Calculate scores: ', () => {
     const validateData = [poolScoresPools2, poolScoresPools5];
 
     for(let i = 0; i < validateData.length; i++) {
-      await queryDatabase([deleteScoresQuery, deletePools, insertQueries[i]]);
+      await querySingleDatabase(deleteScoresQuery);
+      await querySingleDatabase(deletePools);
+      await querySingleDatabase(insertQueries[i]);
+      // await queryDatabase([deleteScoresQuery, deletePools, insertQueries[i]]);
       await axios.get(baseUrl + 'calculate_scores.php', config);
       const resulsts: any = await querySingleDatabase(selectAllScoresQuery);
       validateData[i].forEach(row => {
