@@ -1,4 +1,5 @@
-export const insertScoresQuery = `INSERT INTO viikon_tulokset VALUES
+export const insertScoresQuery = `
+INSERT INTO viikon_tulokset VALUES
 (5334, 'Player 2', 'Naiset', 12, 1, 1, 1, 12, 2022),
 (5335, 'Player 1', 'Naiset', 31, 1, 2, 1, 19.15, 2022),
 (5336, 'Player 3', 'Naiset', 31, 1, 3, -1, 18.05, 2022),
@@ -46,8 +47,11 @@ export const insertScoresQuery = `INSERT INTO viikon_tulokset VALUES
 (5378, 'Player 6', 'Miehet', 32, 1, 1, 2, 20.2, 2023),
 (5379, 'Player 5', 'Miehet', 32, 1, 2, 1, 19.15, 2023),
 (5380, 'Player 7', 'Miehet', 32, 1, 3, -1, 18.05, 2023),
-(5381, 'Player 8', 'Miehet', 32, 1, 4, -2, 17, 2023);`;
+(5381, 'Player 8', 'Miehet', 32, 1, 4, -2, 17, 2023);
+`;
 
 export const deleteScoresQuery = `DELETE FROM viikon_tulokset`;
 
 export const selectAllScoresQuery = `SELECT * FROM viikon_tulokset`;
+
+export const queryById = 'SELECT * FROM viikon_tulokset WHERE id=';
