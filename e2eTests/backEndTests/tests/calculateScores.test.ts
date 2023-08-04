@@ -31,45 +31,45 @@ describe('Calculate scores: ', () => {
   //   });
   // });
 
-  // it('calculate scores', async () => {
-  //   const config = await axiosLogIn();
-
-  //   const insertQueries = [insertValidPools2, insertValidPools5];
-  //   const validateData = [poolScoresPools2, poolScoresPools5];
-
-  //   for(let i = 0; i < validateData.length; i++) {
-  //     await queryDatabase([deleteScoresQuery, deletePools, insertQueries[i]]);
-  //     await axios.get(baseUrl + 'calculate_scores.php', config);
-  //     const resulsts: any = await querySingleDatabase(selectAllScoresQuery);
-  //     validateData[i].forEach(row => {
-  //       const rowInDB = resulsts.find(element => element.nimi === row.name)
-  //       expect(row.score.toFixed(2).toString()).toBe(rowInDB.sarja_pisteet.toFixed(2));
-  //       expect(row.ranking).toBe(rowInDB.sijoitus);
-  //       expect(row.pool).toBe(rowInDB.lohko);
-  //     })
-  //   }  
-  // });
-
-  it('update rankings', async () => {
+  it('calculate scores', async () => {
     const config = await axiosLogIn();
-    await queryDatabase([deleteScoresQuery, insertScoresQuery]);
-    await axios.get(baseUrl + 'calculate_scores.php?update_only=true', config);
 
-    const womenResulsts: any = await querySingleDatabase(selectAllWomensRanking);
-    const menResulsts: any = await querySingleDatabase(selectAllMensRanking);
-    const rankingLists = [[womenRanking, womenResulsts], [menRanking, menResulsts]];
+    const insertQueries = [insertValidPools2, insertValidPools5];
+    const validateData = [poolScoresPools2, poolScoresPools5];
 
-    rankingLists.forEach(rankingList => {
-      rankingList[0].forEach(ranking => {
-        const rankingInDB =  rankingList[1].find(row => row.nimi === ranking.name)
-        expect(rankingInDB.viikko_1.toFixed(2)).toBe(ranking.week1.toFixed(2));
-        expect(rankingInDB.viikko_2.toFixed(2)).toBe(ranking.week2.toFixed(2));
-        expect(rankingInDB.total.toFixed(2)).toBe(ranking.total.toFixed(2));
-      });
-    })
+    for(let i = 0; i < validateData.length; i++) {
+      await queryDatabase([deleteScoresQuery, deletePools, insertQueries[i]]);
+      await axios.get(baseUrl + 'calculate_scores.php', config);
+      const resulsts: any = await querySingleDatabase(selectAllScoresQuery);
+      validateData[i].forEach(row => {
+        const rowInDB = resulsts.find(element => element.nimi === row.name)
+        expect(row.score.toFixed(2).toString()).toBe(rowInDB.sarja_pisteet.toFixed(2));
+        expect(row.ranking).toBe(rowInDB.sijoitus);
+        expect(row.pool).toBe(rowInDB.lohko);
+      })
+    }  
+  });
+
+  // it('update rankings', async () => {
+  //   const config = await axiosLogIn();
+  //   await queryDatabase([deleteScoresQuery, insertScoresQuery]);
+  //   await axios.get(baseUrl + 'calculate_scores.php?update_only=true', config);
+
+  //   const womenResulsts: any = await querySingleDatabase(selectAllWomensRanking);
+  //   const menResulsts: any = await querySingleDatabase(selectAllMensRanking);
+  //   const rankingLists = [[womenRanking, womenResulsts], [menRanking, menResulsts]];
+
+  //   rankingLists.forEach(rankingList => {
+  //     rankingList[0].forEach(ranking => {
+  //       const rankingInDB =  rankingList[1].find(row => row.nimi === ranking.name)
+  //       expect(rankingInDB.viikko_1.toFixed(2)).toBe(ranking.week1.toFixed(2));
+  //       expect(rankingInDB.viikko_2.toFixed(2)).toBe(ranking.week2.toFixed(2));
+  //       expect(rankingInDB.total.toFixed(2)).toBe(ranking.total.toFixed(2));
+  //     });
+  //   })
 
     
-  })
+  // })
 
   it('dummy', async () => {
       const res = await axios.get(baseUrl + 'index.php');
