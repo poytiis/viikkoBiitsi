@@ -71,8 +71,8 @@ describe('Calculate scores: ', () => {
     
   // })
 
-  // it('dummy', async () => {
-  //     const res = await axios.get(baseUrl + 'index.php');
-  //     console.log(res.data);
-  // });
+  it('dummy', async () => {
+      const res = await axios.get(baseUrl + 'index.php');
+      console.log(res.data);
+  });
 });
