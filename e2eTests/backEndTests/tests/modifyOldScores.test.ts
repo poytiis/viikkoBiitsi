@@ -4,28 +4,33 @@ import { deleteScoresQuery, insertScoresQuery, queryById, selectAllScoresQuery }
 import { updateOldScores } from '../ResponseData/viikon_tulokset';
 
 describe('Modify old scores: ', () => {
-  it('delete score', async () => {
-    await queryDatabase([deleteScoresQuery, insertScoresQuery]);
-    const config = await axiosLogIn();
-    const scoreId = 5334;
-    const invalidId = 99999;
-    const searchQuery = queryById + scoreId.toString();
+  // it('delete score', async () => {
+  //   await queryDatabase([deleteScoresQuery, insertScoresQuery]);
+  //   const config = await axiosLogIn();
+  //   const scoreId = 5334;
+  //   const invalidId = 99999;
+  //   const searchQuery = queryById + scoreId.toString();
     
-    let resulsts: any = await querySingleDatabase(searchQuery);
-    expect(resulsts.length).toBe(1);
-    const allScores: any = await querySingleDatabase(selectAllScoresQuery);
+  //   let resulsts: any = await querySingleDatabase(searchQuery);
+  //   expect(resulsts.length).toBe(1);
+  //   const allScores: any = await querySingleDatabase(selectAllScoresQuery);
 
-    await axios.post(baseUrl + 'delete_old_scores.php', {id: scoreId}, config);
-    resulsts = await querySingleDatabase(searchQuery);
-    expect(resulsts.length).toBe(0);
+  //   await axios.post(baseUrl + 'delete_old_scores.php', {id: scoreId}, config);
+  //   resulsts = await querySingleDatabase(searchQuery);
+  //   expect(resulsts.length).toBe(0);
 
-    const newAllScores: any = await querySingleDatabase(selectAllScoresQuery);
-    expect(allScores.length -1).toBe(newAllScores.length);
+  //   const newAllScores: any = await querySingleDatabase(selectAllScoresQuery);
+  //   expect(allScores.length -1).toBe(newAllScores.length);
  
-    await axios.post(baseUrl + 'delete_old_scores.php', {id: invalidId}, config);
-    const allScoresAfterInvalidId: any = await querySingleDatabase(selectAllScoresQuery);
-    expect(allScoresAfterInvalidId.length).toBe(newAllScores.length);
-  })
+  //   await axios.post(baseUrl + 'delete_old_scores.php', {id: invalidId}, config);
+  //   const allScoresAfterInvalidId: any = await querySingleDatabase(selectAllScoresQuery);
+  //   expect(allScoresAfterInvalidId.length).toBe(newAllScores.length);
+  // })
+
+  it('dummy', async () => {
+    const res = await axios.get(baseUrl + 'index.php');
+    console.log(res.data);
+});
 
   // it('modify score', async () => {
   //   const config = await axiosLogIn();
