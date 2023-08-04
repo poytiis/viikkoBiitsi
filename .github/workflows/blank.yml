@@ -32,7 +32,7 @@ jobs:
 
       - name: Create database
         working-directory: ./backEnd/SQL
-        run: mysql --host=127.0.0.1 --user=root --password=root < schema.sql"
+        run: mysql --host=127.0.0.1 --user=root --password=root < schema.sql
 
       - name: Run tests
         working-directory: ./e2eTests/backEndTests
