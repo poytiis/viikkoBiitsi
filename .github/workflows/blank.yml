@@ -4,19 +4,19 @@ on:
     branches: [ "actions-test" ]
   workflow_dispatch:
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Build the image
-        run: docker build --tag poytiis/viikkobiitsi-backend ./backEnd
+  #     - name: Build the image
+  #       run: docker build --tag poytiis/viikkobiitsi-backend ./backEnd
 
-      - name: Push the image
-        run: |
-          docker login -u poytiis -p ${{secrets.DOCKER_HUB_TOKEN}}
-          docker push poytiis/viikkobiitsi-backend
-          
+  #     - name: Push the image
+  #       run: |
+  #         docker login -u poytiis -p ${{secrets.DOCKER_HUB_TOKEN}}
+  #         docker push poytiis/viikkobiitsi-backend
+
   test-back-end:
     runs-on: ubuntu-latest
     services:
