@@ -22,3 +22,8 @@ services:
       - 8081:80
     volumes:
       - ./backEnd/PHP:/var/www/html/
+  admin-front-end:
+    build: 
+      context: ./adminUI/
+    ports:
+        - 3001:80
