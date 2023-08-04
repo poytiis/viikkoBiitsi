@@ -50,6 +50,8 @@ jobs:
   #         npm test
   test-front-end-unit:
     runs-on: ubuntu-latest
+    env:
+      CI: true
     steps:
       - uses: actions/checkout@v3
       - name: Install Node.js
