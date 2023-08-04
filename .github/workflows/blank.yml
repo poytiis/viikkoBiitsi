@@ -7,14 +7,24 @@ jobs:
   test-back-end:
     runs-on: ubuntu-latest
     services:
-      -maria:
+      maria:
         image: mariadb:10.3
         env:
           MYSQL_ROOT_PASSWORD: root
-          ports:
-            3306:3306
+        ports:
+          - 3306:3306
+      back-end:
+        image: poytiis/viikkobiitsi-backend
+        ports:
+          - 8081:80
+        
     steps:
       - uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
 
 
 
