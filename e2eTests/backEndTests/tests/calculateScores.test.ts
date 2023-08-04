@@ -50,7 +50,7 @@ describe('Calculate scores: ', () => {
     }  
   });
 
-  it.only('update rankings', async () => {
+  it('update rankings', async () => {
     const config = await axiosLogIn();
     await queryDatabase([deleteScoresQuery, insertScoresQuery]);
     await axios.get(baseUrl + 'calculate_scores.php?update_only=true', config);
