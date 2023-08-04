@@ -22,7 +22,7 @@ $auth_stmt->fetch();
 $auth_stmt->close();
 
 if( $password_in_db == '') {
-    http_response_code(401);
+    http_response_code(407);
     die;
 }
 
@@ -35,7 +35,7 @@ if($password_hash == $password_in_db) {
     setcookie("ViikkoBiitsiUser", $username, ['samesite' => 'None',  'secure' => true,  'httponly' => true]);
     setcookie("ViikkoBiitsiSession", $session_id, ['samesite' => 'None',  'secure' => true,  'httponly' => true]);
 } else {
-    http_response_code(401);   
+    http_response_code(408);   
 }
 
 ?>
