@@ -29,6 +29,7 @@ describe('Modify old scores: ', () => {
 
   it('modify score', async () => {
     const config = await axiosLogIn();
+    console.log(config)
     for(let score of updateOldScores) {
       await queryDatabase([deleteScoresQuery, insertScoresQuery]);
       await axios.post(baseUrl + 'update_old_scores.php', score, config);
