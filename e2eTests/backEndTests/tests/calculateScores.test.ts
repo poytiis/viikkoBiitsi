@@ -4,8 +4,8 @@ import { ShowScoresRequest } from '../types';
 import { insertValidPools2, deletePools, insertValidPools5 } from '../SQLData/wpzl_postmeta';
 import { deleteScoresQuery, selectAllScoresQuery, insertScoresQuery} from '../SQLData/viikon_tulokset';
 import { poolScoresPools2, poolScoresPools5 } from '../ResponseData/viikon_tulokset';
-import { selectAllWomensRanking } from '../SQLData/kokonais_tulokset';
-import { womenRanking } from '../ResponseData/kokonais_tulokset';
+import { selectAllMensRanking, selectAllWomensRanking } from '../SQLData/kokonais_tulokset';
+import { menRanking, womenRanking } from '../ResponseData/kokonais_tulokset';
 
 describe('Calculate scores: ', () => {
 
@@ -55,12 +55,19 @@ describe('Calculate scores: ', () => {
     await queryDatabase([deleteScoresQuery, insertScoresQuery]);
     await axios.get(baseUrl + 'calculate_scores.php?update_only=true', config);
 
-    const resulsts: any = await querySingleDatabase(selectAllWomensRanking);
-    womenRanking.forEach(ranking => {
-      const rankingInDB = resulsts.find(row => row.nimi === ranking.name)
-      expect(rankingInDB.viikko_1.toFixed(2)).toBe(ranking.week1.toFixed(2));
-      expect(rankingInDB.viikko_2.toFixed(2)).toBe(ranking.week2.toFixed(2));
-      expect(rankingInDB.total.toFixed(2)).toBe(ranking.total.toFixed(2));
-    });
+    const womenResulsts: any = await querySingleDatabase(selectAllWomensRanking);
+    const menResulsts: any = await querySingleDatabase(selectAllMensRanking);
+    const rankingLists = [[womenRanking, womenResulsts], [menRanking, menResulsts]];
+
+    rankingLists.forEach(rankingList => {
+      rankingList[0].forEach(ranking => {
+        const rankingInDB =  rankingList[1].find(row => row.nimi === ranking.name)
+        expect(rankingInDB.viikko_1.toFixed(2)).toBe(ranking.week1.toFixed(2));
+        expect(rankingInDB.viikko_2.toFixed(2)).toBe(ranking.week2.toFixed(2));
+        expect(rankingInDB.total.toFixed(2)).toBe(ranking.total.toFixed(2));
+      });
+    })
+
+    
   })
 });
