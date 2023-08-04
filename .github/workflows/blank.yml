@@ -27,9 +27,12 @@ jobs:
       #   with:
       #     node-version: 18.x
 
+      # - name: Create database
+      #   run: mysql --host=127.0.0.1 --user=root --password=root -e "CREATE DATABASE viikkobiitsi;"
+
       - name: Create database
-        # run: mysql --host 127.0.0.1 --port 3306 -uroot -e "CREATE DATABASE viikkobiitsi;"
-        run: mysql --host=127.0.0.1 --user=root --password=root -e "CREATE DATABASE viikkobiitsi;"
+        working-directory: ./backEnd/SQL
+        run: mysql --host=127.0.0.1 --user=root --password=root < schema.sql"
 
       - name: Run tests
         working-directory: ./e2eTests/backEndTests
