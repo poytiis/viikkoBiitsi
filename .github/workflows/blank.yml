@@ -25,6 +25,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
+
+      - name: Create database
+        run: mysql --host localhost --port 3306 -uroot -e "CREATE DATABASE viikkobiitsi;"
       - name: Run tests
         working-directory: ./e2eTests/backEndTests
         run: |
