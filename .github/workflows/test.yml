@@ -106,7 +106,7 @@ jobs:
         run: mysql --host=127.0.0.1 --user=root --password=root < schema.sql
 
       - name: Run tests
-        working-directory: ./e2eTest/Cypress
+        working-directory: ./e2eTests/Cypress
         run: |
           npm install
           npx cypress run
