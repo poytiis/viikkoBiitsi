@@ -4,6 +4,19 @@ on:
     branches: [ "actions-test" ]
   workflow_dispatch:
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build the image
+        run: docker build --tag poytiis/viikkobiitsi-backend ./backEnd
+
+      - name: Push the image
+        run: |
+          docker login -u poytiis -p ${{secrets.DOCKER_HUB_TOKEN}}
+          docker push poytiis/viikkobiitsi-backend
+          
   test-back-end:
     runs-on: ubuntu-latest
     services:
@@ -11,14 +24,12 @@ jobs:
         image: mariadb:10.3
         env:
           MYSQL_ROOT_PASSWORD: root
-          # MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
           - 3306:3306
       back-end:
         image: poytiis/viikkobiitsi-backend
         ports:
           - 8081:80
-        
     steps:
       - uses: actions/checkout@v3
 
