@@ -1,7 +1,7 @@
 name: Build back-end
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "actions-test" ]
   workflow_dispatch:
 jobs:
   build:
