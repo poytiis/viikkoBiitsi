@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { baseUrl, queryDatabase, axiosLogIn, querySingleDatabase } from '../helpers';
+import { baseUrl, axiosLogIn, querySingleDatabase } from '../helpers';
 import { ShowScoresRequest } from '../types';
 import { insertValidPools2, deletePools, insertValidPools5 } from '../SQLData/wpzl_postmeta';
 import { deleteScoresQuery, selectAllScoresQuery, insertScoresQuery} from '../SQLData/viikon_tulokset';
@@ -8,7 +8,6 @@ import { selectAllMensRanking, selectAllWomensRanking } from '../SQLData/kokonai
 import { menRanking, womenRanking } from '../ResponseData/kokonais_tulokset';
 
 describe('Calculate scores: ', () => {
-
   it('fetch scores', async () => {
     await querySingleDatabase(deletePools);
     await querySingleDatabase(insertValidPools2);
@@ -70,13 +69,6 @@ describe('Calculate scores: ', () => {
         expect(rankingInDB.viikko_2.toFixed(2)).toBe(ranking.week2.toFixed(2));
         expect(rankingInDB.total.toFixed(2)).toBe(ranking.total.toFixed(2));
       });
-    })
-
-    
+    })   
   })
-
-  it('dummy', async () => {
-      const res = await axios.get(baseUrl + 'index.php');
-      console.log(res.data);
-  });
 });
