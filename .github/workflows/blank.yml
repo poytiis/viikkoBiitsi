@@ -6,8 +6,16 @@ on:
 jobs:
   test-back-end:
     runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
+    services:
+      -maria:
+        image: mariadb:10.3
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          ports:
+            3306:3306
+    steps:
+      - uses: actions/checkout@v3
+
 
 
 
@@ -53,3 +61,16 @@ jobs:
   #       run: |
   #         docker login -u poytiis -p ${{secrets.DOCKER_HUB_TOKEN}}
   #         docker push poytiis/viikkobiitsi-backend
+
+
+
+#   name: Build back-end
+# on:
+#   push:
+#     branches: [ "actions-test" ]
+#   workflow_dispatch:
+# jobs:
+#   test-back-end:
+#     runs-on: ubuntu-latest
+#       steps:
+#         - uses: actions/checkout@v3
