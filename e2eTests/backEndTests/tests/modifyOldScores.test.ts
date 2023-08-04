@@ -5,8 +5,8 @@ import { updateOldScores } from '../ResponseData/viikon_tulokset';
 
 describe('Modify old scores: ', () => {
   it('delete score', async () => {
-    querySingleDatabase(deleteScoresQuery)
-    querySingleDatabase(insertScoresQuery)
+    await querySingleDatabase(deleteScoresQuery)
+    await querySingleDatabase(insertScoresQuery)
     const config = await axiosLogIn();
     const scoreId = 5334;
     const invalidId = 99999;
@@ -33,8 +33,8 @@ describe('Modify old scores: ', () => {
     const config = await axiosLogIn();
     console.log(config)
     for(let score of updateOldScores) {
-      querySingleDatabase(deleteScoresQuery)
-      querySingleDatabase(insertScoresQuery)
+      await querySingleDatabase(deleteScoresQuery)
+      await querySingleDatabase(insertScoresQuery)
       await axios.post(baseUrl + 'update_old_scores.php', score, config);
       const searchQuery = queryById + score.id.toString();
       let resulsts: any = await querySingleDatabase(searchQuery);
