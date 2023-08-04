@@ -31,7 +31,6 @@ describe('Modify old scores: ', () => {
 
   it('modify score', async () => {
     const config = await axiosLogIn();
-    console.log(config)
     for(let score of updateOldScores) {
       await querySingleDatabase(deleteScoresQuery)
       await querySingleDatabase(insertScoresQuery)
