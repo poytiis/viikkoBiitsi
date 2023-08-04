@@ -17,8 +17,7 @@ services:
       PMA_PASSWORD: root
   server:
     build: 
-      context: .
-      dockerfile: server.Dockerfile
+      context: ./backEnd/
     ports:
       - 8081:80
     volumes:
