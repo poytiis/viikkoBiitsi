@@ -17,9 +17,13 @@ services:
       PMA_PASSWORD: root
   server:
     build: 
-      context: .
-      dockerfile: server.Dockerfile
+      context: ./backEnd/
     ports:
       - 8081:80
     volumes:
-      - ./PHP:/var/www/html/
+      - ./backEnd/PHP:/var/www/html/
+  admin-front-end:
+    build: 
+      context: ./adminUI/
+    ports:
+        - 3001:80
