@@ -1,4 +1,4 @@
-FROM node:alpine AS builder
+FROM node:18-alpine AS builder
 WORKDIR /app
 ENV NODE_ENV development
 ENV REACT_APP_API_URL=http://localhost:8081/
