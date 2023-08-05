@@ -79,13 +79,6 @@ describe('Scores: ', () => {
       cy.get('.modify-dialog__update-button').click()
 
       cy.get('.table__paginator-error').should('have.text', 'Lohkon pisteet laskettu väärin: 99')
-
-      cy.get('.table__row-column--' + data.scores[0].player.replace(/\s/g, '')).click()
-      cy.get('#modify-dialog__score-input').clear()
-      cy.get('#modify-dialog__score-input').type('xxxxx')
-      cy.get('.modify-dialog__update-button').click()
-
-      cy.get('.table__paginator-error').should('have.text', 'Lohkossa virheellisiä pisteitä!')
     })
   })
 

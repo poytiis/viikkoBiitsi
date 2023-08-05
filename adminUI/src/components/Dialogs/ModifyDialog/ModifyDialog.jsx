@@ -13,11 +13,11 @@ const ModifyDialog = (props) => {
   const poolControl = useInput({initValue: rank.value, validattion: 'integer'});
   const serieControl = useInput({initValue: serie.value, validattion: 'required'});
   const nameControl = useInput({initValue: name.value, validattion: 'required'});
-  const scoreControl = useInput({initValue: score.value, validattion: 'integer'});
+  const scoreControl = useInput({initValue: score.value, validattion: 'integerRequired'});
   const plusMinusPointsControl = useInput({initValue: plusMinusPoints?.value, validattion: 'required'});
-  const yearControl = useInput({initValue: year?.value, validattion: 'integer'});
-  const weekControl = useInput({initValue: week?.value, validattion: 'integer'});
-  const rankingControl = useInput({initValue: ranking?.value, validattion: 'integer'});
+  const yearControl = useInput({initValue: year?.value, validattion: 'integerRequired'});
+  const weekControl = useInput({initValue: week?.value, validattion: 'integerRequired'});
+  const rankingControl = useInput({initValue: ranking?.value, validattion: 'integerRequired'});
 
   const handleEnterKeyUpDelete = (e) => {
     if (e.key === 'Enter' ) props.delete();

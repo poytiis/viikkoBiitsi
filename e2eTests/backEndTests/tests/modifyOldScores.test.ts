@@ -1,11 +1,12 @@
 import axios from "axios";
-import { axiosLogIn, baseUrl, queryDatabase, querySingleDatabase } from "../helpers";
+import { axiosLogIn, baseUrl, querySingleDatabase } from "../helpers";
 import { deleteScoresQuery, insertScoresQuery, queryById, selectAllScoresQuery } from '../SQLData/viikon_tulokset';
 import { updateOldScores } from '../ResponseData/viikon_tulokset';
 
 describe('Modify old scores: ', () => {
   it('delete score', async () => {
-    await queryDatabase([deleteScoresQuery, insertScoresQuery]);
+    await querySingleDatabase(deleteScoresQuery)
+    await querySingleDatabase(insertScoresQuery)
     const config = await axiosLogIn();
     const scoreId = 5334;
     const invalidId = 99999;
@@ -27,10 +28,12 @@ describe('Modify old scores: ', () => {
     expect(allScoresAfterInvalidId.length).toBe(newAllScores.length);
   })
 
+
   it('modify score', async () => {
     const config = await axiosLogIn();
     for(let score of updateOldScores) {
-      await queryDatabase([deleteScoresQuery, insertScoresQuery]);
+      await querySingleDatabase(deleteScoresQuery)
+      await querySingleDatabase(insertScoresQuery)
       await axios.post(baseUrl + 'update_old_scores.php', score, config);
       const searchQuery = queryById + score.id.toString();
       let resulsts: any = await querySingleDatabase(searchQuery);

@@ -31,7 +31,11 @@ const useInput = (props) => {
           setErrorMessage(false, '');  
         }
         break;
-      case 'integer':
+      case 'integer', 'integerRequired':
+        if(validattion === 'integer' && value.length === 0) {
+          setErrorMessage(false, '');
+          return;
+        }
         const integerRegex = /^-?\d+$/;
         const valid = integerRegex.test(value);
         if (!valid) {
