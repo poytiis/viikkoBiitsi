@@ -1,7 +1,7 @@
 name: Test back-end and front-end
 on:
   push:
-    branches: [ "actions-test" ]
+    branches: [ "main" ]
   workflow_dispatch:
 jobs:
   build-back-end:
@@ -48,6 +48,7 @@ jobs:
         run: |
           npm install
           npm test
+
   test-front-end-unit:
     runs-on: ubuntu-latest
     env:
@@ -63,6 +64,7 @@ jobs:
         run: |
           npm install
           npm test
+
   build-front-end:
     runs-on: ubuntu-latest
     steps:
@@ -75,9 +77,12 @@ jobs:
         run: |
           docker login -u poytiis -p ${{ secrets.DOCKER_HUB_TOKEN }}
           docker push poytiis/viikkobiitsi-admin-front-end
+          
   test-front-end-e2e:
     runs-on: ubuntu-latest
-    needs: build-front-end
+    needs: 
+      - build-front-end
+      - build-back-end
     services:
       database:
         image: mariadb:10.3
