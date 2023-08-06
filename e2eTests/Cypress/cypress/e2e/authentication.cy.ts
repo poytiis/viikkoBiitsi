@@ -1,6 +1,6 @@
 describe('Authentication: ', () => {
 
-  beforeEach(function () {
+  beforeEach(() => {
     cy.task('db:seed')
     cy.visit('/')
   })

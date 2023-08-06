@@ -11,6 +11,8 @@ import TableWithPaginator from '../TableWithPaginator/TableWithPaginator';
 import ModifyDialog from '../Dialogs/ModifyDialog/ModifyDialog';
 import useDialog from '../../hooks/useDialog';
 import InfoDialog from '../Dialogs/InfoDialog/InfoDialog';
+import Select from '../Select/Select';
+import useSelect from '../../hooks/useSelect';
 
 const OldResults = () => {
 
@@ -20,10 +22,16 @@ const OldResults = () => {
 
   const [modifydialogData, setModifydialogData] = useState();
 
+  const selectOptions = [
+    {value: '', text: 'Tyhjää kenttä'},
+    {value: 'Naiset', text: 'Naiset'},
+    {value: 'Miehet', text: 'Miehet'},
+  ]
+  const serieControl = useSelect({initValue: '', options: selectOptions})
+
   const yearControl = useInput({initValue: '', validattion: 'integer'});
   const weekControl = useInput({initValue: '', validattion: 'integer'});
   const nameControl = useInput({initValue: ''});
-  const serieControl = useInput({initValue: ''});
   const poolControl = useInput({initValue: '', validattion: 'integer'});
 
   const tableControl = useTable({rowsPerPage: 6, type: 'oldScores'});
@@ -134,7 +142,7 @@ const OldResults = () => {
             <TextField className='old-results__input' label='Pelaaja' {...nameControl} id='old-results__player-input'/>
             <TextField className='old-results__input' label='Vuosi' {...yearControl} id='old-results__year-input'/>
             <TextField className='old-results__input' label='Viikko' {...weekControl} id='old-results__week-input'/>
-            <TextField className='old-results__input' label='Sarja' {...serieControl} id='old-results__serie-input'/>
+            <Select className='old-results__input' control={serieControl} label='Sarja' id='old-results__serie-select'/>
             <TextField className='old-results__input' label='Lohko' {...poolControl} id='old-results__pool-input'/>
 
             <Button 

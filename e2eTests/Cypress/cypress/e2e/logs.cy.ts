@@ -1,6 +1,6 @@
 describe('Logs: ', () => {
 
-  beforeEach(function () {
+  beforeEach(() => {
     cy.task('db:seedLogs')
     cy.visit('/')
     cy.logIn()

@@ -2,7 +2,6 @@ name: Test back-end and front-end
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch:
 jobs:
   build-back-end:
     runs-on: ubuntu-latest

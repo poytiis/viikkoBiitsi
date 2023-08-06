@@ -87,9 +87,7 @@ export default defineConfig({
           });
           return null
 
-        }
-
-        ,
+        },
         'db:seedOldScores': () => {
           const con = connectToDatabase();  
           con.connect( err => {
@@ -149,7 +147,32 @@ export default defineConfig({
               con.query(insertQuery, (err, result) => {})
           });
           return null
+        },
+        'db:seedLogIn': () => {
+          const con = connectToDatabase();
+          con.connect(errr => {
+            const deleteQuery = "DELETE FROM viikko_biitsi_hallinta";
+            con.query(deleteQuery, (err, result) => {});
 
+            const insertQuery = `INSERT INTO viikko_biitsi_hallinta VALUES 
+            (DEFAULT, 'laskettavat_kerrat_pisteisiin', '2'),
+            (DEFAULT, 'viikkobiitsi', '4c94485e0c21ae6c41ce1dfe7b6bfaceea5ab68e40a2476f50208e526f506080');`;
+            con.query(insertQuery, (err, result) => {})           
+
+          })
+          return null        
+        },
+        'db:moveOldScoresOneYearBack': () => {
+          const con = connectToDatabase();
+          con.connect(errr => {
+            const year = new Date().getFullYear();
+            const updateQuery1 = "UPDATE viikon_tulokset SET vuosi=" + (year - 2).toString() + " WHERE vuosi=2023";
+            con.query(updateQuery1, (err, result) => {});
+            const updateQuery2 = "UPDATE viikon_tulokset SET vuosi=" + (year - 1).toString() + " WHERE vuosi=2022";
+            con.query(updateQuery2, (err, result) => {});
+            
+          });
+          return null;
         }
       })
     },

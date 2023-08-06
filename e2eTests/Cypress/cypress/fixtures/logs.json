@@ -1,40 +1,40 @@
 {
-    "logs": [
-        {
-            "timeStamp": "2023-07-11",
-            "log": "Uusi pelaaja: Player 2"
-        },
-        {
-            "timeStamp": "2023-07-11",
-            "log": "Uusi pelaaja: Player 1"
-        },
-        {
-            "timeStamp": "2023-07-11",
-            "log": "Uusi pelaaja: Player 3"
-        },
-        {
-            "timeStamp": "2023-07-11",
-            "log": "Uusi pelaaja: Player 4 "
-        },
-        {
-            "timeStamp": "2023-07-11",
-            "log": "Uusi pelaaja: Player 6 "
-        },
-        {
-            "timeStamp": "2023-07-11",
-            "log": "Uusi pelaaja: Player 5"
-        },
-        {
-            "timeStamp": "2023-07-11",
-            "log": "Uusi pelaaja: Player 7 "
-        },
-        {
-            "timeStamp": "2023-07-11",
-            "log": "Uusi pelaaja: Player 8 "
-        },
-        {
-            "timeStamp": "2023-07-11",
-            "log": "Uusi pelaaja: Player 2"
-        }
-    ]
+  "logs": [
+    {
+      "timeStamp": "2023-07-11",
+      "log": "Uusi pelaaja: Player 2"
+    },
+    {
+      "timeStamp": "2023-07-11",
+      "log": "Uusi pelaaja: Player 1"
+    },
+    {
+      "timeStamp": "2023-07-11",
+      "log": "Uusi pelaaja: Player 3"
+    },
+    {
+      "timeStamp": "2023-07-11",
+      "log": "Uusi pelaaja: Player 4 "
+    },
+    {
+      "timeStamp": "2023-07-11",
+      "log": "Uusi pelaaja: Player 6 "
+    },
+    {
+      "timeStamp": "2023-07-11",
+      "log": "Uusi pelaaja: Player 5"
+    },
+    {
+      "timeStamp": "2023-07-11",
+      "log": "Uusi pelaaja: Player 7 "
+    },
+    {
+      "timeStamp": "2023-07-11",
+      "log": "Uusi pelaaja: Player 8 "
+    },
+    {
+      "timeStamp": "2023-07-11",
+      "log": "Uusi pelaaja: Player 2"
+    }
+  ]
 }

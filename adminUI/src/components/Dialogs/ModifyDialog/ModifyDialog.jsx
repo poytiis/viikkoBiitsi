@@ -5,16 +5,25 @@ import './ModifyDialog.scss';
 import useInput from '../../../hooks/useInput';
 import TextField from '@material-ui/core/TextField';
 import { UpdatePoolFetch, updateOldScoresFetch } from '../../../services/httpClient';
+import Select  from '../../Select/Select';
+
+
+import useSelect from '../../../hooks/useSelect';
 
 const ModifyDialog = (props) => {
 
   const { rank, serie, name, score, year, week, plusMinusPoints, ranking } = props.content;
 
-  const poolControl = useInput({initValue: rank.value, validattion: 'integer'});
-  const serieControl = useInput({initValue: serie.value, validattion: 'required'});
+  const selectOptions = [
+    {value: 'Naiset', text: 'Naiset'},
+    {value: 'Miehet', text: 'Miehet'},
+  ]
+  const serieControl = useSelect({initValue: serie.value, options: selectOptions})
+
+  const poolControl = useInput({initValue: rank.value, validattion: 'integerRequired'});
   const nameControl = useInput({initValue: name.value, validattion: 'required'});
   const scoreControl = useInput({initValue: score.value, validattion: 'integerRequired'});
-  const plusMinusPointsControl = useInput({initValue: plusMinusPoints?.value, validattion: 'required'});
+  const plusMinusPointsControl = useInput({initValue: plusMinusPoints?.value, validattion: 'floatRequired'});
   const yearControl = useInput({initValue: year?.value, validattion: 'integerRequired'});
   const weekControl = useInput({initValue: week?.value, validattion: 'integerRequired'});
   const rankingControl = useInput({initValue: ranking?.value, validattion: 'integerRequired'});
@@ -100,8 +109,9 @@ const ModifyDialog = (props) => {
         <div className='modify-dialog__main-content'>
 
           <div className='flex-column'>
+            
           <TextField {...poolControl} label="Lohko" className='modify-dialog__input' id='modify-dialog__pool-input' />
-          <TextField {...serieControl} label="Sarja" className='modify-dialog__input' id='modify-dialog__serie-input'/>
+          <Select control={serieControl} label='Sarja' id='modify-dialog__serie-select'/>
           <TextField {...nameControl} label="Nimi" className='modify-dialog__input' id='modify-dialog__name-input'/>
           <TextField {...scoreControl} label="Pisteet" className='modify-dialog__input' id='modify-dialog__score-input'/>
 

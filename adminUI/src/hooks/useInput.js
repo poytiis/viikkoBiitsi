@@ -31,7 +31,8 @@ const useInput = (props) => {
           setErrorMessage(false, '');  
         }
         break;
-      case 'integer', 'integerRequired':
+      case 'integerRequired':
+      case 'integer':
         if(validattion === 'integer' && value.length === 0) {
           setErrorMessage(false, '');
           return;
@@ -44,8 +45,23 @@ const useInput = (props) => {
           setErrorMessage(false, '');
         }
         break;
+
+      case 'floatRequired':
+      case 'float':
+        if(validattion === 'float' && value.length === 0) {
+          setErrorMessage(false, '');
+          return;
+        }
+        const floatRegex = /^[+-]?\d+(\.\d+)?$/;
+        const floatValid = floatRegex.test(value);
+        if (!floatValid) {
+          setErrorMessage(true, 'Kentän täytyy olla numero');
+        } else {
+          setErrorMessage(false, '');
+        }
+        break;   
       default:
-        console.log('Invalid useInput validattion param');
+        console.log('Invalid useInput validattion param: '+ validattion);
     }
   }
 

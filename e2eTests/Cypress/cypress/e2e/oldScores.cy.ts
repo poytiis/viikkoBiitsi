@@ -1,6 +1,6 @@
 describe('Old scores: ', () => {
 
-  beforeEach(function () {
+  beforeEach(() => {
     cy.viewport(1500, 1500) 
     cy.task('db:seedOldScores')
     cy.visit('/')
@@ -25,7 +25,8 @@ describe('Old scores: ', () => {
         }
 
         if (search.serie !== null) {
-          cy.get('#old-results__serie-input').type(search.serie)
+          cy.get('#select-old-results__serie-select').click()
+          cy.get('#select-input-option-' + search.serie).click()
         }
 
         if (search.pool !== null) {
@@ -52,10 +53,9 @@ describe('Old scores: ', () => {
         cy.get('#old-results__player-input').clear()
         cy.get('#old-results__year-input').clear()
         cy.get('#old-results__week-input').clear()
-        cy.get('#old-results__serie-input').clear()
-        cy.get('#old-results__pool-input').clear()
-
-          
+        cy.get('#select-old-results__serie-select').click()
+        cy.get('#select-input-option-').click()
+        cy.get('#old-results__pool-input').clear()        
       });
     })
   
@@ -80,7 +80,8 @@ describe('Old scores: ', () => {
         }
 
         if (modify.searchParams.serie !== null) {
-          cy.get('#old-results__serie-input').type(modify.searchParams.serie)
+          cy.get('#select-old-results__serie-select').click()
+          cy.get('#select-input-option-' + modify.searchParams.serie).click()
         }
 
         if (modify.searchParams.pool !== null) {
@@ -94,8 +95,8 @@ describe('Old scores: ', () => {
         cy.get('#modify-dialog__pool-input').clear()
         cy.get('#modify-dialog__pool-input').type(modify.modifyParams.pool)
   
-        cy.get('#modify-dialog__serie-input').clear()
-        cy.get('#modify-dialog__serie-input').type(modify.modifyParams.serie)
+        cy.get('#select-modify-dialog__serie-select').click()
+        cy.get('#select-input-option-' + modify.modifyParams.serie).click()
   
         cy.get('#modify-dialog__name-input').clear()
         cy.get('#modify-dialog__name-input').type(modify.modifyParams.player)
@@ -121,13 +122,15 @@ describe('Old scores: ', () => {
         cy.get('#old-results__player-input').clear()
         cy.get('#old-results__year-input').clear()
         cy.get('#old-results__week-input').clear()
-        cy.get('#old-results__serie-input').clear()
+        cy.get('#select-old-results__serie-select').click()
+        cy.get('#select-input-option-').click()
         cy.get('#old-results__pool-input').clear()
 
         cy.get('#old-results__player-input').type(modify.modifyParams.player)
         cy.get('#old-results__year-input').type(modify.modifyParams.year)
         cy.get('#old-results__week-input').type(modify.modifyParams.week)
-        cy.get('#old-results__serie-input').type(modify.modifyParams.serie)
+        cy.get('#select-old-results__serie-select').click()
+        cy.get('#select-input-option-' + modify.modifyParams.serie).click()
         cy.get('#old-results__pool-input').type(modify.modifyParams.pool)
 
         cy.get('.old-results__search-button').click()
@@ -141,11 +144,63 @@ describe('Old scores: ', () => {
         cy.get('.table__row-column--' + modify.modifyParams.ranking.toString()).should('exist')
         cy.get('.table__row-column--' + modify.modifyParams.score.toString()).should('exist')
         
+      });   
+    })
+  });
+
+  it('input validation', () => {
+    cy.get('.header__tab--old-scores').click()
+    cy.fixture('oldScores').then( data => {
+      data.searchInputValidation.forEach(validation => {
+        cy.validateInput('#old-results__player-input', validation.input.player, validation.errorMessage.player)
+        cy.validateInput('#old-results__year-input', validation.input.year, validation.errorMessage.year)
+        cy.validateInput('#old-results__week-input', validation.input.week, validation.errorMessage.week)
+        cy.validateInput('#old-results__pool-input', validation.input.pool, validation.errorMessage.pool)
+
+        cy.get('#old-results__player-input').clear()
+        cy.get('#old-results__year-input').clear()
+        cy.get('#old-results__week-input').clear()
+        cy.get('#old-results__pool-input').clear()
       });
 
-      
-    })
+      const searchParam = data.modifyParams[0].searchParams
 
+      if (searchParam.player !== null) {
+        cy.get('#old-results__player-input').type(searchParam.player)
+      }
+
+      if (searchParam.year !== null) {
+        cy.get('#old-results__year-input').type(searchParam.year)
+      }
+
+      if (searchParam.week !== null) {
+        cy.get('#old-results__week-input').type(searchParam.week)
+      }
+
+      if (searchParam.serie !== null) {
+        cy.get('#select-old-results__serie-select').click()
+        cy.get('#select-input-option-' + searchParam.serie).click()
+      }
+
+      if (searchParam.pool !== null) {
+        cy.get('#old-results__pool-input').type(searchParam.pool)
+      }
+
+      cy.get('.old-results__search-button').click()
+
+      data.modifyInputValidation.forEach(validation => {
+        cy.get('.table__row-column--' + searchParam.player.replace(/\s/g, '')).click()
+
+        cy.validateInput('#modify-dialog__name-input', validation.input.player, validation.errorMessage.player, true)
+        cy.validateInput('#modify-dialog__year-input', validation.input.year, validation.errorMessage.year, true)
+        cy.validateInput('#modify-dialog__week-input', validation.input.week, validation.errorMessage.week, true)
+        cy.validateInput('#modify-dialog__pool-input', validation.input.pool, validation.errorMessage.pool, true)
+        cy.validateInput('#modify-dialog__ranking-input', validation.input.pool, validation.errorMessage.pool, true)
+        cy.validateInput('#modify-dialog__plus-minus-input', validation.input.plusMinusPoints, validation.errorMessage.plusMinusPoints, true)
+        cy.validateInput('#modify-dialog__score-input', validation.input.seriePoints, validation.errorMessage.seriePoints, true)
+
+        cy.get('.modify-dialog__close-button').click()
+      });
+    });
   });
-  
 })

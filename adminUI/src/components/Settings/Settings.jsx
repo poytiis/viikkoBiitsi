@@ -69,19 +69,37 @@ const Settings = () => {
           <div className='white-container__counting-container  flex-colomn'>
             <div className='white-container__small-header'>Pisteiden laskentaperiaate:</div>
 
-            <RadioGroup aria-label="counting-scores" name="counting-scores" value={selectedCountingScores} onChange={handleRadioButtonChange}>
-              <FormControlLabel value="1" control={<Radio />} label="Viimeisimmän kerran pisteet" />
-              <FormControlLabel value="2" control={<Radio />} label="kahden viimekertaisimman kertojen pisteet" />
+            <RadioGroup 
+              aria-label="counting-scores"
+              name="counting-scores"
+              value={selectedCountingScores}
+              onChange={handleRadioButtonChange}
+            >
+              <FormControlLabel
+                className='settings__counting-score-radio-1'
+                value="1"
+                control={<Radio />}
+                label="Viimeisimmän kerran pisteet"
+              />
+              
+              <FormControlLabel
+                className='settings__counting-score-radio-2'
+                value="2"
+                control={<Radio />}
+                label="kahden viimekertaisimman kertojen pisteet"
+              />
             </RadioGroup>
 
           </div>
 
           <div className='white-container__ranking-container'>
             <div className='white-container__small-header'>Laske alkuranking-pisteet</div>
-            <div className='white-container__beging-ranking-info'>Järjestelmä laskee alkuranking-pisteet edellisen kesän pisteiden perusteella.</div>
+            <div className='white-container__beging-ranking-info'>
+              Järjestelmä laskee alkuranking-pisteet edellisen kesän pisteiden perusteella.
+            </div>
 
             <div className='white-container__ranking-select-container'>
-              <Button onClick={handleButtonClick}>Laske</Button>
+              <Button className='settings__calculate-beging-ranking-button' onClick={handleButtonClick}>Laske</Button>
             </div>                  
           </div>     
         </>

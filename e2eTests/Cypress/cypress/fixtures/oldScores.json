@@ -1,92 +1,217 @@
 {
-    "searchParams": [
+  "searchParams": [
+    {
+      "player": null,
+      "year": 2023,
+      "week": 32,
+      "serie": "Naiset",
+      "pool": null,
+      "results": [
         {
-            "player": null,
-            "year": 2023,
-            "week": 32,
-            "serie": "Naiset",
-            "pool": null,
-            "results": [
-                {
-                    "player": "Player 2",
-                    "year": 2023,
-                    "week": 32,
-                    "serie": "Naiset",
-                    "pool": 1
-                }
-            ]
+          "player": "Player 2",
+          "year": 2023,
+          "week": 32,
+          "serie": "Naiset",
+          "pool": 1
+        }
+      ]
+    },
+    {
+      "player": "Player 1",
+      "year": null,
+      "week": null,
+      "serie": null,
+      "pool": null,
+      "results": [
+        {
+          "player": "Player 1",
+          "year": 2022,
+          "week": 31,
+          "serie": "Naiset",
+          "pool": 1
         },
         {
-            "player": "Player 1",
-            "year": null,
-            "week": null,
-            "serie": null,
-            "pool": null,
-            "results": [
-                {
-                    "player": "Player 1",
-                    "year": 2022,
-                    "week": 31,
-                    "serie": "Naiset",
-                    "pool": 1
-                },
-                {
-                    "player": "Player 1",
-                    "year": 2022,
-                    "week": 32,
-                    "serie": "Naiset",
-                    "pool": 1
-                },
-                {
-                    "player": "Player 1",
-                    "year": 2022,
-                    "week": 33,
-                    "serie": "Naiset",
-                    "pool": 1
-                },
-                {
-                    "player": "Player 1",
-                    "year": 2022,
-                    "week": 34,
-                    "serie": "Naiset",
-                    "pool": 1
-                },
-                {
-                    "player": "Player 1",
-                    "year": 2022,
-                    "week": 35,
-                    "serie": "Naiset",
-                    "pool": 1
-                },
-                {
-                    "player": "Player 1",
-                    "year": 2023,
-                    "week": 31,
-                    "serie": "Naiset",
-                    "pool": 1
-                }
-            ]
-        }
-    ],
-    "modifyParams": [
+          "player": "Player 1",
+          "year": 2022,
+          "week": 32,
+          "serie": "Naiset",
+          "pool": 1
+        },
         {
-            "searchParams": {
-                "player": "Player 1",
-                "year": 2023,
-                "week": 32,
-                "serie": "Naiset",
-                "pool": 1
-            },
-            "modifyParams": {
-                "player": "Player XXXX",
-                "year": 2020,
-                "week": 10,
-                "serie": "Miehet",
-                "pool": 10,
-                "score": 100,
-                "plusMinusScore": -100,
-                "ranking": 2
-            }
+          "player": "Player 1",
+          "year": 2022,
+          "week": 33,
+          "serie": "Naiset",
+          "pool": 1
+        },
+        {
+          "player": "Player 1",
+          "year": 2022,
+          "week": 34,
+          "serie": "Naiset",
+          "pool": 1
+        },
+        {
+          "player": "Player 1",
+          "year": 2022,
+          "week": 35,
+          "serie": "Naiset",
+          "pool": 1
+        },
+        {
+          "player": "Player 1",
+          "year": 2023,
+          "week": 31,
+          "serie": "Naiset",
+          "pool": 1
         }
-    ]
+      ]
+    }
+  ],
+  "modifyParams": [
+    {
+      "searchParams": {
+        "player": "Player 1",
+        "year": 2023,
+        "week": 32,
+        "serie": "Naiset",
+        "pool": 1
+      },
+      "modifyParams": {
+        "player": "Player XXXX",
+        "year": 2020,
+        "week": 10,
+        "serie": "Miehet",
+        "pool": 10,
+        "score": 100,
+        "plusMinusScore": -100,
+        "ranking": 2
+      }
+    }
+  ],
+  "searchInputValidation": [
+    {
+      "input": {
+        "player": "Player 1",
+        "year": "xxxx",
+        "week": "xxxx",
+        "serie": "Naiset",
+        "pool": "xxxx"
+      },
+      "errorMessage": {
+        "player": "",
+        "year": "Kentän täytyy olla kokonaisluku",
+        "week": "Kentän täytyy olla kokonaisluku",
+        "serie": "",
+        "pool": "Kentän täytyy olla kokonaisluku"
+      }
+    },
+    {
+      "input": {
+        "player": "",
+        "year": "",
+        "week": "",
+        "serie": "",
+        "pool": ""
+      },
+      "errorMessage": {
+        "player": "",
+        "year": "",
+        "week": "",
+        "serie": "",
+        "pool": ""
+      }
+    }
+  ],
+  "modifyInputValidation": [
+    {
+      "input": {
+        "player": "",
+        "year": "",
+        "week": "",
+        "serie": "",
+        "pool": "",
+        "ranking": "",
+        "seriePoints": "",
+        "plusMinusPoints": ""
+      },
+      "errorMessage": {
+        "player": "Kenttä on pakollinen",
+        "year": "Kentän täytyy olla kokonaisluku",
+        "week": "Kentän täytyy olla kokonaisluku",
+        "serie": "",
+        "pool": "Kentän täytyy olla kokonaisluku",
+        "ranking": "Kentän täytyy olla kokonaisluku",
+        "seriePoints": "Kentän täytyy olla kokonaisluku",
+        "plusMinusPoints": "Kentän täytyy olla numero"
+      }
+    },
+    {
+      "input": {
+        "player": "Valid",
+        "year": 2000,
+        "week": 10,
+        "serie": "",
+        "pool": 10,
+        "ranking": 1,
+        "seriePoints": 1,
+        "plusMinusPoints": 1
+      },
+      "errorMessage": {
+        "player": "",
+        "year": "",
+        "week": "",
+        "serie": "",
+        "pool": "",
+        "ranking": "",
+        "seriePoints": "",
+        "plusMinusPoints": ""
+      }
+    },
+    {
+      "input": {
+        "player": "",
+        "year": "xxxx",
+        "week": "xxxx",
+        "serie": "",
+        "pool": "xxxx",
+        "ranking": "xxxx",
+        "seriePoints": "xxxx",
+        "plusMinusPoints": "xxxx"
+      },
+      "errorMessage": {
+        "player": "Kenttä on pakollinen",
+        "year": "Kentän täytyy olla kokonaisluku",
+        "week": "Kentän täytyy olla kokonaisluku",
+        "serie": "",
+        "pool": "Kentän täytyy olla kokonaisluku",
+        "ranking": "Kentän täytyy olla kokonaisluku",
+        "seriePoints": "Kentän täytyy olla kokonaisluku",
+        "plusMinusPoints": "Kentän täytyy olla numero"
+      }
+    },
+    {
+      "input": {
+        "player": "",
+        "year": "1.1",
+        "week": "1.1",
+        "serie": "",
+        "pool": "1.1",
+        "ranking": "1.1",
+        "seriePoints": "1.1",
+        "plusMinusPoints": "12.a"
+      },
+      "errorMessage": {
+        "player": "Kenttä on pakollinen",
+        "year": "Kentän täytyy olla kokonaisluku",
+        "week": "Kentän täytyy olla kokonaisluku",
+        "serie": "",
+        "pool": "Kentän täytyy olla kokonaisluku",
+        "ranking": "Kentän täytyy olla kokonaisluku",
+        "seriePoints": "Kentän täytyy olla kokonaisluku",
+        "plusMinusPoints": "Kentän täytyy olla numero"
+      }
+    }
+    
+  ]
 }
