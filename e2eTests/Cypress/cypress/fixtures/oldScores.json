@@ -83,8 +83,8 @@
         "week": 10,
         "serie": "Miehet",
         "pool": 10,
-        "score": 100,
-        "plusMinusScore": -100,
+        "seriePoints": 100,
+        "plusMinusPoints": -100,
         "ranking": 2
       }
     }

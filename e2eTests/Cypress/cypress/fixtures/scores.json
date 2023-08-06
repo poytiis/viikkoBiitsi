@@ -2,96 +2,96 @@
   "scores": [
     {
       "player": "Player 1",
-      "score": 1,
+      "plusMinusPoints": 1,
       "serie": "Naiset",
       "pool": 1
     },
     {
       "player": "Player 2",
-      "score": 2,
+      "plusMinusPoints": 2,
       "serie": "Naiset",
       "pool": 1
     },
     {
       "player": "Player 3",
-      "score": -1,
+      "plusMinusPoints": -1,
       "serie": "Naiset",
       "pool": 1
     },
     {
       "player": "Player 4",
-      "score": -2,
+      "plusMinusPoints": -2,
       "serie": "Naiset",
       "pool": 1
     },
     {
       "player": "Player 5",
-      "score": 1,
+      "plusMinusPoints": 1,
       "serie": "Miehet",
       "pool": 1
     },
     {
       "player": "Player 6",
-      "score": 2,
+      "plusMinusPoints": 2,
       "serie": "Miehet",
       "pool": 1
   },
     {
       "player": "Player 7",
-      "score": -1,
+      "plusMinusPoints": -1,
       "serie": "Miehet",
       "pool": 1
     },
     {
       "player": "Player 8",
-      "score": -2,
+      "plusMinusPoints": -2,
       "serie": "Miehet",
       "pool": 1
     }
   ],
   "updatePlayer": {
     "player": "Player Update",
-    "score": 100,
+    "plusMinusPoints": 100,
     "serie": "Naiset",
     "pool": 3
   },
   "invalidUpdatePlayers": [
     {
       "input": {
-        "name": "",
-        "score": "xxxx",
+        "player": "",
+        "plusMinusPoints": "xxxx",
         "serie": "Naiset",
         "pool": "xxxx"
       },
       "errorMessage": {
-        "name": "Kenttä on pakollinen",
-        "score": "Kentän täytyy olla kokonaisluku",
+        "player": "Kenttä on pakollinen",
+        "plusMinusPoints": "Kentän täytyy olla kokonaisluku",
         "pool": "Kentän täytyy olla kokonaisluku"
       }        
     },
     {
       "input": {
-        "name": "Player X",
-        "score": "10",
+        "player": "Player X",
+        "plusMinusPoints": "10",
         "serie": "Naiset",
         "pool": "10"
       },
       "errorMessage": {
-        "name": "",
-        "score": "",
+        "player": "",
+        "plusMinusPoints": "",
         "pool": ""
       }       
     },
     {
       "input": {
-        "name": "",
-        "score": "",
+        "player": "",
+        "plusMinusPoints": "",
         "serie": "Naiset",
         "pool": ""
       },
       "errorMessage": {
-        "name": "Kenttä on pakollinen",
-        "score": "Kentän täytyy olla kokonaisluku",
+        "player": "Kenttä on pakollinen",
+        "plusMinusPoints": "Kentän täytyy olla kokonaisluku",
         "pool": "Kentän täytyy olla kokonaisluku"
       }        
     }

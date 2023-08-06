@@ -1,3 +1,5 @@
+import { OldScores } from '../../types'
+
 describe('Old scores: ', () => {
 
   beforeEach(() => {
@@ -8,32 +10,12 @@ describe('Old scores: ', () => {
   })
   
   it('search queries', () => {
-    cy.fixture('oldScores').then( data => {
+    cy.fixture('oldScores').then( (data: OldScores) => {
       cy.get('.header__tab--old-scores').click()
 
       data.searchParams.forEach(search => {
-        if (search.player !== null) {
-          cy.get('#old-results__player-input').type(search.player)
-        }
 
-        if (search.year !== null) {
-          cy.get('#old-results__year-input').type(search.year)
-        }
-
-        if (search.week !== null) {
-          cy.get('#old-results__week-input').type(search.week)
-        }
-
-        if (search.serie !== null) {
-          cy.get('#select-old-results__serie-select').click()
-          cy.get('#select-input-option-' + search.serie).click()
-        }
-
-        if (search.pool !== null) {
-          cy.get('#old-results__pool-input').type(search.pool)
-        }
-
-        cy.get('.old-results__search-button').click()
+        cy.searchOldResult(search);
 
         let resultIndex = 0;
         search.results.forEach(result => {
@@ -42,58 +24,28 @@ describe('Old scores: ', () => {
           }
           resultIndex++;
 
-          cy.get('.table__row-column--' + result.player.replace(/\s/g, '')).should('exist')
-          cy.get('.table__row-column--' + result.year.toString()).should('exist')
-          cy.get('.table__row-column--' + result.week.toString()).should('exist')
-          cy.get('.table__row-column--' + result.serie).should('exist')
-          cy.get('.table__row-column--' + result.pool.toString()).should('exist')
-            
+          cy.validateTable(result)           
         })
 
-        cy.get('#old-results__player-input').clear()
-        cy.get('#old-results__year-input').clear()
-        cy.get('#old-results__week-input').clear()
-        cy.get('#select-old-results__serie-select').click()
-        cy.get('#select-input-option-').click()
-        cy.get('#old-results__pool-input').clear()        
+        cy.clearOldResultInputs();  
       });
     })
   
   });
 
   it('modify scores', () => {
-    cy.fixture('oldScores').then( data => {
+    cy.fixture('oldScores').then( (data: OldScores) => {
       cy.get('.header__tab--old-scores').click()
 
       data.modifyParams.forEach(modify => {
 
-        if (modify.searchParams.player !== null) {
-          cy.get('#old-results__player-input').type(modify.searchParams.player)
-        }
+        cy.searchOldResult(modify.searchParams);
 
-        if (modify.searchParams.year !== null) {
-          cy.get('#old-results__year-input').type(modify.searchParams.year)
-        }
-
-        if (modify.searchParams.week !== null) {
-          cy.get('#old-results__week-input').type(modify.searchParams.week)
-        }
-
-        if (modify.searchParams.serie !== null) {
-          cy.get('#select-old-results__serie-select').click()
-          cy.get('#select-input-option-' + modify.searchParams.serie).click()
-        }
-
-        if (modify.searchParams.pool !== null) {
-          cy.get('#old-results__pool-input').type(modify.searchParams.pool)
-        }
-
-        cy.get('.old-results__search-button').click()
 
         cy.get('.table__row-column--' + modify.searchParams.player.replace(/\s/g, '')).click()
 
         cy.get('#modify-dialog__pool-input').clear()
-        cy.get('#modify-dialog__pool-input').type(modify.modifyParams.pool)
+        cy.get('#modify-dialog__pool-input').type(modify.modifyParams.pool.toString())
   
         cy.get('#select-modify-dialog__serie-select').click()
         cy.get('#select-input-option-' + modify.modifyParams.serie).click()
@@ -102,91 +54,42 @@ describe('Old scores: ', () => {
         cy.get('#modify-dialog__name-input').type(modify.modifyParams.player)
   
         cy.get('#modify-dialog__score-input').clear()
-        cy.get('#modify-dialog__score-input').type(modify.modifyParams.score)
+        cy.get('#modify-dialog__score-input').type(modify.modifyParams.seriePoints.toString())
 
         cy.get('#modify-dialog__plus-minus-input').clear()
-        cy.get('#modify-dialog__plus-minus-input').type(modify.modifyParams.plusMinusScore)
+        cy.get('#modify-dialog__plus-minus-input').type(modify.modifyParams.plusMinusPoints.toString())
 
         cy.get('#modify-dialog__ranking-input').clear()
-        cy.get('#modify-dialog__ranking-input').type(modify.modifyParams.ranking)
+        cy.get('#modify-dialog__ranking-input').type(modify.modifyParams.ranking.toString())
 
         cy.get('#modify-dialog__year-input').clear()
-        cy.get('#modify-dialog__year-input').type(modify.modifyParams.year)
+        cy.get('#modify-dialog__year-input').type(modify.modifyParams.year.toString())
 
         cy.get('#modify-dialog__week-input').clear()
-        cy.get('#modify-dialog__week-input').type(modify.modifyParams.week)
+        cy.get('#modify-dialog__week-input').type(modify.modifyParams.week.toString())
 
         cy.get('.modify-dialog__update-button').click()
 
+        cy.searchOldResult(modify.modifyParams, true);
 
-        cy.get('#old-results__player-input').clear()
-        cy.get('#old-results__year-input').clear()
-        cy.get('#old-results__week-input').clear()
-        cy.get('#select-old-results__serie-select').click()
-        cy.get('#select-input-option-').click()
-        cy.get('#old-results__pool-input').clear()
-
-        cy.get('#old-results__player-input').type(modify.modifyParams.player)
-        cy.get('#old-results__year-input').type(modify.modifyParams.year)
-        cy.get('#old-results__week-input').type(modify.modifyParams.week)
-        cy.get('#select-old-results__serie-select').click()
-        cy.get('#select-input-option-' + modify.modifyParams.serie).click()
-        cy.get('#old-results__pool-input').type(modify.modifyParams.pool)
-
-        cy.get('.old-results__search-button').click()
-
-        cy.get('.table__row-column--' + modify.modifyParams.player.replace(/\s/g, '')).should('exist')
-        cy.get('.table__row-column--' + modify.modifyParams.year.toString()).should('exist')
-        cy.get('.table__row-column--' + modify.modifyParams.week.toString()).should('exist')
-        cy.get('.table__row-column--' + modify.modifyParams.serie).should('exist')
-        cy.get('.table__row-column--' + modify.modifyParams.pool.toString()).should('exist')
-        cy.get('.table__row-column--' + modify.modifyParams.plusMinusScore.toString()).should('exist')
-        cy.get('.table__row-column--' + modify.modifyParams.ranking.toString()).should('exist')
-        cy.get('.table__row-column--' + modify.modifyParams.score.toString()).should('exist')
-        
+        cy.validateTable(modify.modifyParams)      
       });   
     })
   });
 
   it('input validation', () => {
     cy.get('.header__tab--old-scores').click()
-    cy.fixture('oldScores').then( data => {
-      data.searchInputValidation.forEach(validation => {
-        cy.validateInput('#old-results__player-input', validation.input.player, validation.errorMessage.player)
-        cy.validateInput('#old-results__year-input', validation.input.year, validation.errorMessage.year)
-        cy.validateInput('#old-results__week-input', validation.input.week, validation.errorMessage.week)
-        cy.validateInput('#old-results__pool-input', validation.input.pool, validation.errorMessage.pool)
-
-        cy.get('#old-results__player-input').clear()
-        cy.get('#old-results__year-input').clear()
-        cy.get('#old-results__week-input').clear()
-        cy.get('#old-results__pool-input').clear()
+    cy.fixture('oldScores').then( (data: OldScores)  => {
+      data.searchInputValidation.forEach((validation) => {
+        cy.validateInput('#old-results__player-input', validation.input.player, validation.errorMessage.player, true)
+        cy.validateInput('#old-results__year-input', validation.input.year, validation.errorMessage.year, true)
+        cy.validateInput('#old-results__week-input', validation.input.week, validation.errorMessage.week, true)
+        cy.validateInput('#old-results__pool-input', validation.input.pool, validation.errorMessage.pool, true)
       });
 
       const searchParam = data.modifyParams[0].searchParams
 
-      if (searchParam.player !== null) {
-        cy.get('#old-results__player-input').type(searchParam.player)
-      }
-
-      if (searchParam.year !== null) {
-        cy.get('#old-results__year-input').type(searchParam.year)
-      }
-
-      if (searchParam.week !== null) {
-        cy.get('#old-results__week-input').type(searchParam.week)
-      }
-
-      if (searchParam.serie !== null) {
-        cy.get('#select-old-results__serie-select').click()
-        cy.get('#select-input-option-' + searchParam.serie).click()
-      }
-
-      if (searchParam.pool !== null) {
-        cy.get('#old-results__pool-input').type(searchParam.pool)
-      }
-
-      cy.get('.old-results__search-button').click()
+      cy.searchOldResult(searchParam);
 
       data.modifyInputValidation.forEach(validation => {
         cy.get('.table__row-column--' + searchParam.player.replace(/\s/g, '')).click()
@@ -202,5 +105,24 @@ describe('Old scores: ', () => {
         cy.get('.modify-dialog__close-button').click()
       });
     });
+  });
+
+  it('delete score', () => {
+    cy.get('.header__tab--old-scores').click()
+    cy.fixture('oldScores').then( (data: OldScores)  => {
+      cy.searchOldResult(data.modifyParams[0].searchParams);
+      cy.get('.table__row-column--' + data.modifyParams[0].searchParams.player.replace(/\s/g, '')).click()
+      cy.get('.modify-dialog__delete-score-button').click()
+     
+      cy.get('.info-dialog__close-button').click()
+      cy.get('.modify-dialog__close-button').click()
+      cy.get('.table__row-column--' + data.modifyParams[0].searchParams.player.replace(/\s/g, '')).should('exist')
+
+      cy.get('.table__row-column--' + data.modifyParams[0].searchParams.player.replace(/\s/g, '')).click()
+      cy.get('.modify-dialog__delete-score-button').click()
+      cy.get('.info-dialog__accept-button').click()
+      cy.get('.old-results__search-button').click()
+      cy.get('.table__row-column--' + data.modifyParams[0].searchParams.player.replace(/\s/g, '')).should('not.exist')
+    })
   });
 })

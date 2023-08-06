@@ -1,3 +1,5 @@
+import { Authentication } from "../../types"
+
 describe('Authentication: ', () => {
 
   beforeEach(() => {
@@ -6,7 +8,7 @@ describe('Authentication: ', () => {
   })
 
   it('valid login', () => {
-    cy.fixture('authentication').then( data => {     
+    cy.fixture('authentication').then( (data: Authentication) => {     
       cy.get('#log-in__username').type(data.validUser.username)
       cy.get('#log-in__password').type(data.validUser.password)
       cy.get('.log-in__button').click()
@@ -18,7 +20,7 @@ describe('Authentication: ', () => {
   })
 
   it('invalid login', () => {
-    cy.fixture('authentication').then( data => {
+    cy.fixture('authentication').then( (data: Authentication) => {
       data.invalidUsers.forEach( user => {
         cy.get('#log-in__username').type(user.username)
         cy.get('#log-in__password').type(user.password)
