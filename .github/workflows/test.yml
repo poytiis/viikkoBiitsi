@@ -38,11 +38,11 @@ jobs:
         ports:
           - 8081:80
         env:
-          DATABASE_SERVER_NAME: database
-          DATABASE_USER: root
-          DATABASE_PASSWORD: root
-          DATABASE_DATABASE_NAME: viikkobiitsi
-          ADMIN_UI_DOMAIN: http://localhost:3001
+          DATABASE_SERVER_NAME: $DATABASE_SERVER_NAME
+          DATABASE_USER: $DATABASE_USER
+          DATABASE_PASSWORD: $DATABASE_PASSWORD
+          DATABASE_DATABASE_NAME: $DATABASE_DATABASE_NAME
+          ADMIN_UI_DOMAIN: $ADMIN_UI_DOMAIN
 
     steps:
       - uses: actions/checkout@v3
