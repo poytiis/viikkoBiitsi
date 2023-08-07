@@ -1,10 +1,10 @@
 <?php
 
 function connect_database(): mysqli {
-    $server_name = "database";
-    $user_name = "root";
-    $password = "root";
-    $database_name = "viikkobiitsi";
+    $server_name = getenv('DATABASE_SERVER_NAME');
+    $user_name = getenv('DATABASE_USER');
+    $password = getenv('DATABASE_PASSWORD');
+    $database_name = getenv('DATABASE_DATABASE_NAME');
 
     $conn = new mysqli($server_name, $user_name, $password, $database_name);
 

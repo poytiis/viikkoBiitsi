@@ -18,6 +18,12 @@ services:
   server:
     build: 
       context: ./backEnd/
+    environment:
+      DATABASE_SERVER_NAME: database
+      DATABASE_USER: root
+      DATABASE_PASSWORD: root
+      DATABASE_DATABASE_NAME: viikkobiitsi
+      ADMIN_UI_DOMAIN: http://localhost:3001
     ports:
       - 8081:80
     volumes:
@@ -25,5 +31,7 @@ services:
   admin-front-end:
     build: 
       context: ./adminUI/
+      args:
+        REACT_APP_API_URL_ARG: http://localhost:8081/
     ports:
         - 3001:80

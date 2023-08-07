@@ -1,7 +1,14 @@
 name: Test back-end and front-end
+env:
+  DATABASE_SERVER_NAME: database
+  DATABASE_USER: root
+  DATABASE_PASSWORD: root
+  DATABASE_DATABASE_NAME: viikkobiitsi
+  ADMIN_UI_DOMAIN: http://localhost:3000
+  REACT_APP_API_URL_ARG: http://localhost:8081/
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "dev" ]
 jobs:
   build-back-end:
     runs-on: ubuntu-latest
@@ -30,6 +37,13 @@ jobs:
         image: poytiis/viikkobiitsi-backend
         ports:
           - 8081:80
+        env:
+          DATABASE_SERVER_NAME: $DATABASE_SERVER_NAME
+          DATABASE_USER: $DATABASE_USER
+          DATABASE_PASSWORD: $DATABASE_PASSWORD
+          DATABASE_DATABASE_NAME: $DATABASE_DATABASE_NAME
+          ADMIN_UI_DOMAIN: $ADMIN_UI_DOMAIN
+
     steps:
       - uses: actions/checkout@v3
 
@@ -70,7 +84,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build the image
-        run: docker build --tag poytiis/viikkobiitsi-admin-front-end ./adminUI
+        run: docker build --tag --build-arg="REACT_APP_API_URL_ARG=$REACT_APP_API_URL_ARG" poytiis/viikkobiitsi-admin-front-end ./adminUI
 
       - name: Push the image
         run: |
@@ -93,6 +107,12 @@ jobs:
         image: poytiis/viikkobiitsi-backend
         ports:
           - 8081:80
+        env:
+          DATABASE_SERVER_NAME: $DATABASE_SERVER_NAME
+          DATABASE_USER: $DATABASE_USER
+          DATABASE_PASSWORD: $DATABASE_PASSWORD
+          DATABASE_DATABASE_NAME: $DATABASE_DATABASE_NAME
+          ADMIN_UI_DOMAIN: $ADMIN_UI_DOMAIN
       front-end:
         image: poytiis/viikkobiitsi-admin-front-end
         ports:

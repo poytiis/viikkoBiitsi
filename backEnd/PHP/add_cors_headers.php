@@ -1,5 +1,5 @@
 <?php
-$allowed_origins = ['http://localhost:3000', 'http://localhost:3001'];
+$allowed_origins = ['http://localhost:3000', getenv('ADMIN_UI_DOMAIN')];
 $origin =  $_SERVER['HTTP_ORIGIN'];
 $is_origin_valid = in_array($origin, $allowed_origins);
 if ($is_origin_valid) {
