@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS viikon_tulokset_muutokset(
   aikaleima date
 );
 
-CREATE TABLE TABLE IF NOT EXISTS viikon_tulokset(
+CREATE TABLE IF NOT EXISTS  viikon_tulokset(
   id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nimi varchar(255) NOT NULL,
   sarja varchar(255),
@@ -37,7 +37,7 @@ CREATE TABLE TABLE IF NOT EXISTS viikon_tulokset(
   vuosi int
 );
 
-CREATE TABLE TABLE IF NOT EXISTS viikon_tulokset_varmuuskopio(
+CREATE TABLE IF NOT EXISTS viikon_tulokset_varmuuskopio(
   id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nimi varchar(255) NOT NULL,
   sarja varchar(255),
@@ -49,7 +49,7 @@ CREATE TABLE TABLE IF NOT EXISTS viikon_tulokset_varmuuskopio(
   vuosi int
 );
 
-CREATE TABLE TABLE IF NOT EXISTS kokonaistulokset_miehet(
+CREATE TABLE IF NOT EXISTS kokonaistulokset_miehet(
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nimi varchar(255),
   viikko_1 float,
@@ -57,7 +57,7 @@ CREATE TABLE TABLE IF NOT EXISTS kokonaistulokset_miehet(
   total float
 );
 
-CREATE TABLE TABLE IF NOT EXISTS kokonaistulokset_naiset(
+CREATE TABLE IF NOT EXISTS kokonaistulokset_naiset(
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nimi varchar(255),
   viikko_1 float,
@@ -65,19 +65,19 @@ CREATE TABLE TABLE IF NOT EXISTS kokonaistulokset_naiset(
   total float
 );
 
-CREATE TABLE TABLE IF NOT EXISTS lokitiedot(
+CREATE TABLE IF NOT EXISTS lokitiedot(
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   aikaleima varchar(255),
   merkinta varchar(255)
 );
 
-CREATE TABLE TABLE IF NOT EXISTS kausikortit(
+CREATE TABLE IF NOT EXISTS kausikortit(
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nimi varchar(255),
   vuosi int
 );
 
-CREATE TABLE TABLE IF NOT EXISTS viikko_biitsi_hallinta(
+CREATE TABLE IF NOT EXISTS viikko_biitsi_hallinta(
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   hallinta_avain varchar(255),
   hallinta_arvo varchar(255)
