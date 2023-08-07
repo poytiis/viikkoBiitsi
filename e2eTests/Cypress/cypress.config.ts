@@ -18,24 +18,15 @@ export default defineConfig({
 
     setupNodeEvents(on, config) {
       on('task', {
-        'db:seed': () => {
-          
-          const con = connectToDatabase();  
-          con.connect( err => {
-              if (err) throw err;
-              var sql = "DELETE FROM wpzl_postmeta";
-              con.query(sql, (err, result) => {
-                if (err) throw err;
-              });
-          });
-          return null
-        },
         'db:seedScores': () => {
           
           const con = connectToDatabase();  
           con.connect( err => {
               const deleteQuery = "DELETE FROM wpzl_postmeta";
               con.query(deleteQuery, (err, result) => {});
+
+              const deleteScoresQuery = "DELETE FROM viikon_tulokset";
+              con.query(deleteScoresQuery, (err, result) => {});
 
               const insertQuery = `INSERT INTO wpzl_postmeta VALUES 
               (1, 1, '_field_38', 'Naiset'),
@@ -156,7 +147,7 @@ export default defineConfig({
 
             const insertQuery = `INSERT INTO viikko_biitsi_hallinta VALUES 
             (DEFAULT, 'laskettavat_kerrat_pisteisiin', '2'),
-            (DEFAULT, 'viikkobiitsi', '4c94485e0c21ae6c41ce1dfe7b6bfaceea5ab68e40a2476f50208e526f506080');`;
+            (DEFAULT, 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');`;
             con.query(insertQuery, (err, result) => {})           
 
           })

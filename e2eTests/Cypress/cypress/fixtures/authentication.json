@@ -1,7 +1,7 @@
 {
   "validUser": {
-    "username": "viikkobiitsi",
-    "password": "v"
+    "username": "admin",
+    "password": "admin"
   },
   "invalidUsers": [
     {

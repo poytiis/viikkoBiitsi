@@ -3,7 +3,7 @@ import { Authentication } from "../../types"
 describe('Authentication: ', () => {
 
   beforeEach(() => {
-    cy.task('db:seed')
+    cy.task('db:seedLogIn')
     cy.visit('/')
   })
 
