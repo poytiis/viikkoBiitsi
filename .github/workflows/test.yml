@@ -78,18 +78,18 @@ jobs:
   #         npm install
   #         npm test
 
-  build-front-end:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+  # build-front-end:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Build the image
-        run: docker build --tag poytiis/viikkobiitsi-admin-front-end --build-arg="REACT_APP_API_URL_ARG=$REACT_APP_API_URL_ARG" ./adminUI
+  #     - name: Build the image
+  #       run: docker build --tag poytiis/viikkobiitsi-admin-front-end --build-arg="REACT_APP_API_URL_ARG=$REACT_APP_API_URL_ARG" ./adminUI
 
-      - name: Push the image
-        run: |
-          docker login -u poytiis -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker push poytiis/viikkobiitsi-admin-front-end
+  #     - name: Push the image
+  #       run: |
+  #         docker login -u poytiis -p ${{ secrets.DOCKER_HUB_TOKEN }}
+  #         docker push poytiis/viikkobiitsi-admin-front-end
           
   # test-front-end-e2e:
   #   runs-on: ubuntu-latest

@@ -7,7 +7,7 @@ axios.defaults.withCredentials = true;
 export const baseUrl = 'http://localhost:8081/'
 
 export const axiosLogIn = async () => {
-    const post = await axios.post(baseUrl + 'login.php', {username: 'viikkobiitsi', password: 'v'})
+    const post = await axios.post(baseUrl + 'login.php', {username: 'admin', password: 'admin'})
     const cookies = post.headers['set-cookie'];
     let cookiesSTR = ''
 
