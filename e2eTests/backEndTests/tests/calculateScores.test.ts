@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { baseUrl, axiosLogIn, querySingleDatabase } from '../helpers';
 import { ShowScoresRequest } from '../types';
-import { insertValidPools2, deletePools, insertValidPools5 } from '../SQLData/wpzl_postmeta';
-import { deleteScoresQuery, selectAllScoresQuery, insertScoresQuery} from '../SQLData/viikon_tulokset';
-import { poolScoresPools2, poolScoresPools5 } from '../ResponseData/viikon_tulokset';
+import { insertValidPools2, deletePools, insertValidPools5, selectAllPools } from '../SQLData/wpzl_postmeta';
+import { deleteScoresQuery, selectAllScoresQuery, insertScoresQuery, moveRankingYearQuery1, moveRankingYearQuery2, insertScoresQuery2, selectBegingRankings, moveRankingYearQueryThisYear} from '../SQLData/viikon_tulokset';
+import { poolScoresPools2, poolScoresPools5 } from '../validationData/viikon_tulokset';
 import { selectAllMensRanking, selectAllWomensRanking } from '../SQLData/kokonais_tulokset';
-import { menRanking, womenRanking } from '../ResponseData/kokonais_tulokset';
+import { menRanking, rankingBegingRanking, rankingBegingRanking2, rankingCountingScores, womenRanking } from '../validationData/kokonais_tulokset';
+import { updateCountingScores } from '../SQLData/viikko_biitsi_hallinta';
 
 describe('Calculate scores: ', () => {
   it('fetch scores', async () => {
@@ -31,7 +32,7 @@ describe('Calculate scores: ', () => {
     });
   });
 
-  it('calculate scores', async () => {
+  it('calculate ranking', async () => {
     const config = await axiosLogIn();
 
     const insertQueries = [insertValidPools2, insertValidPools5];
@@ -56,6 +57,10 @@ describe('Calculate scores: ', () => {
     const config = await axiosLogIn();
     await querySingleDatabase(deleteScoresQuery);
     await querySingleDatabase(insertScoresQuery);
+    await querySingleDatabase(deletePools);
+    await querySingleDatabase(insertValidPools2);
+
+    const beforeUpdatePools: any = await querySingleDatabase(selectAllPools);
     await axios.get(baseUrl + 'calculate_scores.php?update_only=true', config);
 
     const womenResulsts: any = await querySingleDatabase(selectAllWomensRanking);
@@ -69,6 +74,81 @@ describe('Calculate scores: ', () => {
         expect(rankingInDB.viikko_2.toFixed(2)).toBe(ranking.week2.toFixed(2));
         expect(rankingInDB.total.toFixed(2)).toBe(ranking.total.toFixed(2));
       });
-    })   
+    })
+    const afterUpdatePools: any = await querySingleDatabase(selectAllPools);
+
+    expect(beforeUpdatePools.length).toBe(afterUpdatePools.length)
+  })
+
+  it('calculate beging ranking', async () => {
+    const queries = [insertScoresQuery, insertScoresQuery2];
+    const validationData = [rankingBegingRanking, rankingBegingRanking2]
+    const config = await axiosLogIn();
+
+    for(let i = 0; i < queries.length; i++) {
+      await querySingleDatabase(deleteScoresQuery);
+      await querySingleDatabase(queries[i]);
+      await querySingleDatabase(moveRankingYearQuery1);
+      await querySingleDatabase(moveRankingYearQuery2);
+
+      await axios.get(baseUrl + 'calculate_beging_ranking.php', config);
+      const rankings = await querySingleDatabase(selectBegingRankings);
+     
+      const womenResulsts: any = await querySingleDatabase(selectAllWomensRanking);
+      const menResulsts: any = await querySingleDatabase(selectAllMensRanking);
+      const mergedRankings = [...womenResulsts, ...menResulsts]
+
+      expect(mergedRankings.length).not.toBe(0);
+      expect(rankings.length).not.toBe(0);
+
+      rankings.forEach(element => {
+        const score =  validationData[i].find(result => result.name === element.nimi);
+        expect(score).toBeTruthy()
+        expect(score?.week1.toFixed(2)).toBe(element.sarja_pisteet.toFixed(2))
+      });
+      
+      mergedRankings.forEach(element => {
+        const score =  validationData[i].find(result => result.name === element.nimi);
+        expect(score).toBeTruthy()
+        expect(score?.week1.toFixed(2)).toBe(element.viikko_1.toFixed(2))
+      })     
+    } 
+  });
+
+  it('update ranking different score count', async () => {
+    const config = await axiosLogIn();
+    const countingScores = [1, 2];
+
+   for(let i = 0; i < countingScores.length; i++ ) {
+    await querySingleDatabase(deleteScoresQuery);
+    await querySingleDatabase(insertScoresQuery2);
+    await querySingleDatabase(moveRankingYearQueryThisYear);
+
+    const updateQuery = updateCountingScores(countingScores[i]);
+    await querySingleDatabase(updateQuery);
+
+    await axios.get(baseUrl + 'calculate_scores.php?update_only=true', config);
+
+    const womenResulsts: any = await querySingleDatabase(selectAllWomensRanking);
+    const menResulsts: any = await querySingleDatabase(selectAllMensRanking);
+    const mergedRankings = [...womenResulsts, ...menResulsts];
+
+    expect(mergedRankings.length).not.toBe(0);
+
+    mergedRankings.forEach(element => {
+      const score =  rankingCountingScores.find(result => result.name === element.nimi);
+      expect(score).toBeTruthy();
+
+      if(score) {
+        const totalScore = countingScores[i] === 1
+        ? score.week1.toFixed(2)
+        : parseFloat(score.week1.toFixed(2)) + parseFloat(score?.week2.toFixed(2))
+
+        expect(score.week1.toFixed(2)).toBe(element.viikko_1.toFixed(2))
+        expect(score.week2.toFixed(2)).toBe(element.viikko_2.toFixed(2))
+        expect(totalScore.toString()).toBe(element.total.toFixed(2))   
+      }    
+    })  
+   }
   })
 });

@@ -1,5 +1,7 @@
 export const deletePools = 'DELETE FROM wpzl_postmeta;';
 
+export const selectAllPools = `SELECT * FROM wpzl_postmeta`;
+
 export const insertValidPools2 = `
 INSERT INTO wpzl_postmeta VALUES 
 (1, 1, '_field_38', 'Naiset'),
@@ -118,3 +120,8 @@ INSERT INTO wpzl_postmeta VALUES
 (58,5, '_field_61', '-1'),
 (59,5, '_form_id', '5'),
 (60,5, '_seq_num', '12234');`;
+
+
+export const deleteFormDataBackup = `DELETE FROM syotetyt_tulokset_varmuuskopio;`
+
+export const selectFromFormDataBackup = `SELECT * FROM syotetyt_tulokset_varmuuskopio;`

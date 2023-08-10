@@ -2,6 +2,7 @@
 include 'add_cors_headers.php';
 include 'check_auth.php';
 include 'connect_to_database.php';
+include 'update_ranking_lists.php';
 
 $conn = connect_database();
 $conn->begin_transaction();
@@ -71,6 +72,8 @@ while($row = $names_r->fetch_object()){
         die;
     }
 }
+
+update_ranking_lists($conn, true);
 
 $conn->commit();
 $conn->close();

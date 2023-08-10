@@ -23,26 +23,6 @@ export const axiosLogIn = async () => {
     return config;
 }
 
-export const queryDatabase = async (queries: string[]) => {
-    const con = await mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "root",
-        database: "viikkobiitsi"
-    });
-
-    con.connect();
-    let sqlResult: any = null
-    await queries.forEach(async query => {
-        const [rows, fields] = await con.execute(query);
-        sqlResult = rows;
-        // con.query(query, (error, results, fields) => { sqlResult = results; console.log(sqlResult.length)});
-    });
-    
-    con.end();
-    return null;
-}
-
 export const querySingleDatabase = async (queries: string) => {
     const con = await mysql.createConnection({
         host: "localhost",

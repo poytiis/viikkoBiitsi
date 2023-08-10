@@ -79,7 +79,6 @@ INSERT INTO wpzl_postmeta VALUES
   (5381, 'Player 8', 'Miehet', 32, 1, 4, -2, 17, 2023);
 
 
-
 INSERT INTO lokitiedot VALUES
   (1, '2023-07-11', 'Uusi pelaaja: Player 2 '),
   (2, '2023-07-11', 'Uusi pelaaja: Player 1 '),
@@ -89,3 +88,4 @@ INSERT INTO lokitiedot VALUES
   (6, '2023-07-11', 'Uusi pelaaja: Player 5 '),
   (7, '2023-07-11', 'Uusi pelaaja: Player 7 '),
   (8, '2023-07-11', 'Uusi pelaaja: Player 8 ');
+  

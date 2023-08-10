@@ -1,7 +1,7 @@
 import axios from "axios";
 import { axiosLogIn, baseUrl, querySingleDatabase } from "../helpers";
 import { deleteScoresQuery, insertScoresQuery, queryById, selectAllScoresQuery } from '../SQLData/viikon_tulokset';
-import { updateOldScores } from '../ResponseData/viikon_tulokset';
+import { updateOldScores } from '../validationData/viikon_tulokset';
 
 describe('Modify old scores: ', () => {
   it('delete score', async () => {

@@ -50,8 +50,35 @@ INSERT INTO viikon_tulokset VALUES
 (5381, 'Player 8', 'Miehet', 32, 1, 4, -2, 17, 2023);
 `;
 
+export const insertScoresQuery2 = `
+INSERT INTO viikon_tulokset VALUES
+(5334, 'Player 1', 'Miehet', 1, 1, 1, 1, 12, 2022),
+(5335, 'Player 1', 'Miehet', 2, 1, 2, 1, 19.15, 2022),
+(5336, 'Player 1', 'Miehet', 3, 1, 3, -1, 18.05, 2022),
+(5337, 'Player 1', 'Miehet', 4, 1, 4, -2, 17, 2022),
+(5338, 'Player 1', 'Miehet', 5, 1, 1, 2, 20.2, 2022),
+(5339, 'Player 1', 'Miehet', 6, 1, 2, 1, 19.15, 2022),
+(5340, 'Player 1', 'Miehet', 7, 1, 3, -1, 10, 2022),
+(5341, 'Player 2', 'Miehet', 1, 1, 4, -20, 16.1, 2022),
+(5342, 'Player 2', 'Naiset', 2, 1, 1, 2, 20.2, 2022),
+(5343, 'Player 2', 'Naiset', 3, 1, 2, 1, 19.15, 2022),
+(5344, 'Player 2', 'Naiset', 4, 1, 3, -1, 18.05, 2022),
+(5345, 'Player 2', 'Naiset', 5, 1, 4, -2, 17, 2022),
+(5346, 'Player 2', 'Naiset', 6, 1, 1, 2, 20.2, 2022),
+(5347, 'Player 2', 'Naiset', 7, 1, 2, 1, 19.15, 2022),
+(5348, 'Player 2', 'Naiset', 8, 1, 3, -1, 100, 2022);
+`;
+
 export const deleteScoresQuery = `DELETE FROM viikon_tulokset`;
 
 export const selectAllScoresQuery = `SELECT * FROM viikon_tulokset`;
 
 export const queryById = 'SELECT * FROM viikon_tulokset WHERE id=';
+
+const year = new Date().getFullYear();
+
+export const moveRankingYearQuery1 = `UPDATE viikon_tulokset SET vuosi=` + (year - 2 ).toString() + ' WHERE vuosi=2023';
+export const moveRankingYearQuery2 = `UPDATE viikon_tulokset SET vuosi=` + (year - 1 ).toString() + ' WHERE vuosi=2022';
+export const moveRankingYearQueryThisYear = `UPDATE viikon_tulokset SET vuosi=` + (year).toString() + ' WHERE vuosi=2022';
+
+export const selectBegingRankings = `SELECT * FROM viikon_tulokset WHERE viikko=0;`
