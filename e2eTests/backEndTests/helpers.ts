@@ -1,11 +1,14 @@
 import mysql from 'mysql2/promise';
 import axios from 'axios';
+import { clearUsers, initTestUser } from './SQLData/viikko_biitsi_hallinta';
 
 axios.defaults.withCredentials = true;
 
 export const baseUrl = 'http://localhost:8081/'
 
 export const axiosLogIn = async () => {
+    await querySingleDatabase(clearUsers)
+    await querySingleDatabase(initTestUser)
     const post = await axios.post(baseUrl + 'login.php', {username: 'admin', password: 'admin'})
     const cookies = post.headers['set-cookie'];
     let cookiesSTR = ''
