@@ -22,7 +22,7 @@ export interface OldResult extends SearchOldResult {
     seriePoints: number | null;
 }
 
-export interface OldResultSearchParams extends  SearchOldResult{
+export interface OldResultSearchParams extends SearchOldResult{
     results: SearchOldResult[];
 }
 
@@ -70,7 +70,6 @@ export interface Scores {
     scores: WeekResult[];
     updatePlayer: WeekResult;
     invalidUpdatePlayers: invalidUpdatePlayer[];
-
 }
 
 export interface AuthenticationUser {

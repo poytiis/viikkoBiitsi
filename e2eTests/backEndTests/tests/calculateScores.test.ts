@@ -2,7 +2,7 @@ import axios from 'axios';
 import { baseUrl, axiosLogIn, querySingleDatabase } from '../helpers';
 import { ShowScoresRequest } from '../types';
 import { insertValidPools2, deletePools, insertValidPools5, selectAllPools } from '../SQLData/wpzl_postmeta';
-import { deleteScoresQuery, selectAllScoresQuery, insertScoresQuery, moveRankingYearQuery1, moveRankingYearQuery2, insertScoresQuery2, selectBegingRankings, moveRankingYearQueryThisYear} from '../SQLData/viikon_tulokset';
+import { deleteScoresQuery, selectAllScoresQuery, insertScoresQuery, moveRankingYearQuery1, moveRankingYearQuery2, insertScoresQuery2, selectBegingRankings, moveRankingYearQueryThisYear, moveRankingYearQuery3} from '../SQLData/viikon_tulokset';
 import { poolScoresPools2, poolScoresPools5 } from '../validationData/viikon_tulokset';
 import { selectAllMensRanking, selectAllWomensRanking } from '../SQLData/kokonais_tulokset';
 import { menRanking, rankingBegingRanking, rankingBegingRanking2, rankingCountingScores, womenRanking } from '../validationData/kokonais_tulokset';
@@ -59,6 +59,7 @@ describe('Calculate scores: ', () => {
     await querySingleDatabase(insertScoresQuery);
     await querySingleDatabase(deletePools);
     await querySingleDatabase(insertValidPools2);
+    await querySingleDatabase(moveRankingYearQuery3);
 
     const beforeUpdatePools: any = await querySingleDatabase(selectAllPools);
     await axios.get(baseUrl + 'calculate_scores.php?update_only=true', config);

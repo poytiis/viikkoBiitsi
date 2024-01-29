@@ -79,6 +79,7 @@ const year = new Date().getFullYear();
 
 export const moveRankingYearQuery1 = `UPDATE viikon_tulokset SET vuosi=` + (year - 2 ).toString() + ' WHERE vuosi=2023';
 export const moveRankingYearQuery2 = `UPDATE viikon_tulokset SET vuosi=` + (year - 1 ).toString() + ' WHERE vuosi=2022';
+export const moveRankingYearQuery3 = `UPDATE viikon_tulokset SET vuosi=` + (year).toString() + ' WHERE vuosi=2023';
 export const moveRankingYearQueryThisYear = `UPDATE viikon_tulokset SET vuosi=` + (year).toString() + ' WHERE vuosi=2022';
 
 export const selectBegingRankings = `SELECT * FROM viikon_tulokset WHERE viikko=0;`

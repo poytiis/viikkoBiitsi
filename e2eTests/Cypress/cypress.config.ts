@@ -164,7 +164,20 @@ export default defineConfig({
             
           });
           return null;
+        },
+        'db:moveOldScoresToThisYear': () => {
+          const con = connectToDatabase();
+          con.connect(errr => {
+            const year = new Date().getFullYear();
+            const updateQuery1 = "UPDATE viikon_tulokset SET vuosi=" + (year).toString() + " WHERE vuosi=2023";
+            con.query(updateQuery1, (err, result) => {});
+            const updateQuery2 = "UPDATE viikon_tulokset SET vuosi=" + (year - 1).toString() + " WHERE vuosi=2022";
+            con.query(updateQuery2, (err, result) => {});
+            
+          });
+          return null;
         }
+        
       })
     },
   },
