@@ -1,4 +1,3 @@
-import React from 'react';
 import Dialog from '../Dialog/Dialog';
 import Button from '../../Button/Button';
 import './ModifyDialog.scss';
@@ -11,7 +10,6 @@ import Select  from '../../Select/Select';
 import useSelect from '../../../hooks/useSelect';
 
 const ModifyDialog = (props) => {
-
   const { rank, serie, name, score, year, week, plusMinusPoints, ranking } = props.content;
 
   const selectOptions = [
@@ -88,7 +86,7 @@ const ModifyDialog = (props) => {
         props.close();
       }
     } catch (ex) {
-
+      console.log('Odottamaton virhe tapahtui');
     }
   }
   return (

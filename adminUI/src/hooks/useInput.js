@@ -14,26 +14,30 @@ const useInput = (props) => {
     const validattion = props?.validattion ?? 'maxLenght';
     const maxLenght = props?.maxLenght ?? 200;
 
-    switch(validattion) {
-      case 'required':
+    switch (validattion) {
+      case 'required': {
         if (value.length === 0 ) {
-          setErrorMessage(true, 'Kenttä on pakollinen');   
+          setErrorMessage(true, 'Kenttä on pakollinen');
         } else if (value.length > maxLenght) {
           setErrorMessage(true, 'Maksimi merkkimäärä ylitetty');
         } else {
           setErrorMessage(false, '');
         }
         break;
-      case 'maxLenght':
+      }
+
+      case 'maxLenght': {
         if (value.length > maxLenght) {
           setErrorMessage(true, 'Maksimi merkkimäärä ylitetty');
         } else {
-          setErrorMessage(false, '');  
+          setErrorMessage(false, '');
         }
         break;
+      }
+
       case 'integerRequired':
-      case 'integer':
-        if(validattion === 'integer' && value.length === 0) {
+      case 'integer': {
+        if (validattion === 'integer' && value.length === 0) {
           setErrorMessage(false, '');
           return;
         }
@@ -45,10 +49,11 @@ const useInput = (props) => {
           setErrorMessage(false, '');
         }
         break;
+      }
 
       case 'floatRequired':
-      case 'float':
-        if(validattion === 'float' && value.length === 0) {
+      case 'float': {
+        if (validattion === 'float' && value.length === 0) {
           setErrorMessage(false, '');
           return;
         }
@@ -59,9 +64,12 @@ const useInput = (props) => {
         } else {
           setErrorMessage(false, '');
         }
-        break;   
-      default:
+        break;
+      }
+      default: {
         console.log('Invalid useInput validattion param: '+ validattion);
+      }
+
     }
   }
 
@@ -72,6 +80,6 @@ const useInput = (props) => {
     helperText,
     onBlur: (e) => {validate(e.target.value)}
   };
-}
+};
 
 export default useInput;

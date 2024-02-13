@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import {useState} from 'react';
 import Button from '../Button/Button';
 import Layout from '../Layout/Layout';
-import  { downloadRankingsFetch, downloadBackupFormDataFetch } from '../../services/httpClient';
+import {downloadRankingsFetch, downloadBackupFormDataFetch} from '../../services/httpClient';
 import SnackBar from '../SnackBar/SnackBar';
 import WhiteContainer from '../WhiteContainer/WhiteContainer';
 
@@ -27,40 +27,39 @@ const RankingList = () => {
 
   const downloadFormDataBackup = async () => {
     const res = await downloadBackupFormDataFetch();
-    if(res.ok) {
+    if (res.ok) {
       const text = await res.text();
-      downloadFile(text, 'syotetyt_tulokset_varmuuskopio.csv')
+      downloadFile(text, 'syotetyt_tulokset_varmuuskopio.csv');
     } else {
-      setSnackBarMessage('varmuuskopion lataus epäonnistui')
+      setSnackBarMessage('varmuuskopion lataus epäonnistui');
     }
   }
 
   const downloadRankinList = async (serie) => {
 
     Date.prototype.getWeek = function() {
-      var onejan = new Date(this.getFullYear(),0,1);
+      var onejan = new Date(this.getFullYear(), 0, 1);
       return Math.ceil((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
-    }
+    };
 
     const today = new Date();
-    var weekNumber = today.getWeek();
+    const weekNumber = today.getWeek();
     const fileName = 'ranking_' + serie + weekNumber + '.csv';
 
     try {
       const res = await downloadRankingsFetch(serie);
-      if(res.ok) {
+      if (res.ok) {
         const text = await res.text();
-        downloadFile(text, fileName)
+        downloadFile(text, fileName);
       } else {
-        setSnackBarMessage('Rankingien lataus epäonnistui')
+        setSnackBarMessage('Rankingien lataus epäonnistui');
       }
-
     } catch (ex) {
-        setSnackBarMessage('Rankingien lataus epäonnistui')
+      setSnackBarMessage('Rankingien lataus epäonnistui');
     }
-  }
+  };
 
-  return(
+  return (
     <Layout>
       <WhiteContainer header='Ranking-listat'>
         <>
@@ -74,7 +73,7 @@ const RankingList = () => {
 
           <div className='white-container__small-header'>Lataa varmuuskopio syötetyistä tuloksista.</div>
           <div className='white-container__beging-ranking-info'>
-            Lataa varmuuskopio nettisivun kautta syötetyistä tuloksista. 
+            Lataa varmuuskopio nettisivun kautta syötetyistä tuloksista.
             Varmuuskopiota tarvitaan vain silloin jos edellisen viikon tulokset ovat kadonneet.
           </div>
 
@@ -89,6 +88,6 @@ const RankingList = () => {
       }
     </Layout>
   );
-}
+};
 
 export default RankingList;

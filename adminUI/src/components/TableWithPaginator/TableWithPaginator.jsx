@@ -4,14 +4,13 @@ import backIcon from '../../imgs/back.png';
 import editIcon from '../../imgs/edit.png';
 
 const TableWithPaginator = (props) => {
-
   const handleEnterKeyUpPaginator = (e, direction) => {
     if (e.key === 'Enter' ) props.control.handlePaginatorClick(direction);
-  }
+  };
 
   const handleEnterKeyUpTableRow = (e, row) => {
     if (e.key === 'Enter' ) props.rowClick(row);
-  }
+  };
 
   const headerCount = props.control.headers.length;
   const headerWidth = 95 / headerCount;
@@ -20,11 +19,10 @@ const TableWithPaginator = (props) => {
   };
 
   const headers = props.control.headers.map(header => {
-    let random =  Math.floor(Math.random() * 1000000);
+    const random = Math.floor(Math.random() * 1000000);
     return (
       <div key={header + random.toString()} className='' style={headerStyles} >{header}</div>
     );
-
   });
 
   const content = props.control.visibleRows.map(row => {
@@ -33,8 +31,8 @@ const TableWithPaginator = (props) => {
       random =  Math.floor(Math.random() * 1000000);
       return(
         <div 
-          key={column + random.toString()} 
-          style={headerStyles} 
+          key={column + random.toString()}
+          style={headerStyles}
           onClick={() => {props.rowClick(row)}}
           className={'table__row-column--' + column.value.toString().replace(/\s/g, '')}
         >
@@ -43,12 +41,12 @@ const TableWithPaginator = (props) => {
       );
      
     })
-    if(headerCount > 2) {
+    if (headerCount > 2) {
       columns.push(
         <div  key={'edit' + random.toString()} className='table__row-edit-icon-container' onClick={() => {props.rowClick(row)}}> 
           <img src={editIcon} alt="edit" className='table__row-edit-icon' />
         </div>
-      )
+      );
     }
     return (
       <div 
@@ -94,7 +92,7 @@ const TableWithPaginator = (props) => {
           onClick={() => props.control.handlePaginatorClick('back')} 
           className='table__paginator-icon table__paginator-icon--back' 
           src={backIcon} 
-          alt="back arrow"
+          alt='back arrow'
           tabIndex={0}
           onKeyUp={(e) => {handleEnterKeyUpPaginator(e, 'back')}}
         />
@@ -102,7 +100,7 @@ const TableWithPaginator = (props) => {
           onClick={() => props.control.handlePaginatorClick('next')} 
           className='table__paginator-icon table__paginator-icon--next' 
           src={nextIcon} 
-          alt="next arrow"
+          alt='next arrow'
           tabIndex={0}
           onKeyUp={(e) => {handleEnterKeyUpPaginator(e, 'next')}}
 

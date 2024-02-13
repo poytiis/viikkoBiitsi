@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import Layout from '../Layout/Layout';
 import './OldResults.scss';
 import TextField from '@material-ui/core/TextField';
 import useInput from '../../hooks/useInput';
 import Button from '../Button/Button';
-import  { updateRankingFetch, searchOldScoresFetch, deleteOldScoresFetch } from '../../services/httpClient'
+import  {updateRankingFetch, searchOldScoresFetch, deleteOldScoresFetch} from '../../services/httpClient';
 import SnackBar from '../SnackBar/SnackBar';
 import useTable from '../../hooks/useTable';
 import TableWithPaginator from '../TableWithPaginator/TableWithPaginator';
@@ -15,7 +15,6 @@ import Select from '../Select/Select';
 import useSelect from '../../hooks/useSelect';
 
 const OldResults = () => {
-
   const [snackBarMessage, setSnackBarMessage] = useState('');
   const modifyDialogControl = useDialog();
   const deletePoolControl = useDialog();
@@ -26,8 +25,8 @@ const OldResults = () => {
     {value: '', text: 'Tyhjää kenttä'},
     {value: 'Naiset', text: 'Naiset'},
     {value: 'Miehet', text: 'Miehet'},
-  ]
-  const serieControl = useSelect({initValue: '', options: selectOptions})
+  ];
+  const serieControl = useSelect({initValue: '', options: selectOptions});
 
   const yearControl = useInput({initValue: '', validattion: 'integer'});
   const weekControl = useInput({initValue: '', validattion: 'integer'});
@@ -37,7 +36,7 @@ const OldResults = () => {
   const tableControl = useTable({rowsPerPage: 6, type: 'oldScores'});
 
   useEffect(() => {
-    tableControl.setHeaders(['Nimi', 'Viikko', 'Lohko',  'Sijoitus', 'Pisteet', '+-Pisteet','Vuosi', 'Sarja'  ])
+    tableControl.setHeaders(['Nimi', 'Viikko', 'Lohko', 'Sijoitus', 'Pisteet', '+-Pisteet', 'Vuosi', 'Sarja']);
   }, [])
 
   const handleSearchButtonClick = async () => {
@@ -48,8 +47,8 @@ const OldResults = () => {
     const json = await response.json();
 
     const tableData = json.data.map(row => {
-      const id = row.pop()
-      const columns = row.map(column => { return {value: column, id}})
+      const id = row.pop();
+      const columns = row.map(column => {return {value: column, id}});
       return columns;
     })
     
@@ -100,21 +99,21 @@ const OldResults = () => {
         id: data[3].id
       }
 
-    }
+    };
     setModifydialogData(dialogData);
     modifyDialogControl.openDialog();
   }
 
   const handleDeleteScore = () => {
     deletePoolControl.openDialog();
-  }
+  };
 
   const deleteScoreDialogContent = () => {
     return (
       <div className='flex-column'>
       </div>
     );
-  }
+  };
 
   const handleDeleteScoreClick = async () => {
     const id = {
@@ -145,7 +144,7 @@ const OldResults = () => {
             <Select className='old-results__input' control={serieControl} label='Sarja' id='old-results__serie-select'/>
             <TextField className='old-results__input' label='Lohko' {...poolControl} id='old-results__pool-input'/>
 
-            <Button 
+            <Button
               onClick={handleSearchButtonClick}
               className='old-results__search-button'
             >
@@ -173,13 +172,13 @@ const OldResults = () => {
       }
 
       { modifyDialogControl.showDialog &&
-        <ModifyDialog 
+        <ModifyDialog
           close={modifyDialogControl.closeDialog}
           content={modifydialogData}
           fetchData={handleSearchButtonClick}
           type='oldScores'
           delete={handleDeleteScore}
-        />     
+        />
       }
 
       { deletePoolControl.showDialog &&
@@ -194,6 +193,6 @@ const OldResults = () => {
 
     </Layout>
   );
-}
+};
 
 export default OldResults;

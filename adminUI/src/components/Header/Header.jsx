@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './Header.scss';
 import userIcon from '../../imgs/user.png';
 import { useHistory } from 'react-router-dom';
@@ -24,7 +24,8 @@ const Header = () => {
       localStorage.removeItem("loggedIn");
       history.push('/')
     } catch (ex) {
-
+      localStorage.removeItem("loggedIn");
+      history.push('/')
     }
   }
 

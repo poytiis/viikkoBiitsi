@@ -1,4 +1,3 @@
-import React from 'react';
 import './WhiteContainer.scss';
 
 const WhiteContainer = (props) => {

@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import './Results.scss';
 import Layout from '../Layout/Layout';
 import Button from '../Button/Button';
 import ModifyDialog from '../Dialogs/ModifyDialog/ModifyDialog';
 import InfoDialog from '../Dialogs/InfoDialog/InfoDialog';
 import useDialog from '../../hooks/useDialog';
-import { getNewScoresFetch } from '../../services/httpClient';
+import {getNewScoresFetch} from '../../services/httpClient';
 import SnackBar from '../SnackBar/SnackBar';
-import { deletePoolFetch, calculateNewRankingFetch, takeBackupFormDataFetch } from '../../services/httpClient';
+import {deletePoolFetch, calculateNewRankingFetch, takeBackupFormDataFetch} from '../../services/httpClient';
 import TableWithPaginator from '../TableWithPaginator/TableWithPaginator';
 import useTable from '../../hooks/useTable';
 
@@ -22,10 +22,9 @@ const Results = () => {
 
   const tableControl = useTable({rowsPerPage: 4, type: 'scores'});
 
-
   const createCalculateScoresDialogContent = () => {
-    let menPools = new Set();
-    let womenPools = new Set();
+    const menPools = new Set();
+    const womenPools = new Set();
 
     tableControl.rows.forEach(row => {
       if (row[1].value === 'Naiset') {
@@ -41,7 +40,7 @@ const Results = () => {
         <div className='info-dialog__text info-dialog__text--women-pools'>Naisten lohkoja: {womenPools.size}</div>
       </div>
     );
-  }
+  };
 
   const fetchData = useCallback(() => {
     getNewScoresFetch()
@@ -155,7 +154,7 @@ const Results = () => {
       fontSize: '1.3rem'
     };
 
-    if(tableControl.selectedPool === -1 || tableControl.rows.length === 0){
+    if (tableControl.selectedPool === -1 || tableControl.rows.length === 0){
       return <h2>Ainuttakaan valintaa ei voitu poistaa</h2>;
     }
 
@@ -167,17 +166,17 @@ const Results = () => {
 
 
   const handleDeletePool = async () => {
-    if(tableControl.visibleRows.length === 0) {
+    if (tableControl.visibleRows.length === 0) {
       return;
     }
     const postId = tableControl.visibleRows[0][0].postId;
-    if(postId === null || postId === '') {
+    if (postId === null || postId === '') {
       return;
     }
 
     try {
       const res = await deletePoolFetch(postId);
-      if(!res.ok) setSnackBarMessage('Lohkon poistaminen epäonnistui')
+      if (!res.ok) setSnackBarMessage('Lohkon poistaminen epäonnistui')
       else setSnackBarMessage('Lohko poistettu onnistuneesti')
       deletePoolControl.closeDialog();
       fetchData();
@@ -190,7 +189,7 @@ const Results = () => {
   const handleUpdateNewRanking = async () => {
     calculateScoresControl.setDisableAcceptButton(true);
     const response = await calculateNewRankingFetch();
-    if(!response) setSnackBarMessage('Tapahtui tietoyhteysvirhe')
+    if (!response) setSnackBarMessage('Tapahtui tietoyhteysvirhe')
     
     else if (response.ok) {
       const result = await response.json();

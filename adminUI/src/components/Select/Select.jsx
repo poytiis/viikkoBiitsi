@@ -1,4 +1,3 @@
-import React from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -10,10 +9,10 @@ const Select = (props) => {
       <MenuItem value={option.value} key={option.value} id={'select-input-option-' + option.value}>
         {option.text}
       </MenuItem>
-    )
+    );
   });
   return (
-    <FormControl className={props.className || ''} variant="standard" sx={{ m: 1, minWidth: 120 } }>
+    <FormControl className={props.className || ''} variant='standard' sx={{m: 1, minWidth: 120} }>
       <InputLabel id={'select-input-label-' + props.id}>{props.label}</InputLabel>
       <MUISelect
         labelId={'select-input-label-' + props.id}
@@ -23,7 +22,7 @@ const Select = (props) => {
       >
         {options}
       </MUISelect>
-  </FormControl>
+    </FormControl>
   );
 };
 

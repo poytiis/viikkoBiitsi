@@ -1,4 +1,3 @@
-import React from 'react';
 import './InfoDialog.scss';
 import Dialog from '../Dialog/Dialog';
 import Button from '../../Button/Button';
@@ -28,9 +27,8 @@ const DeleteDialog = (props) => {
 
         </div>
       </div>
-    </Dialog>
-    
+    </Dialog>  
   );
-}
+};
 
 export default DeleteDialog;

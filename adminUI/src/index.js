@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { createTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/core/styles';
+import {createTheme} from '@material-ui/core/styles';
+import {ThemeProvider} from '@material-ui/core/styles';
 import blueGrey from '@material-ui/core/colors/blueGrey';
 
 const theme = createTheme({
@@ -22,9 +22,8 @@ const theme = createTheme({
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-        <App />
+      <App />
     </ThemeProvider>
-  
   </React.StrictMode>,
   document.getElementById('root')
 );

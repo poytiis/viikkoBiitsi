@@ -1,4 +1,3 @@
-import React from 'react';
 import './LogIn.scss';
 import useInput from '../../hooks/useInput';
 import Button from '../Button/Button';

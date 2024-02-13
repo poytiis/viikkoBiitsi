@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import './Logs.scss';
 import Layout from '../Layout/Layout';
-import { fetchLogsFetch } from '../../services/httpClient';
+import {fetchLogsFetch} from '../../services/httpClient';
 import SnackBar from '../SnackBar/SnackBar';
 import TableWithPaginator from '../TableWithPaginator/TableWithPaginator';
 import useTable from '../../hooks/useTable';
@@ -14,26 +14,25 @@ const Logs = () => {
     const fetchLogs = async () => {
       try {
         const res = await fetchLogsFetch();
-        if(!res.ok) setSnackBarMessage('Lokien hakeminen epäonnistui')
+        if (!res.ok) setSnackBarMessage('Lokien hakeminen epäonnistui');
         else {
           const json = await res.json();
           const logsData = json.data;
           const logsDataTable = logsData.map(row => {
-            const timeStamp = {value: row.aikaleima}
-            const log = {value: row.merkinta}
-            return [timeStamp, log]
+            const timeStamp = {value: row.aikaleima};
+            const log = {value: row.merkinta};
+            return [timeStamp, log];
           });
 
-          tableControl.setHeaders(['Lokiaika', 'Merkintä'])
-          tableControl.initializeRows(logsDataTable.reverse())
+          tableControl.setHeaders(['Lokiaika', 'Merkintä']);
+          tableControl.initializeRows(logsDataTable.reverse());
         }
-      } catch(ex) {
-        setSnackBarMessage('Lokien hakeminen epäonnistui')
+      } catch (ex) {
+        setSnackBarMessage('Lokien hakeminen epäonnistui');
       }
     }
     fetchLogs();
   }, []);
-
 
   return (
     <Layout>
@@ -51,8 +50,7 @@ const Logs = () => {
       }
 
     </Layout>
-    
   );
-}
+};
 
 export default Logs;
