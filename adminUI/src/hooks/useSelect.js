@@ -11,7 +11,7 @@ const useSelect = (props) => {
     value,
     handleOnClick,
     options: props.options,
-    error: false,
+    error: false
   };
 }
 

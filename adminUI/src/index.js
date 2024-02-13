@@ -10,12 +10,12 @@ import blueGrey from '@material-ui/core/colors/blueGrey';
 const theme = createTheme({
   palette: {
     primary: {
-      main: blueGrey[600],
+      main: blueGrey[600]
     },
     secondary: {
-      main: blueGrey[700],
-    },
-  },
+      main: blueGrey[700]
+    }
+  }
 });
 
 

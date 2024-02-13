@@ -24,7 +24,7 @@ const OldResults = () => {
   const selectOptions = [
     {value: '', text: 'Tyhjää kenttä'},
     {value: 'Naiset', text: 'Naiset'},
-    {value: 'Miehet', text: 'Miehet'},
+    {value: 'Miehet', text: 'Miehet'}
   ];
   const serieControl = useSelect({initValue: '', options: selectOptions});
 

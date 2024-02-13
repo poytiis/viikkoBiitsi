@@ -2,7 +2,7 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
+  Route
 } from "react-router-dom";
 import Settings from './components/Settings/Settings';
 import PrivateRoute from './services/PrivateRoute';

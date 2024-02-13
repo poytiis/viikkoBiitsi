@@ -3,7 +3,7 @@ import Button from '../../Button/Button';
 import './ModifyDialog.scss';
 import useInput from '../../../hooks/useInput';
 import TextField from '@material-ui/core/TextField';
-import { UpdatePoolFetch, updateOldScoresFetch } from '../../../services/httpClient';
+import {UpdatePoolFetch, updateOldScoresFetch} from '../../../services/httpClient';
 import Select  from '../../Select/Select';
 
 
@@ -14,9 +14,9 @@ const ModifyDialog = (props) => {
 
   const selectOptions = [
     {value: 'Naiset', text: 'Naiset'},
-    {value: 'Miehet', text: 'Miehet'},
-  ]
-  const serieControl = useSelect({initValue: serie.value, options: selectOptions})
+    {value: 'Miehet', text: 'Miehet'}
+  ];
+  const serieControl = useSelect({initValue: serie.value, options: selectOptions});
 
   const poolControl = useInput({initValue: rank.value, validattion: 'integerRequired'});
   const nameControl = useInput({initValue: name.value, validattion: 'required'});
@@ -37,7 +37,7 @@ const ModifyDialog = (props) => {
        year?.value === yearControl.value && week?.value === weekControl.value &&
        ranking?.value === rankingControl.value) 
     {
-        props.close();
+      props.close();
     }
 
     if (poolControl.error || serieControl.error || nameControl.error || scoreControl.error ||

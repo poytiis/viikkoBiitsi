@@ -104,7 +104,7 @@ const fetchRequest = async (url, method = 'GET', data = {}) => {
       method,
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     }
