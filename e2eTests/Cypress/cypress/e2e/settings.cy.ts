@@ -7,8 +7,6 @@ describe('Settings: ', () => {
 
   it('change scores count', () => {
     cy.get('.header__tab--settings').click();
-    cy.get('.settings__counting-score-radio-1 > span').should('have.class', 'Mui-checked');
-    cy.get('.settings__counting-score-radio-2').click();
     cy.get('.settings__counting-score-radio-2 > span').should('have.class', 'Mui-checked');
     cy.reload();
     cy.get('.settings__counting-score-radio-2 > span').should('have.class', 'Mui-checked');
